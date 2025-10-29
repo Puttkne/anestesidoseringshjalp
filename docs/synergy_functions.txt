@@ -1,0 +1,106 @@
+# ===================================================================
+# LÄKEMEDELSSYNERGI-FUNKTIONER
+# ===================================================================
+
+def get_drug_combination_key(adjuvants_dict):
+    """Skapa en konsistent nyckel för läkemedelskombination"""
+    active = []
+
+    # Sortera för konsistens (så NSAID+Ketamine = Ketamine+NSAID)
+    if adjuvants_dict.get('nsaid_choice') and adjuvants_dict['nsaid_choice'] != 'Ej given':
+        active.append('NSAID')
+    if adjuvants_dict.get('catapressan'):
+        active.append('Catapressan')
+    if adjuvants_dict.get('droperidol'):
+        active.append('Droperidol')
+    if adjuvants_dict.get('ketamine_choice') and adjuvants_dict['ketamine_choice'] != 'Ej given':
+        active.append('Ketamine')
+    if adjuvants_dict.get('lidocaine') and adjuvants_dict['lidocaine'] != 'Nej':
+        active.append('Lidocaine')
+    if adjuvants_dict.get('betapred') and adjuvants_dict['betapred'] != 'Nej':
+        active.append('Betapred')
+    if adjuvants_dict.get('sevoflurane'):
+        active.append('Sevoflurane')
+    if adjuvants_dict.get('infiltration'):
+        active.append('Infiltration')
+
+    # Returnera None om 0-1 läkemedel (ingen kombination)
+    if len(active) < 2:
+        return None
+
+    # Sortera och joina
+    return '+'.join(sorted(active))
+
+def get_synergy_factor(user_id: int, drug_combination: str) -> float:
+    """Hämta learned synergy factor för läkemedelskombination"""
+    if not drug_combination:
+        return 1.0
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT learned_synergy_factor FROM drug_synergy_learning
+        WHERE user_id = ? AND drug_combination = ?
+    ''', (user_id, drug_combination))
+
+    row = cursor.fetchone()
+    conn.close()
+
+    if row and row['learned_synergy_factor'] is not None:
+        return row['learned_synergy_factor']
+    return 1.0  # Default (ingen synergi)
+
+def update_synergy_factor(user_id: int, drug_combination: str, adjustment: float) -> float:
+    """
+    Uppdatera synergy factor baserat på outcome
+
+    adjustment > 0: Kombinationen fungerade bättre än förväntat
+    adjustment < 0: Kombinationen fungerade sämre än förväntat
+    """
+    if not drug_combination:
+        return 1.0
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT * FROM drug_synergy_learning
+        WHERE user_id = ? AND drug_combination = ?
+    ''', (user_id, drug_combination))
+
+    row = cursor.fetchone()
+
+    if row:
+        current_factor = row['learned_synergy_factor'] if row['learned_synergy_factor'] is not None else 1.0
+        cases = row['total_cases']
+
+        # Långsammare inlärning för synergier (kräver mer data)
+        learning_rate = max(0.03, 0.15 / (1 + cases / 15))
+        new_factor = current_factor * (1 + adjustment * learning_rate)
+
+        # Begränsa synergifaktor till rimliga värden
+        # 0.85 = negativ synergi (15% sämre)
+        # 1.20 = positiv synergi (20% bättre)
+        new_factor = max(0.85, min(1.20, new_factor))
+
+        cursor.execute('''
+            UPDATE drug_synergy_learning
+            SET learned_synergy_factor = ?, update_count = update_count + 1,
+                total_cases = total_cases + 1, last_updated = CURRENT_TIMESTAMP
+            WHERE user_id = ? AND drug_combination = ?
+        ''', (new_factor, user_id, drug_combination))
+    else:
+        # Första gången - börja från 1.0 och justera försiktigt
+        new_factor = 1.0 * (1 + adjustment * 0.15)
+        new_factor = max(0.85, min(1.20, new_factor))
+
+        cursor.execute('''
+            INSERT INTO drug_synergy_learning
+            (user_id, drug_combination, learned_synergy_factor, update_count, total_cases)
+            VALUES (?, ?, ?, 1, 1)
+        ''', (user_id, drug_combination, new_factor))
+
+    conn.commit()
+    conn.close()
+    return new_factor

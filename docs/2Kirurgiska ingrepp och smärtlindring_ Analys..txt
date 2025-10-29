@@ -1,0 +1,466 @@
+﻿2 Klassificering av Kirurgiska Ingrepp och Perioperativa Läkemedel baserat på Somatisk kontra Visceral Smärta 2
+
+
+
+
+Del I: Patofysiologisk Grund för Somatisk och Visceral Smärta
+
+
+För att kunna klassificera och behandla postoperativ smärta effektivt är en fundamental förståelse för de distinkta neurobiologiska mekanismerna bakom somatisk och visceral smärta avgörande. Dessa två smärttyper är inte endast variationer av samma fenomen, utan representerar i stor utsträckning separata sensoriska modaliteter med olika nervbanor, central bearbetning och kliniska uttryck. Denna rapport använder en skala från 0 (helt visceral) till 10 (helt somatisk) för att kvantifiera den relativa dominansen av dessa smärttyper för specifika kirurgiska ingrepp och effekten av olika analgetika. Denna skala är inte linjär, utan representerar en balans mellan två distinkta system. En poäng på 5 indikerar en balanserad och signifikant aktivering av både det somatiska och det viscerala smärtsystemet, ofta med komplexa interaktioner.
+
+
+Neuroanatomi och Signalvägar
+
+
+Skillnaderna mellan somatisk och visceral smärta har sin grund i neuroanatomin hos de perifera och centrala nervsystemen.
+Somatisk Innervation: Somatisk smärta uppstår från hud, muskler, bindväv, ben och leder. Dessa vävnader är rikligt innerverade av nociceptorer, specialiserade nervändslut, som detekterar skadlig stimulering. Signalerna fortleds till ryggmärgen via snabbare, tunt myeliniserade Aδ-fibrer (som medierar den initiala, skarpa, väl lokaliserade smärtan) och långsammare, omyeliniserade C-fibrer (som medierar en mer dov, molande och ihållande smärta).1 Denna innervation är organiserad på ett somatotopiskt sätt, vilket innebär att det finns en precis och ordnad representation av kroppsytan i ryggmärgen och hjärnan. Detta möjliggör en exakt lokalisering av smärtan.
+Visceral Innervation: Visceral smärta härstammar från inre organ i thorax, buken och bäckenet. Jämfört med somatiska vävnader har viscera en betydligt glesare innervation av nociceptorer. Dessa afferenta nervfibrer är nästan uteslutande omyeliniserade C-fibrer som färdas tillsammans med det autonoma nervsystemet (både sympatiska och parasympatiska nerver) till ryggmärgen.4 Denna glesa och diffusa innervation, tillsammans med en omfattande divergens och konvergens av signalerna i ryggmärgen, är anledningen till att visceral smärta är svårlokaliserad, diffus och dov till sin karaktär.7
+Central Bearbetning: I centrala nervsystemet bearbetas somatiska och viscerala smärtsignaler delvis i olika nätverk. Somatisk smärta är starkare associerad med det så kallade "laterala smärtsystemet", som inkluderar laterala thalamus och somatosensoriska cortex. Detta system är avgörande för de sensorisk-diskriminativa aspekterna av smärta, såsom lokalisering, intensitet och kvalitet. Visceral smärta har däremot en starkare koppling till det "mediala smärtsystemet", vilket innefattar mediala thalamus, anteriora cingulumcortex och insula. Dessa områden är centrala för de affektiva och emotionella dimensionerna av smärta, såsom obehag och lidande, vilket förklarar varför visceral smärta ofta upplevs som mer ångestväckande och obehaglig.7
+
+
+Sensoriska Egenskaper och Kliniska Manifestationer
+
+
+De neuroanatomiska skillnaderna manifesterar sig i distinkta kliniska presentationer. Somatisk smärta beskrivs ofta med termer som skarp, huggande, bultande eller molande och är vanligtvis väl avgränsad till skadeområdet.1 Visceral smärta är däremot typiskt djup, tryckande, krampartad eller gnagande. Den är ofta associerad med starka autonoma reflexer, såsom illamående, kräkningar, svettningar och förändringar i hjärtfrekvens och blodtryck.2
+Ett kliniskt kännetecken för visceral smärta är fenomenet refererad smärta. Detta uppstår när smärta från ett inre organ upplevs i en ytlig, somatisk del av kroppen, ofta långt från det skadade organet. Mekanismen bakom detta är viscerosomatisk konvergens i ryggmärgens dorsalhorn. Här konvergerar viscerala och somatiska afferenta nervfibrer på samma sekundära projektionsneuron. Hjärnan, som är mer van vid att tolka signaler från somatiska strukturer, feltolkar den viscerala signalen som kommande från det motsvarande somatiska dermatomet.10 Ett klassiskt postoperativt exempel är refererad smärta till axeln efter laparoskopisk bukkirurgi. Koldioxiden som används för att skapa pneumoperitoneum irriterar diafragma, vars sensoriska innervation (n. phrenicus) har sitt ursprung i ryggmärgssegmenten C3-C5. Eftersom dessa segment även innerverar huden över axeln, tolkar hjärnan diafragmaretningen som smärta i axeln.12 Det är avgörande att förstå att refererad smärta inte är en egen smärttyp, utan en klinisk manifestation av en underliggande visceral smärtprocess.
+
+
+Postoperativ Sensitisering och Viscerosomatisk Konvergens
+
+
+Kirurgiskt trauma initierar en kaskad av händelser som förstärker den postoperativa smärtupplevelsen.
+* Perifer sensitisering: Vävnadsskada från incision, dissektion och manipulation frisätter en "inflammatorisk soppa" av mediatorer såsom prostaglandiner, bradykinin, cytokiner och protoner. Dessa substanser sänker aktiveringströskeln för nociceptorer i både somatiska och viscerala vävnader, vilket leder till att normalt icke-smärtsamma stimuli nu upplevs som smärtsamma.13
+* Central sensitisering: Den ihållande och intensiva nociceptiva signalen från operationsområdet leder till en neuroplastisk förändring i ryggmärgens dorsalhorn. Detta tillstånd av hyperexcitabilitet, känt som central sensitisering, förstärker smärtsignaler och expanderar de receptiva fälten för neuronerna. Kliniskt manifesterar sig detta som sekundär hyperalgesi (ökad smärtkänslighet i oskadad vävnad runt såret) och allodyni (smärta vid normalt icke-smärtsam beröring).5
+Kombinationen av viscerosomatisk konvergens och central sensitisering är särskilt relevant för postoperativ smärta. Den förklarar varför ett kirurgiskt ingrepp begränsat till ett inre organ kan resultera i en utbredd och svårbehandlad smärta som manifesterar sig i somatiska strukturer, såsom bukväggen, långt efter att den initiala viscerala skadan har börjat läka.
+
+
+Del II: Klassificering och Poängsättning av Kirurgiska Ingrepp
+
+
+Denna del applicerar det patofysiologiska ramverket för att klassificera vanliga kirurgiska ingrepp. Urvalet av ingrepp baseras på en analys av medföljande data, där alla procedurer som utförts minst sex gånger under den studerade perioden har inkluderats.[12, 12, 12] Poängsättningen på skalan 0–10 reflekterar den relativa dominansen av visceral kontra somatisk smärta under den tidiga postoperativa fasen.
+Följande tabell ger en sammanfattande översikt av klassificeringen. En detaljerad motivering för varje ingrepp följer i de efterföljande avsnitten.
+Operationsnamn
+	Vanlig(a) KVÅ-kod(er)
+	Specialitet
+	Somatisk-Visceral Poäng (0–10)
+	Kortfattad Motivering
+	Total knäledsplastik (TKA)
+	NGC20
+	Ortopedi
+	10
+	Ren, djup somatisk smärta från ben, ledkapsel och muskler.
+	Total höftledsplastik (THA)
+	NGB20
+	Ortopedi
+	10
+	Ren, djup somatisk smärta från ben, ledkapsel och muskler.
+	Osteosyntes av fraktur
+	Varierar
+	Ortopedi
+	10
+	Akut och kirurgiskt trauma i somatiska vävnader (ben, periost, muskler).
+	Artroskopisk meniskresektion
+	NGE22
+	Ortopedi
+	9
+	Primärt intraartikulär somatisk smärta med minimal ytlig komponent.
+	Excision av ganglion, handled
+	NDM39
+	Ortopedi
+	10
+	Incision och dissektion av ytliga och djupa somatiska strukturer.
+	Tonsillektomi
+	EAA00
+	ÖNH
+	9
+	Intensiv mukosal (somatisk-liknande) smärta från öppen såryta i svalget.
+	Öppen ljumskbråcksoperation
+	JAB40
+	Kirurgi
+	8
+	Dominant somatisk smärta från incision och nätplacering i nervtät bukvägg.
+	Abdominal hysterektomi
+	LCB10
+	Gynekologi
+	7
+	Svår somatisk smärta från laparotomi kombinerat med svår visceral bäckensmärta.
+	Abdominalt kejsarsnitt
+	MCA10
+	Obstetrik
+	6
+	Balanserad kombination av somatisk smärta (incision) och visceral smärta (uterus).
+	Öppen resektion av colon sigmoideum
+	JFB46
+	Kirurgi
+	6
+	Balanserad kombination av svår somatisk (laparotomi) och visceral (tarm) smärta.
+	Total laparoskopisk hysterektomi (TLH)
+	LCC10
+	Gynekologi
+	2
+	Dominant visceral bäckensmärta och refererad axelsmärta; minimal somatisk smärta.
+	Laparoskopisk kolecystektomi
+	JKA21
+	Kirurgi
+	2
+	Dominant visceral smärta (gallblåsebädd) och refererad axelsmärta.
+	Fraktionerad abrasio (D&C)
+	LCA13
+	Gynekologi
+	1
+	Nästan uteslutande visceral smärta från cervixdilatation och endometriet.
+	Transuretral resektion av prostata (TUR-P)
+	KED22
+	Urologi
+	0
+	Ren visceral/mukosal smärta från uretra, prostata och blåsa (spasmer).
+	Ureteroskopi
+	UKB02
+	Urologi
+	0
+	Ren visceral smärta från instrumentering i urinvägarna och irritation från stent.
+	
+
+Ortopedisk Kirurgi (Hög somatisk dominans)
+
+
+Ortopedisk kirurgi representerar arketypen för somatisk smärta, där den nociceptiva signalen nästan uteslutande härstammar från ben, leder, muskler och hud.
+* Total knäledsplastik (TKA) & Total höftledsplastik (THA) (Poäng: 10): Dessa ingrepp anses vara bland de mest smärtsamma postoperativt.[12, 12] Smärtan är en direkt följd av omfattande trauma mot djupt somatiska vävnader: sågning i ben, borttagning av brosk, insättning av proteskomponenter och omfattande dissektion av ledkapsel, ligament och muskler.12 Det finns ingen visceral komponent, vilket gör detta till ett typexempel på ren, djup somatisk smärta.1
+* Artroskopisk meniskresektion (Poäng: 9): Även om hudincisionerna är minimala kan den intraartikulära manipulationen vara omfattande och "förvånansvärt smärtsam".[12, 12] Smärtan härstammar från somatiska strukturer inuti leden, såsom ledkapseln och synovium. Den somatiska komponenten är djup snarare än ytlig. Poängen sätts till 9 istället för 10 för att reflektera den minimala ytliga vävnadsskadan jämfört med öppen kirurgi.16
+* Osteosyntes av fraktur (Poäng: 10): Detta ingrepp kombinerar den initiala somatiska smärtan från traumat med den efterföljande somatiska smärtan från kirurgisk reposition och fixation av benfragment, vilket involverar manipulation av periost och omgivande mjukdelar.12 Smärtan är uteslutande somatisk.20
+* Excision av ganglion, handled (Poäng: 10): Ingreppet innefattar en hudincision och dissektion av djupa somatiska strukturer som ledkapsel och senskidor för att avlägsna cystan. Smärtan är lokaliserad och rent somatisk.23
+
+
+Allmän- och Gastrointestinal Kirurgi (Blandad/Varierande profil)
+
+
+Kirurgi i buken involverar typiskt både en somatisk komponent från bukväggsincisionen och en visceral komponent från manipulation av organen. Den kirurgiska approachen (öppen vs. laparoskopisk) är en avgörande faktor för smärtprofilen.
+* Laparoskopisk Kolecystektomi (Poäng: 2): Smärtbilden domineras av två komponenter: visceral smärta från dissektionen av gallblåsan från leverbädden och den refererade smärtan till axeln orsakad av diafragmaretning från kvarvarande koldioxidgas.[12, 12, 12, 12] Den somatiska smärtan från de små portincisionerna är i jämförelse en mindre betydande del av den totala smärtupplevelsen.
+* Öppen Ljumskbråcksoperation (Poäng: 8): Detta ingrepp involverar en incision genom hud, subkutan vävnad och muskelfascia i ett område som är rikt innerverat av somatiska nerver (n. ilioinguinalis, n. iliohypogastricus, n. genitofemoralis).[12, 12] Placeringen av nätet och sutureringen sker direkt i dessa somatiska strukturer. Risken för kronisk postoperativ smärta är signifikant och relaterad till inflammation eller skada på just dessa nerver, vilket understryker den somatiska dominansen.29 En mindre visceral komponent kan uppstå vid drag i funikeln, men den är underordnad den somatiska smärtan.32
+* Öppen resektion av colon sigmoideum (Poäng: 6): Detta är ett typexempel på ett ingrepp med en balanserad och svår smärta från båda systemen. Den stora medellinjelaparotomin orsakar en intensiv och ihållande somatisk smärta från bukväggen.[12, 12] Samtidigt genererar den omfattande dissektionen av tarmen, mobiliseringen av mesenteriet och skapandet av en anastomos en kraftig visceral smärtstimulering.15
+
+
+Gynekologisk och Obstetrisk Kirurgi (Starkt beroende av approach)
+
+
+Liksom inom allmänkirurgin är den kirurgiska approachen avgörande för smärtprofilen vid gynekologiska ingrepp. En hysterektomi kan, beroende på teknik, ge upphov till helt olika smärtupplevelser. Detta illustrerar att den kirurgiska approachen ofta är en starkare prediktor för smärttyp än själva målorganet.
+* Abdominal Hysterektomi (Poäng: 7): Ingreppet kräver en stor laparotomi (Pfannenstiel eller medellinje), vilket orsakar svår somatisk smärta från bukväggen.[12, 12, 12] Detta kombineras med en intensiv visceral smärta från den omfattande dissektionen i bäckenet, avlägsnandet av livmodern och manipulation av peritoneum.[12, 12, 36, 37]
+* Total Laparoskopisk Hysterektomi (TLH) (Poäng: 2): Genom att undvika en stor laparotomi minimeras den somatiska smärtkomponenten avsevärt. Smärtbilden domineras istället av visceral smärta från dissektionen i bäckenet samt refererad smärta till axlarna från pneumoperitoneum.[12, 12, 12, 36] Detta skifte från en svår somatisk smärta till en måttlig-svår visceral/refererad smärta understryker att "minimalinvasivt" inte är synonymt med "smärtfritt", utan snarare med en annan typ av smärta.
+* Abdominalt Kejsarsnitt (Poäng: 6): Detta ingrepp har en tydlig och balanserad kombination av smärttyper. Pfannenstiel-incisionen ger en signifikant somatisk smärtkomponent, medan incisionen i och manipulationen av uterus ger en stark visceral komponent. Postoperativt bidrar även uteruskontraktioner (eftervärkar) till den viscerala smärtbördan.36
+* Fraktionerad abrasio (D&C) (Poäng: 1): Ingreppet utförs transvaginalt utan några somatiska incisioner. Smärtan är nästan uteslutande visceral och orsakas av mekanisk dilatation av cervix och instrumentering/skrapning av den visceralt innerverade livmoderslemhinnan. Smärtan beskrivs ofta som intensiv, krampartad och liknar svår menstruationssmärta.40
+
+
+Urologisk Kirurgi (Primärt visceral/mukosal)
+
+
+Många vanliga urologiska ingrepp är endoskopiska och saknar helt en somatisk incisionskomponent. Smärtan är därför nästan rent visceral.
+* Transuretral Resektion av Prostata (TUR-P) (Poäng: 0): Hela ingreppet sker via uretra. Smärtan är rent visceral och mukosal, orsakad av resektion och termisk skada på prostatavävnaden samt irritation från den postoperativa katetern. En betydande del av obehaget kommer från smärtsamma, ofrivilliga blåskontraktioner (blåspasmer) som utlöses av katetern.[12, 12]
+* Ureteroskopi (med stent) (Poäng: 0): Liksom vid TUR-P finns ingen somatisk komponent. Smärtan är rent visceral och uppstår från instrumenteringen i den känsliga uretären och njurbäckenet. En inlagd stent är en vanlig orsak till postoperativt obehag, vilket kan manifestera sig som en molande flank-smärta, urinträngningar och smärta i flanken vid miktion på grund av reflux av urin upp till njuren.46
+
+
+Övriga Specialiteter
+
+
+* Tonsillektomi (Poäng: 9): Avlägsnandet av tonsillerna lämnar två öppna sårytor i svalget. Svalgets slemhinna är rikt innerverad av somatosensoriska nerver (främst n. glossopharyngeus). Smärtan är intensiv, väl lokaliserad och förvärras markant av muskelrörelser vid sväljning. Även om slemhinnan tekniskt sett inte är hud, är smärtans karaktär och neurofysiologi mycket lik ytlig somatisk smärta, med en minimal visceral komponent.[12, 12, 12, 53, 54, 55, 56]
+
+
+Del III: Farmakologisk Intervention och Dess Affinitet för Somatisk kontra Visceral Smärta
+
+
+En effektiv multimodal smärtbehandling bygger på att kombinera läkemedel med olika verkningsmekanismer som angriper smärtan från flera håll. Genom att klassificera analgetika på samma 0–10-skala som de kirurgiska ingreppen kan man skapa ett logiskt system för att matcha farmakologisk behandling till den förväntade smärtprofilen.
+Läkemedelsklass
+	Verkningsmekanism
+	Effektivitetspoäng (0=Visceral, 10=Somatisk)
+	Analgetisk Potens (0–10)
+	Systemisk Påverkan (0–10)
+	Kortfattad Motivering
+	Opioider
+	
+
+	
+
+	
+
+	
+
+	
+
+	µ-agonister (Morfin, Oxikodon)
+	Central (och perifer) µ-opioidreceptoragonist.
+	5
+	10
+	9
+	Bredspektrumanalgetika med god effekt på både svår somatisk och visceral smärta. Högsta potens men med betydande systemiska biverkningar (sedering, andningsdepression).
+	κ-agonister
+	Primärt perifer κ-opioidreceptoragonist.
+	1
+	7
+	8
+	Selektiv och potent effekt på viscerala afferenter, mindre effekt på somatisk smärta. Fortfarande betydande systemisk påverkan (sedering, dysfori).
+	Icke-opioida Analgetika
+	
+
+	
+
+	
+
+	
+
+	
+
+	Paracetamol
+	Komplex central verkan (serotonin, cannabinoider).
+	5
+	3
+	0
+	Generell, centralt verkande analgetika utan stark preferens för smärttyp. Mild till måttlig potens med mycket låg systemisk påverkan.
+	NSAID
+	
+
+	
+
+	
+
+	
+
+	
+
+	Ibuprofen
+	Icke-selektiv hämning av COX-enzymer.
+	9
+	5
+	0
+	Klassisk icke-selektiv NSAID, effektiv mot inflammatorisk somatisk smärta. Minimala centrala effekter.
+	Ketorolak
+	Icke-selektiv hämning av COX-enzymer.
+	9
+	7
+	0
+	Potent icke-selektiv NSAID med stark analgetisk effekt, särskilt vid somatisk smärta. Minimala centrala effekter.
+	Parecoxib
+	Selektiv hämning av COX-2-enzymer.
+	9
+	7
+	0
+	Selektiv COX-2-hämmare, potent anti-inflammatorisk och analgetisk effekt vid somatisk smärta. Minimala centrala effekter.
+	Regional Anestesi
+	
+
+	
+
+	
+
+	
+
+	
+
+	TAP-blockad
+	Blockad av somatiska nerver i bukväggen.
+	10
+	10
+	0
+	Selektiv och komplett blockad av somatisk smärta från bukväggsincision. Maximal effekt lokalt utan systemisk påverkan.
+	Thorakal Epiduralanestesi
+	Blockad av nervrötter (somatiska och viscerala afferenter).
+	5
+	10
+	6
+	Bred och potent blockad som täcker båda smärttyperna. Signifikant systemisk påverkan genom sympatikusblockad (hypotension).
+	Intraperitoneal Instillation
+	Lokal applicering på viscerala ytor.
+	1
+	8
+	1
+	Direkt blockad av viscerala nociceptorer. Hög lokal effekt men viss systemisk absorption kan förekomma.
+	Adjuvanta Analgetika
+	
+
+	
+
+	
+
+	
+
+	
+
+	Kortikosteroider (Dexametason)
+	Potent systemisk anti-inflammatorisk effekt.
+	8
+	0
+	0
+	Minskad inflammation och sensitisering, primärt relevant för somatisk vävnadsskada. Låg analgetisk potens, minimal sedering.
+	α2-agonister (Klonidin 45-75 µg)
+	Central α2-receptoragonist, hämmar neurotransmission.
+	4
+	2
+	8
+	Central verkan på både somatiska och viscerala banor, med särskild effekt på sympatiskt medierad smärta. Låg analgetisk potens men betydande systemisk påverkan (sedering, hypotension, bradykardi).
+	Butyrofenoner (Droperidol 0,625-1,25 mg)
+	Dopamin D2-receptorantagonist.
+	5
+	1
+	9
+	Primärt antiemetisk med starkt sedativa effekter. Mycket svag analgetisk effekt, men kan potentiera opioider. Hög risk för sedering och andra CNS-effekter.
+	Systemiskt Lidokain (bolus/infusion)
+	Blockad av spänningskänsliga natriumkanaler.
+	6
+	5
+	4
+	Centrala och perifera effekter. Effektiv mot neuropatisk och somatisk smärta, med viss effekt på visceral smärta (t.ex. ileus). Måttlig analgetisk potens som adjuvant. Systemiska effekter (yrsel, perioral domning) är dosberoende.
+	NMDA-antagonister (Esketamin bolus/infusion)
+	Icke-kompetitiv NMDA-receptorantagonist.
+	5
+	8
+	9
+	Potent verkan mot central sensitisering. Bred och kraftfull analgetisk effekt på både somatisk och visceral smärta. Betydande systemisk påverkan (dissociation, psykotomimetiska effekter, hemodynamiska förändringar).
+	
+
+Opioider
+
+
+* µ-agonister (Morfin, Oxikodon, Fentanyl) (Poäng: 5): Dessa är hörnstenen i behandlingen av måttlig till svår postoperativ smärta. De verkar primärt på µ-opioidreceptorer i centrala nervsystemet (ryggmärg och hjärna) och modulerar smärttransmissionen i de uppåtstigande banorna. Eftersom de verkar på en central och gemensam del av smärtbanan är de effektiva mot smärta oavsett dess ursprung, vare sig det är somatiskt eller visceralt.51 Poängen 5 reflekterar denna breda, icke-selektiva och potenta effekt.
+* κ-agonister (Poäng: 1): Forskning indikerar att κ-opioidreceptorer spelar en särskilt viktig roll i moduleringen av visceral smärta. Dessa receptorer är uttryckta i hög grad på perifera viscerala afferenter, och κ-agonister har visat sig ha en mer potent analgetisk effekt vid visceral smärta jämfört med somatisk smärta i experimentella modeller.51 Detta gör dem till ett teoretiskt attraktivt alternativ för ingrepp med låg poäng på skalan.
+
+
+Icke-opioida Analgetika
+
+
+* Paracetamol (Poäng: 5): Verkningsmekanismen är komplex och tros vara huvudsakligen central. Den involverar modulering av nedåtstigande serotonerga smärthämmande banor och interaktion med det endokannabinoida systemet via den aktiva metaboliten AM404.32 På grund av dess centrala och mångfacetterade verkningssätt fungerar paracetamol som en generell bas-analgetika för mild till måttlig smärta utan någon stark preferens för vare sig somatisk eller visceral smärta.57
+* NSAID (Ibuprofen, Ketorolak, Parecoxib) (Poäng: 9): Den primära verkningsmekanismen är hämning av cyklooxygenas (COX)-enzymer, vilket blockerar produktionen av prostaglandiner. Prostaglandiner är centrala mediatorer i den inflammatoriska processen och är avgörande för sensitiseringen av perifera nociceptorer, en process som är särskilt uttalad vid somatisk vävnadsskada (incision, benkirurgi).59 Deras effekt på rent visceral smärta som inte är primärt inflammatorisk (t.ex. smärta från organdistension) är dokumenterat sämre, vilket motiverar en hög poäng på den somatiska skalan.52
+   * Ibuprofen är en klassisk icke-selektiv COX-hämmare med god effekt mot inflammatorisk somatisk smärta.
+   * Ketorolak är en annan icke-selektiv men särskilt potent NSAID som ofta används intravenöst för måttlig till svår postoperativ smärta.69
+   * Parecoxib är en prodrog till valdecoxib och är en selektiv COX-2-hämmare. Den ger potent analgesi och anti-inflammatorisk effekt med en teoretiskt lägre risk för gastrointestinala biverkningar jämfört med icke-selektiva NSAIDs.70
+
+
+Lokalanestetika och Regional Anestesi
+
+
+Effekten av lokalanestetika är helt beroende av var de administreras, vilket gör regionala tekniker till ett kraftfullt verktyg för att selektivt blockera specifika smärttyper.
+* Transversus Abdominis Plane (TAP)-blockad (Poäng: 10): Genom att injicera lokalanestetika i planet mellan m. internus abdominis och m. transversus abdominis blockeras de somatosensoriska nerverna som innerverar bukväggen. Detta ger en utmärkt och selektiv analgesi för den somatiska incisionssmärtan vid bukkirurgi, men har ingen effekt på den viscerala smärtan.4
+* Thorakal Epiduralanestesi (TEA) (Poäng: 5): Administrering av lokalanestetika och/eller opioider i epiduralrummet blockerar nervrötterna när de passerar ut från ryggmärgen. Beroende på spridningen kan en TEA blockera både somatiska afferenter från motsvarande dermatom och de viscerala sympatiska afferenterna som går till och från bukorganen på samma segmentella nivå. Detta ger en bred och potent blockad av båda smärttyperna.4
+* Intraperitoneal Instillation (Poäng: 1): Lokal applicering av anestetika direkt på peritoneala ytor och organ syftar till att direkt blockera de viscerala nociceptorerna och minska den viscerala smärtkomponenten.39
+
+
+Adjuvanta Analgetika
+
+
+* Kortikosteroider (Dexametason) (Poäng: 8): Dexametason utövar en potent systemisk anti-inflammatorisk effekt. Genom att hämma den inflammatoriska kaskaden minskar det produktionen av sensitisierande mediatorer i operationsområdet. Denna effekt är mest uttalad vid somatisk vävnadsskada där inflammation är en dominerande komponent. Effekten på icke-inflammatorisk visceral smärta är mindre direkt.62
+* α2-agonister (Klonidin 45-75 µg) (Poäng: 4): Klonidin verkar på presynaptiska α2-adrenerga receptorer i ryggmärgens dorsalhorn, vilket hämmar frisättningen av nociceptiva neurotransmittorer från både somatiska och viscerala primärafferenter. Denna centrala mekanism ger en bred analgetisk effekt. Viss evidens tyder på en särskilt god effekt vid tillstånd med sympatisk överaktivitet och visceral smärta, vilket placerar den något närmare den viscerala änden av skalan.65 Dess analgetiska potens är låg, men den har betydande systemiska effekter som sedering och hypotension.
+* Butyrofenoner (Droperidol 0,625-1,25 mg) (Poäng: 5): Droperidol är en dopamin D2-receptorantagonist som primärt används för dess antiemetiska och kraftigt sedativa egenskaper.72 Dess direkta analgetiska effekt är mycket svag, men den kan potentiera effekten av opioider.74 På grund av dess centrala verkningsmekanism har den ingen specifik affinitet för somatisk eller visceral smärta. Den systemiska påverkan är hög, med betydande sedering och risk för extrapyramidala biverkningar och QT-förlängning.75
+* Systemiskt Lidokain (bolus/infusion) (Poäng: 6): Intravenöst lidokain verkar genom att blockera spänningskänsliga natriumkanaler både centralt och perifert. Det har visat sig vara särskilt effektivt mot neuropatisk smärta och har även anti-inflammatoriska egenskaper.77 Det minskar central sensitisering och är därför användbart vid somatisk smärta. Viss effekt på visceral smärta har också dokumenterats, bland annat genom att förbättra tarmmotiliteten postoperativt (ileus).78 Systemiska biverkningar som yrsel och perioral domning är dosberoende men oftast milda vid terapeutiska infusioner.78
+* NMDA-antagonister (Esketamin bolus/infusion) (Poäng: 5): Esketamin, S-enantiomeren av ketamin, är en potent icke-kompetitiv NMDA-receptorantagonist. Genom att blockera NMDA-receptorn motverkar den central sensitisering, ett nyckelfenomen vid både svår somatisk och visceral smärta.80 Detta ger en bred och kraftfull analgetisk effekt, särskilt som ett komplement till opioider vid svår smärta. Dess analgetiska potens är hög.82 Den systemiska påverkan är dock betydande, med risk för dissociation, psykotomimetiska effekter, och hemodynamiska förändringar som takykardi och hypertension.84
+
+
+Del IV: Syntes och Kliniska Implikationer
+
+
+Genom att kombinera klassificeringen av kirurgiska ingrepp med klassificeringen av analgetika kan man formulera principer för en mer målinriktad och mekanismbaserad postoperativ smärtbehandling.
+
+
+Principer för Matchning av Analgesi till Kirurgiskt Ingrepp
+
+
+Den utvecklade poängsättningen möjliggör en stratifiering av analgetiska strategier. Konceptet multimodal analgesi kan därmed förfinas från att enbart kombinera läkemedel till att strategiskt kombinera läkemedel med komplementära profiler baserat på ingreppets förväntade smärtprofil.
+* Hög-Poäng Ingrepp (≥8, t.ex. TKA, öppen ljumskbråcksoperation): Behandlingen bör ha en stark somatiskt inriktad bas. Detta inkluderar regionalanestesi som perifera nervblockader, systemisk behandling med NSAID och/eller kortikosteroider för att motverka inflammationen. Opioider bör primärt användas som tilläggs- eller "rescue"-medicinering.
+* Låg-Poäng Ingrepp (≤2, t.ex. TUR-P, laparoskopisk kirurgi): Här är somatiskt inriktad behandling (som NSAID) sannolikt mindre effektiv. Fokus bör ligga på att hantera visceral och, i förekommande fall, refererad smärta. Opioider spelar en mer central roll, men adjuvanta läkemedel som klonidin kan vara värdefulla. För laparoskopisk kirurgi kan icke-farmakologiska åtgärder, såsom att minimera det intraabdominella trycket och aktivt evakuera kvarvarande gas, vara lika viktiga som den farmakologiska behandlingen. Denna patientgrupp belyser en klinisk utmaning: bristen på effektiva, icke-opioida, rent viscerala analgetika. Medan somatisk smärta kan hanteras väl med NSAID och regionala blockader, är alternativen för svår visceral smärta ofta begränsade till opioider eller mer invasiva tekniker som epiduralanestesi.
+* Mellan-Poäng Ingrepp (3–7, t.ex. öppen bukkirurgi, kejsarsnitt): Denna kategori representerar den största utmaningen och kräver en "äkta" multimodal strategi som adresserar båda smärtkomponenterna. En optimal regim kombinerar tekniker från båda ändarna av spektrumet. Till exempel, för en abdominal hysterektomi (Poäng 7), är en kombination av en TAP-blockad (Poäng 10) för den somatiska incisionssmärtan och systemiska opioider (Poäng 5) för den viscerala bäckensmärtan en mer mekanismbaserad och potentiellt mer effektiv strategi än att enbart förlita sig på höga doser opioider. Ett annat alternativ är en thorakal epidural (Poäng 5), som effektivt täcker båda komponenterna.
+
+
+Rekommendationer för Implementering i Kliniskt Beslutsstöd
+
+
+Detta klassificeringssystem kan utgöra grunden för en algoritm i ett kliniskt beslutsstödssystem för postoperativ smärtlindring.
+* Algoritmisk Logik: Ett system kan utformas där användaren matar in det planerade kirurgiska ingreppet. Systemet hämtar ingreppets fördefinierade Somatisk-Visceral Poäng. Baserat på denna poäng genererar algoritmen en prioriterad lista över rekommenderade analgetika och tekniker, rangordnade efter deras matchande effektivitetspoäng och evidensgrad. Systemet skulle kunna varna för potentiella "mismatches", till exempel att förlita sig enbart på NSAID för ett ingrepp med poäng 1 (t.ex. fraktionerad abrasio).
+* Kontextualisering: Det är avgörande att ett sådant system betonar att denna poängsättning utgör en grundmodell. De slutgiltiga rekommendationerna måste alltid kontextualiseras med patient-specifika faktorer (såsom ålder, njurfunktion, tidigare opioidkonsumtion, ångestnivå) och ingreppsspecifika variabler (förväntad operationstid, grad av vävnadsskada), i linje med principerna för individualiserad vård.12
+
+
+Slutsatser och Framtida Forskning
+
+
+Denna rapport har presenterat ett nytt ramverk för att klassificera kirurgisk smärta och analgetika längs en somatisk-visceral axel. Analysen visar att den kirurgiska approachen är en kritisk determinant för den postoperativa smärtprofilen och att en mekanismbaserad, multimodal strategi, där läkemedel och tekniker matchas mot den förväntade smärttypen, har potential att optimera smärtlindringen och minska opioidbehovet.
+Framtida forskning bör fokusera på att validera detta poängsystem i kliniska studier och att prospektivt utvärdera effekten av matchade analgetiska regimer på patientrapporterade utfall. Vidare finns ett stort behov av att utveckla och studera nya icke-opioida analgetika med specifik effekt på viscerala smärtmekanismer för att adressera det terapeutiska gap som identifierats i denna rapport.
+Citerade verk
+1. Somatic Pain Definition, Types & Examples - Cleveland Clinic, hämtad oktober 3, 2025, https://my.clevelandclinic.org/health/symptoms/somatic-pain
+2. Somatic vs. Visceral Pain and Their Causes - Verywell Health, hämtad oktober 3, 2025, https://www.verywellhealth.com/differences-in-feeling-somatic-vs-visceral-pain-2564645
+3. Somatic Pain vs. Visceral Pain: What You Should Know - Healthline, hämtad oktober 3, 2025, https://www.healthline.com/health/somatic-vs-visceral-pain
+4. Visceral versus somatic pain: an educational review of anatomy and clinical implications, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/34145074/
+5. Visceral versus Somatic Pain: Similarities and Differences, hämtad oktober 3, 2025, https://www.karger.com/Article/Pdf/268115
+6. Postoperative Pain Control - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK544298/
+7. Visceral versus Somatic Pain: Similarities and Differences | Request PDF - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/51442402_Visceral_versus_Somatic_Pain_Similarities_and_Differences
+8. Types of Pain | Pain Management Education at UCSF, hämtad oktober 3, 2025, https://pain.ucsf.edu/understanding-pain-pain-basics/types-pain
+9. Differential Diagnosis and Treatment of Visceral Pain in the Pelvis and Abdomen, hämtad oktober 3, 2025, https://now.aapmr.org/differential-diagnosis-and-treatment-of-visceral-pain-in-the-pelvis-and-abdomen/
+10. Molecular Mechanisms and Pathways in Visceral Pain - MDPI, hämtad oktober 3, 2025, https://www.mdpi.com/2073-4409/14/15/1146
+11. Visceral Pain – the Ins and Outs, the Ups and Downs Europe PMC Funders Group, hämtad oktober 3, 2025, https://www.paliativossinfronteras.org/wp-content/uploads/DOLOR-VISCERAL-IN-AND-OUTS.pdf
+12. Smärtlindringsdata för kirurgiska ingrepp.docx
+13. Visceral versus Somatic Pain: Similarities and Differences - Sci-Hub, hämtad oktober 3, 2025, https://2024.sci-hub.se/2153/8fc183d0dab5f27e46b905e92dd83e2d/cervero2009.pdf
+14. Pathophysiology of visceral pain - SciELO, hämtad oktober 3, 2025, https://www.scielo.br/j/rdor/a/fcjRkWvWWx9GQD7dR7Y43NP/
+15. Pain in Colorectal Surgery: How Does It Occur and What Tools Do We Have for Treatment?, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC10648968/
+16. (PDF) Post-Operative Pain After Knee Arthroscopy and Related Factors - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/26249997_Post-Operative_Pain_After_Knee_Arthroscopy_and_Related_Factors
+17. Post-Operative Pain After Knee Arthroscopy and Related Factors - PMC, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC2687123/
+18. Knee Arthroscopy - OrthoInfo - AAOS, hämtad oktober 3, 2025, https://orthoinfo.aaos.org/en/treatment/knee-arthroscopy/
+19. Prevalence and Predictive Factors of Chronic Postsurgical Pain and Global Surgical Recovery 1 Year After Outpatient Knee Arthroscopy: A Prospective Cohort Study - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC4912294/
+20. Ankle Fracture-ORIF Post-Operative Instructions, hämtad oktober 3, 2025, https://www.randyclarkmd.com/pdf/Ankle-Fracture-ORIF%20Post-Operative-Instructions.pdf
+21. Ankle Fracture Open Reduction and Internal Fixation | Johns Hopkins Medicine, hämtad oktober 3, 2025, https://www.hopkinsmedicine.org/health/treatment-tests-and-therapies/ankle-fracture-open-reduction-and-internal-fixation
+22. ORIF Ankle Fracture - Post Operative Instructions, hämtad oktober 3, 2025, https://www.orthoct.com/uploads/9/8/0/6/98066968/orif_ankle_fracture.pdf
+23. Ganglion Cyst Removal: What to Expect at Home - MyHealth Alberta, hämtad oktober 3, 2025, https://myhealth.alberta.ca/Health/aftercareinformation/pages/conditions.aspx?hwid=ace3534
+24. Post-Operative Instructions for Wrist Ganglion Excision, hämtad oktober 3, 2025, https://www.handcenterga.com/sites/handcenterga.com/files/post_op_wrist_ganglion_excision.pdf
+25. Open Excision of Dorsal Wrist Ganglion - PMC, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC10807893/
+26. GANGLION (WRIST, HAND, FINGERS) | Hand Surgery Resource, hämtad oktober 3, 2025, https://www.handsurgeryresource.net/ganglion
+27. Excision of painful dorsal wrist ganglion by open or arthroscopic approach : a compariso n study - Acta Orthopaedica Belgica, hämtad oktober 3, 2025, https://www.actaorthopaedica.be/assets/2514/16-Lee.pdf
+28. Factors associated with self-reported pain and hand function following dorsal wrist ganglion excision - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/36794465/
+29. Pain control following inguinal herniorrhaphy: current perspectives - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC4045265/
+30. Chronic postoperative inguinal pain: A narrative review | Cirugía Española (English Edition), hämtad oktober 3, 2025, https://www.elsevier.es/en-revista-cirugia-espanola-english-edition--436-articulo-chronic-postoperative-inguinal-pain-a-S2173507721000260
+31. Laparoscopic treatment of chronic pain following inguinal hernia repair: a narrative review of the literature - Pedersen, hämtad oktober 3, 2025, https://ls.amegroups.org/article/view/6635/html
+32. Analgesic Effect of Acetaminophen: A Review of Known ... - Frontiers, hämtad oktober 3, 2025, https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2020.580289/full
+33. Somatic dysfunction following sigmoid colon resection for diverticulitis: A case report, hämtad oktober 3, 2025, https://www.researchgate.net/publication/286729676_Somatic_dysfunction_following_sigmoid_colon_resection_for_diverticulitis_A_case_report
+34. Adhesions and Chronic Pain Following Colorectal/Abdominal Surgery, hämtad oktober 3, 2025, https://advancedsurgery.baxter.com/adhesions-and-chronic-pain-following-colorectalabdominal-surgery
+35. (PDF) Postoperative pain after colorectal surgery - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/340843346_Postoperative_pain_after_colorectal_surgery
+36. Postoperative Pain Management After Cesarean Section – A prospective Before-and-After Cohort Study on the Implementation of the Intraoperative - ClinicalTrials.gov, hämtad oktober 3, 2025, https://cdn.clinicaltrials.gov/large-docs/38/NCT06813638/Prot_SAP_000.pdf
+37. Postsurgical pain syndromes: Chronic pain after hysterectomy and cesarean section, hämtad oktober 3, 2025, https://www.researchgate.net/publication/251644202_Postsurgical_pain_syndromes_Chronic_pain_after_hysterectomy_and_cesarean_section
+38. Effect of Personality and Pain Catastrophizing on Postoperative Analgesia Following Cesarean Section: A Prospective Cohort Study - Dove Medical Press, hämtad oktober 3, 2025, https://www.dovepress.com/effect-of-personality-and-pain-catastrophizing-on-postoperative-analge-peer-reviewed-fulltext-article-JPR
+39. Somatic and Visceral Analgesia in Cesarean Section: Transversus Abdominis Plane Block and Intraperitoneal Local Anesthetic Infiltration - International Journal of Medical Arts, hämtad oktober 3, 2025, https://ijma.journals.ekb.eg/article_437779.html
+40. Dilation and Curettage (D and C) | Johns Hopkins Medicine, hämtad oktober 3, 2025, https://www.hopkinsmedicine.org/health/treatment-tests-and-therapies/dilation-and-curettage-d-and-c
+41. Dilatation and curettage (D&C) - Better Health Channel, hämtad oktober 3, 2025, https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/dilatation-and-curettage-dc
+42. D and C Information | Mount Sinai - New York, hämtad oktober 3, 2025, https://www.mountsinai.org/health-library/surgery/d-and-c
+43. Dilatation and curettage | healthdirect, hämtad oktober 3, 2025, https://www.healthdirect.gov.au/dilatation-and-curettage
+44. Dilation and Curettage (D&C): Treatment, Risks & Recovery - Cleveland Clinic, hämtad oktober 3, 2025, https://my.clevelandclinic.org/health/procedures/dilation-and-curettage
+45. Dilatation and Curettage | GLOWM - The Global Library of Women's Medicine, hämtad oktober 3, 2025, https://www.glowm.com/section-view/heading/Dilatation%20and%20Curettage/item/37
+46. Ureteric stent - University Hospitals Sussex NHS Foundation Trust, hämtad oktober 3, 2025, https://www.uhsussex.nhs.uk/wp-content/uploads/2022/09/Ureteric-stent-.pdf
+47. Ureteroscopy & Stent Placement | University Urology Associates of New Jersey, hämtad oktober 3, 2025, https://uuanj.com/surgical/ureteroscopy-stent-placement/
+48. Ureteroscopy | University of Michigan Health, hämtad oktober 3, 2025, https://www.uofmhealth.org/our-care/specialties-services/ureteroscopy
+49. Ureteral Stent Placement: What to Expect at Home - MyHealth Alberta, hämtad oktober 3, 2025, https://myhealth.alberta.ca/Health/aftercareinformation/pages/conditions.aspx?hwid=zc2561
+50. Postoperative Instructions For Ureteroscopy, Laser Lithotripsy, Stone Extraction And Stent Placement | The Urology Group of Virginia, hämtad oktober 3, 2025, https://www.urologygroupvirginia.com/patient-resources/patient-instructions/postoperative-instructions/postoperative-instructions-for-ureteroscopy-laser-lithotripsy-stone-extraction-and-stent-placement
+51. Drug Management of Visceral Pain: Concepts from Basic Research ..., hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC3348642/
+52. All about pain pharmacology: what pain physicians should know - The Korean Journal of Pain, hämtad oktober 3, 2025, https://www.epain.org/journal/view.html?doi=10.3344/kjp.2020.33.2.108
+53. Toward an effective peripheral visceral analgesic: responding to the national opioid crisis - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC6032061/
+54. Peripheral kappa-opioid agonists for visceral pain - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC1574907/
+55. An Updated Review on the Metabolite (AM404)-Mediated Central Mechanism of Action of Paracetamol (Acetaminophen): Experimental Evidence and Potential Clinical Impact, hämtad oktober 3, 2025, https://www.dovepress.com/an-updated-review-on-the-metabolite-am404-mediated-central-mechanism-o-peer-reviewed-fulltext-article-JPR
+56. Systematic Review of Systemic and Neuraxial Effects of Acetaminophen in Preclinical Models of Nociceptive Processing - PMC, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC8594782/
+57. Visceral pain - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/362177687_Visceral_pain
+58. Synergistic Interactions Between Paracetamol and Oxcarbazepine in Somatic and Visceral Pain Models in Rodents | Request PDF - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/41416681_Synergistic_Interactions_Between_Paracetamol_and_Oxcarbazepine_in_Somatic_and_Visceral_Pain_Models_in_Rodents
+59. NSAIDs, Opioids, Cannabinoids and the Control of Pain by the Central Nervous System, hämtad oktober 3, 2025, https://www.mdpi.com/1424-8247/3/5/1335
+60. All about pain pharmacology: what pain physicians should know ..., hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC7136290/
+61. Visceral versus somatic pain: an educational review of anatomy and clinical implications, hämtad oktober 3, 2025, https://ouci.dntb.gov.ua/en/works/7WdEM2w4/
+62. and Review of the Medical Literature Efficacy and Safety of Steroid ..., hämtad oktober 3, 2025, https://dupuytrens.org/DupPDFs/2006_Salerno.pdf
+63. Efficacy and safety of steroid use for postoperative pain relief. Update and review of the medical literature - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/16757774/
+64. Steroids to Ameliorate Postoperative Pain | AnestesiaR, hämtad oktober 3, 2025, https://anestesiar.org/wp-content/uploads/2012/12/Steroids_to_Ameliorate_Postoperative_Pain.6.pdf
+65. Clonidine in acute pain management, Queen Elizabeth University Hospital - Right Decisions, hämtad oktober 3, 2025, https://rightdecisions.scot.nhs.uk/media/tjlj1dvs/clonidine-in-acute-pain-management-v1-1081.pdf
+66. Clonidine for management of chronic pain: A brief review of the current evidences, hämtad oktober 3, 2025, https://www.researchgate.net/publication/261070223_Clonidine_for_management_of_chronic_pain_A_brief_review_of_the_current_evidences
+67. Oral clonidine inhibits visceral pain-related viscerosomatic and cardiovascular responses to colorectal distension in rats - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/18593580/
+68. Evidence for a spinal site of action of clonidine on somatic and ..., hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/3392661/
+69. (PDF) Comparing parecoxib and ketorolac as preemptive analgesia in patients undergoing posterior lumbar spinal fusion: A prospective randomized double-blinded placebo-controlled trial - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/276884177_Comparing_parecoxib_and_ketorolac_as_preemptive_analgesia_in_patients_undergoing_posterior_lumbar_spinal_fusion_A_prospective_randomized_double-blinded_placebo-controlled_trial
+70. Comparative Analysis of Ketorolac and Parecoxib for Postoperative Pain Management in Uvulopalatopharyngoplasty - MDPI, hämtad oktober 3, 2025, https://www.mdpi.com/2077-0383/13/15/4422
+71. Comparison of the efficacy of parecoxib versus ketorolac combined with morphine on patient-controlled analgesia for post-cesarean delivery pain management | AJA Asian Journal of Anesthesiology, hämtad oktober 3, 2025, http://www.aja.org.tw/articles/content.php?id=350&jid=40&continue=Y&sub=45&flag=2
+72. The Surprising Re-emergence of Droperidol - PMC, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC7530808/
+73. Dopamine-Antagonist Antiemetics in PONV Management: Entering a New Era?, hämtad oktober 3, 2025, https://www.anesthesiologynews.com/Review-Articles/Article/07-23/Dopamine-Antagonist-Antiemetics-in-PONV-Management-Entering-a-New-Era/70764
+74. Preoperative Droperidol Improved Postoperative Pain Relief in Patients Undergoing Rotator-Cuff Repair During General Anesthesia Using Intravenous Morphine - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/14698365/
+75. Droperidol - Texas College of Emergency Physicians, hämtad oktober 3, 2025, https://www.texacep.org/droperidol
+76. Droperidol | Internet Book of Emergency Medicine, hämtad oktober 3, 2025, https://internetbookofemergencymedicine.com/droperidol/
+77. LIDOCAINE INFUSION FOR CHRONIC PAIN - Barnes-Jewish Hospital, hämtad oktober 3, 2025, https://www.barnesjewish.org/Curiosus-Mag/Article/ArtMID/6756/ArticleID/3334/LIDOCAINE-INFUSION-FOR-CHRONIC-PAIN
+78. Systemic Lidocaine for Pain Management, hämtad oktober 3, 2025, https://pain.ucsf.edu/non-opioid-analgesics/systemic-lidocaine-pain-management
+79. Parenteral Lidocaine for Neuropathic Pain - Palliative Care Network of Wisconsin, hämtad oktober 3, 2025, https://www.mypcnow.org/fast-fact/parenteral-lidocaine-for-neuropathic-pain/
+80. The effects of ketamine on painful stimulation of skin and viscera in human subjects, hämtad oktober 3, 2025, https://www.researchgate.net/publication/8070880_The_effects_of_ketamine_on_painful_stimulation_of_skin_and_viscera_in_human_subjects
+81. Ketamine in Acute and Chronic Pain Management - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK539824/
+82. Ketamine, Esketamine, and Arketamine: Their Mechanisms of Action and Applications in the Treatment of Depression and Alleviation of Depressive Symptoms - MDPI, hämtad oktober 3, 2025, https://www.mdpi.com/2227-9059/12/10/2283
+83. Esketamine Anesthetizes Mice With a Similar Potency to Racemic Ketamine - PMC, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC9926386/
+84. The Science Behind Ketamine Therapy for Pain - Mind Body Centers, hämtad oktober 3, 2025, https://mindbodycenters.com/science-behind-ketamine-therapy-for-pain/

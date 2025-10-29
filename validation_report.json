@@ -1,0 +1,200 @@
+{
+  "timestamp": "2025-10-20T13:38:28.417770",
+  "summary": {
+    "total": 39,
+    "passed": 12,
+    "failed": 27,
+    "warnings": 0,
+    "skipped": 0,
+    "pass_rate": 30.76923076923077
+  },
+  "passed": [
+    {
+      "category": "Dosing - Calculation",
+      "test": "Rescue timing checkboxes visible"
+    },
+    {
+      "category": "Dosing - Calculation",
+      "test": "Severe fatigue checkbox visible"
+    },
+    {
+      "category": "Dosing - Calculation",
+      "test": "UVA dose input visible"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Dark theme applies consistently"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Layout fits 1080p screen"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Responsive design works"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Tab switching works smoothly"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Active tab highlighted correctly"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Input fields have clear labels"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Placeholders provide helpful hints"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Error messages display clearly"
+    },
+    {
+      "category": "UI/UX",
+      "test": "Success messages display clearly"
+    }
+  ],
+  "failed": [
+    {
+      "category": "Authentication",
+      "test": "Authentication state",
+      "reason": "Not logged in and no login page"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Age input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Gender dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Weight input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Height input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "ASA dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Opioid history",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "Low pain threshold checkbox",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Patient Data",
+      "test": "GFR <35 checkbox",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Procedure",
+      "test": "Specialty dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Procedure",
+      "test": "Procedure dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Temporal Opioids",
+      "test": "Drug selection dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Temporal Opioids",
+      "test": "Dose input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Temporal Opioids",
+      "test": "Time inputs",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Temporal Opioids",
+      "test": "Postop checkbox",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Temporal Opioids",
+      "test": "Add opioid button",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "NSAID dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "Paracetamol checkbox",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "Catapressan input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "Betapred dropdown",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "Ketamine input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Adjuvants",
+      "test": "Lidocaine input",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Dosing - Calculation",
+      "test": "Calculate button",
+      "reason": "Not visible"
+    },
+    {
+      "category": "History Tab",
+      "test": "History tab",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Learning Tab",
+      "test": "Learning tab",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Procedures Tab",
+      "test": "Procedures tab",
+      "reason": "Not visible"
+    },
+    {
+      "category": "Integration",
+      "test": "Integration workflow",
+      "reason": "Locator.input_value: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator(\"input[aria-label=\\\"Ålder\\\"]\")\n"
+    }
+  ],
+  "warnings": [],
+  "skipped": []
+}

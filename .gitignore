@@ -1,0 +1,93 @@
+# Environment variables (VIKTIGT - innehåller admin-credentials!)
+.env
+
+# Database files (innehåller patientdata!)
+*.db
+*.sqlite
+*.sqlite3
+anestesi.db
+anesthesia_dosing.db
+database.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Backups
+*.bak
+*.backup
+
+# Logs
+*.log
+logs/
+
+# Models and data
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# Node modules (not needed for Streamlit app)
+node_modules/
+package-lock.json
+
+# Test artifacts
+test-results/
+test_reports/
+test_screenshots/
+playwright-report/
+
+# Problematic files
+nul
+
+# Installer files (too large for GitHub)
+*.exe
+*.msi
+*.dmg
+
+# Bloat and unnecessary files
+*.zip
+*.pptx
+*.docx
+.windsurfrules
+.mcp.json
+*.code-workspace
+TEST_RESULTS_SUMMARY.md
+test_expanded_suite.py
+test_full_suite.py
+test_output.txt
+test_report_*.txt
+
+# IDE specific
+.claude/
+.cursor/
+.superdesign/
+
+# Visual regression snapshots
+tests/visual-regression.spec.js-snapshots/

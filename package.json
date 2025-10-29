@@ -1,0 +1,17 @@
+{
+  "name": "anestesidoseringshjalp",
+  "version": "8.0.0",
+  "description": "Anesthesia dosing assistant with comprehensive Playwright testing",
+  "scripts": {
+    "test": "python test_comprehensive_playwright.py",
+    "test:basic": "python test_full_playwright.py",
+    "test:light": "python test_ui_light.py",
+    "test:all": "python test_ui_light.py && python test_full_playwright.py && python test_comprehensive_playwright.py"
+  },
+  "dependencies": {
+    "playwright": "^1.56.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
+}

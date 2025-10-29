@@ -1,0 +1,555 @@
+﻿Perioperativ Farmakologi och Doseringsstrategier: En Klinisk Guide för Narkossjuksköterskan
+
+
+
+
+1. Principer för Modern Perioperativ Smärtlindring
+
+
+Den moderna perioperativa smärtbehandlingen vilar på en fundamental förståelse för smärtans neurobiologi och en strategisk, proaktiv ansats för att modulera den. Målet sträcker sig bortom enbart symtomlindring i den omedelbara postoperativa fasen; det innefattar att dämpa den kirurgiska stressresponsen, förkorta återhämtningstiden, minska risken för opioidrelaterade biverkningar och, av yttersta vikt, att förebygga utvecklingen av kronisk postoperativ smärta. Detta kapitel redogör för de centrala principerna – multimodal analgesi, opioidsparande strategier och användningen av morfinekvivalenter (MME) som ett kliniskt verktyg – vilka utgör grunden för de specifika läkemedelsrekommendationer som följer i denna rapport.
+
+
+1.1. Grunderna i Multimodal Analgesi: Mekanistisk Synergi
+
+
+Multimodal analgesi är ett koncept som bygger på att kombinera olika analgetika och tekniker som verkar på olika, komplementära delar av det nociceptiva systemet. Strategin är inte enbart att använda flera läkemedel, utan att skapa en synergistisk effekt där den samlade smärtlindringen är större än summan av de enskilda komponenternas effekter. Genom att rikta in sig på flera mål i smärtkaskaden – från perifer transduktion och transmission till central modulering och perception – kan man uppnå en mer komplett och effektiv blockad av smärtsignalerna.1
+En typisk multimodal regim kan inkludera:
+* Perifer blockad: Icke-steroida antiinflammatoriska läkemedel (NSAID) eller COX-2-hämmare som minskar produktionen av prostaglandiner vid skadeområdet, vilket dämpar perifer sensitisering av nociceptorer. Lokalanestetika som infiltreras i såret eller används för perifera nervblockader blockerar direkt nervsignaleringen.2
+* Central blockad: Opioider verkar primärt på μ-receptorer i centrala nervsystemet (CNS) för att modulera smärtperception. NMDA-receptorantagonister, såsom esketamin, motverkar den centrala sensitisering och "wind-up"-fenomen som kan leda till hyperalgesi.3 Alfa-2-agonister, som klonidin, förstärker de nedåtstigande smärthämmande bansystemen från hjärnstammen.4
+Den verkliga styrkan i denna strategi ligger i dess preventiva potential. Aggressiv och effektiv hantering av akut smärta har föreslagits som en strategi för att minska risken för kronisk postoperativ smärta, ett betydande problem vid ingrepp som exempelvis ljumskbråckskirurgi där incidensen av kronisk smärta kan vara hög.1 Genom att effektivt blockera den initiala nociceptiva anstormningen med en multimodal ansats kan man förhindra de neuroplastiska förändringar i CNS som ligger till grund för central sensitisering. Valet av intraoperativa adjuvanter är därmed inte bara en fråga om omedelbar smärtkontroll, utan en profylaktisk intervention mot långsiktig morbiditet för patienten.
+
+
+1.2. Opioidsparande Strategier och Kvantifiering av Effekt
+
+
+Ett centralt mål med multimodal analgesi är att minska det totala behovet av opioider, vilket i sin tur minskar risken för välkända opioidrelaterade biverkningar som andningsdepression, postoperativt illamående och kräkningar (PONV), sedation, klåda och tarmparalys.5 Forskning genom metaanalyser har möjliggjort en kvantifiering av den opioidsparande effekten för flera vanliga adjuvanter, vilket ger ett evidensbaserat underlag för klinisk planering.
+* NSAID och COX-2-hämmare: Systematiska översikter visar att perioperativ administrering av intravenösa NSAID kan reducera den postoperativa opioidkonsumtionen med cirka 20–60%.5
+* Kortikosteroider (Betametason/Dexametason): En enstaka perioperativ dos har en signifikant opioidsparande effekt. En metaanalys visade att en intermediär dos (0.11–0.2 mg/kg) är lika effektiv som högre doser och minskar 24-timmars morfinförbrukningen signifikant.7
+* Lidokaininfusion: En intraoperativ infusion av lidokain har visat sig minska opioidbehovet, särskilt vid bukkirurgi. Effekten är mest uttalad i den omedelbara postoperativa fasen, med en måttlig minskning av MME-behovet på uppvakningsavdelningen.8
+* Esketamininfusion: Lågdosinfusion av esketamin (eller ketamin) har en potent opioidsparande effekt. En studie på patienter som genomgick toraxkirurgi visade att en infusion på 0.25 mg/kg/h reducerade opioidkonsumtionen med 30–34% under de första 48 timmarna postoperativt.11
+* Alfa-2-agonister (Klonidin): En intravenös bolusdos på 3 mcg/kg före anestesiinduktion kan minska 24-timmarsförbrukningen av fentanyl med över 50%.12 Metaanalyser bekräftar en signifikant minskning av den kumulativa opioiddosen både 6 och 24 timmar postoperativt.14
+* Droperidol: Även om det primärt är ett antiemetikum, har droperidol analgetiska och sedativa egenskaper. En studie visade att administrering av droperidol för buksmärta på akutmottagningen signifikant minskade median-MME-dosen från 19.4 till 10, vilket indikerar en kliniskt relevant opioidsparande potential.15
+Dessa data understryker att ett proaktivt och genomtänkt val av adjuvanter kan ha en dramatisk inverkan på patientens postoperativa förlopp.
+
+
+Läkemedelsklass
+	Läkemedel
+	Typisk i.v. Dosering
+	Förväntad MME-reduktion (%)
+	NSAID
+	Ibuprofen, Ketorolak
+	800 mg / 30 mg
+	20–60%
+	COX-2-hämmare
+	Parecoxib
+	40 mg
+	20–60%
+	Kortikosteroider
+	Betametason
+	4–8 mg (0.11–0.2 mg/kg)
+	~20–30%
+	NMDA-antagonister
+	Esketamin
+	0.1–0.25 mg/kg bolus + 0.1–0.25 mg/kg/h infusion
+	30–40%
+	Alfa-2-agonister
+	Klonidin
+	1–3 mcg/kg bolus
+	30–50%
+	Lokalanestetika
+	Lidokain
+	1.5 mg/kg bolus + 1.5–2 mg/kg/h infusion
+	20–40%
+	Dopaminantagonister
+	Droperidol
+	0.625–1.25 mg
+	~20–40%
+	Tabell 1: Kvantifierad Opioidsparande Effekt av Adjuvanter. Tabellen sammanfattar den förväntade minskningen i postoperativ opioidkonsumtion vid användning av vanliga adjuvanta analgetika. Procentsatserna är estimat baserade på metaanalyser och kliniska studier.5
+	
+
+	
+
+	
+
+	
+
+	
+
+1.3. Morfinekvivalenter (MME) i Praktiken
+
+
+För att kunna jämföra och summera de olika opioider som administreras under en anestesi används konceptet morfinekvivalenter (MME). MME är ett standardiserat mått som konverterar dosen av en given opioid till en ekvianalgetisk dos av morfin. Detta möjliggör en samlad bedömning av den totala opioiddosen en patient har fått, oavsett vilka specifika preparat som använts. Konverteringen baseras på fastställda ekvianalgetiska tabeller.16
+
+
+Opioid
+	Ekvianalgetisk i.v. Dos (mg)
+	MME-konverteringsfaktor (per mg)
+	Morfin
+	10
+	1
+	Alfentanil
+	1
+	10
+	Fentanyl
+	0.1
+	100
+	Remifentanil
+	0.1
+	100
+	Oxykodon
+	10
+	1
+	Tabell 2: MME-konverteringstabell för Intravenös Administration. Tabellen visar doser som är ungefärligt ekvianalgetiska med 10 mg intravenöst morfin och den motsvarande faktorn för att konvertera 1 mg av respektive opioid till MME.16 Remifentanils MME-värde är teoretiskt och svårt att applicera kliniskt på grund av dess extremt korta halveringstid, men inkluderas för jämförelse.
+	
+
+	
+
+	
+
+	MME är mer än bara ett matematiskt verktyg; det är ett kliniskt instrument för riskbedömning och planering. En hög intraoperativ MME-konsumtion är en stark prediktor för svår postoperativ smärta och ett högt fortsatt opioidbehov.1 Genom att summera alla administrerade opioider till ett MME-värde kan narkospersonalen skapa en standardiserad och objektiv bild av patientens intraoperativa opioidexponering. Denna information är ovärderlig vid överrapportering till postoperativ avdelning, då den ger en indikation om patientens förväntade smärtnivå och behov av smärtlindring. En patient som krävt höga doser MME intraoperativt, trots en multimodal strategi, kommer sannolikt att behöva en mer aggressiv och noggrant övervakad postoperativ smärtbehandling. MME-värdet fungerar därmed som ett kommunikationsverktyg som bidrar till en säkrare och mer individualiserad vård över hela det perioperativa förloppet.
+
+
+2. Intravenösa Opioider: Farmakokinetik och Klinisk Hantering
+
+
+Valet av intravenös opioid under anestesi styrs av dess unika farmakokinetiska och farmakodynamiska profil. Att förstå hur snabbt en opioid når sin effekt, hur länge effekten varar efter en enstaka dos, och hur den ackumuleras under en infusion är avgörande för att kunna skräddarsy anestesin till det kirurgiska förloppet och patientens behov. Detta kapitel ger en detaljerad genomgång av de vanligaste intravenösa opioiderna, med särskilt fokus på de kinetiska principer som dikterar deras kliniska användning.
+
+
+2.1. Alfentanil
+
+
+Alfentanil är en syntetisk fentanylanalog som kännetecknas av sin extremt snabba anslagstid och korta verkningsduration jämfört med andra opioider.18
+* Farmakokinetik: Efter en intravenös bolusdos uppnås maximal koncentration vid effektorganet (hjärnan) inom cirka 1.5 minuter, vilket är betydligt snabbare än för fentanyl.19 Dess eliminationshalveringstid är cirka 1.5–1.8 timmar.18 Ett mer kliniskt relevant mått är dock den kontextkänsliga halveringstiden (CSHT), som efter en 3 timmar lång infusion är ungefär 47 minuter.20 Detta indikerar att effekten avtar relativt snabbt, men inte lika omedelbart som för remifentanil.
+* Dosering och Klinisk Användning: En typisk bolusdos för att dämpa svar på smärtsamma stimuli är 5–15 mcg/kg.18 Alfentanil är idealiskt för att blockera korta, intensiva stimuli där ett omedelbart anslag är önskvärt, såsom vid laryngoskopi, intubation eller anläggning av Mayfield-klämma. Dess snabba anslag gör det möjligt att tajma analgesin exakt med stimulit. På grund av dess relativt snabba ackumulering och längre CSHT jämfört med remifentanil är det ett mindre lämpligt val för långa infusioner där ett snabbt och förutsägbart uppvaknande är avgörande.19
+
+
+2.2. Fentanyl
+
+
+Fentanyl är en av de mest använda syntetiska opioiderna inom anestesi, med en potens som är 50–100 gånger högre än morfin.22 Dess kliniska effekter styrs av en komplex farmakokinetik som bäst beskrivs med en trekompartmentmodell.
+* Farmakokinetik: Efter en intravenös bolusdos på 1–2 mcg/kg uppnås maximal effekt efter cirka 5–6 minuter.19 Effekten av en enstaka dos är relativt kortvarig (30–60 minuter) och avslutas primärt genom redistribution av läkemedlet från CNS till andra vävnader.23
+
+
+Djupdykning: Fentanyls Trifasiska Farmakokinetik
+
+
+För att fullt ut förstå hur man doserar fentanyl, särskilt vid upprepade doser eller infusion, är det nödvändigt att förstå trekompartmentmodellen. Denna modell delar in kroppen i tre teoretiska "utrymmen" 24:
+1. Centrala kompartmentet (): Består av blodet och välperfusionerade organ som hjärna och hjärta. Läkemedlet injiceras här och elimineras härifrån.
+2. Snabba perifera kompartmentet (): Består av vävnader med god blodförsörjning, som muskulatur. Läkemedel distribueras snabbt hit från .
+3. Långsamma perifera kompartmentet (): Består av dåligt perfusionerade vävnader, främst fettvävnad. Fentanyls höga fettlöslighet gör att det har en mycket stor distributionsvolym i detta kompartment ().25
+När fentanyl administreras, sjunker plasmakoncentrationen i tre distinkta faser, vilket ger upphov till en trifasisk halveringstid:
+1. Distributionsfasen (alfa, ): Denna initiala, mycket snabba fas varar bara några minuter (ca 6 min).23 Plasmakoncentrationen sjunker snabbt då fentanyl distribueras från det centrala kompartmentet (
+) till det snabba perifera (). Det är denna redistribution som avslutar den kliniska effekten av en enstaka, liten bolusdos.
+2. Redistributionsfasen (beta, ): Denna fas är långsammare (ca 1 timme).23 Plasmakoncentrationen fortsätter att sjunka genom elimination (metabolism i levern) och fortsatt, långsammare distribution till det långsamma kompartmentet (
+). Samtidigt börjar läkemedel som tidigare distribuerats till  att återvända till .
+3. Terminala eliminationsfasen (gamma, ): Denna sista fas är mycket långsam (upp till 16 timmar eller mer).23 Denna fas blir kliniskt relevant först efter långvarig eller högdos-administrering, när både
+ och  (fettvävnaden) har mättats med fentanyl. Plasmakoncentrationen upprätthålls nu av den långsamma återtransporten av fentanyl från fettvävnaden tillbaka till blodet för metabolism.
+
+
+Praktisk Tillämpning och Kontextkänslig Halveringstid
+
+
+Den trifasiska kinetiken har en direkt och avgörande betydelse för den postoperativa perioden. Effekten av upprepad fentanyldosering är starkt beroende av administrationens duration (kontexten):
+   * Efter 10 minuters anestesi: En patient som fått en eller ett par bolusdoser fentanyl under ett kort ingrepp kommer att vakna snabbt. Fettvävnaden () är i stort sett tom. När den sista dosen har getts sjunker plasmakoncentrationen snabbt via redistribution till  och elimination. Den kontextkänsliga halveringstiden är kort. Patienten kommer sannolikt att behöva postoperativ smärtlindring omgående på uppvakningsavdelningen.
+   * Efter 1 timmes anestesi: Fettvävnaden har börjat ackumulera en märkbar mängd fentanyl. När administreringen upphör är fallet i plasmakoncentration långsammare, eftersom redistribution från  balanseras av fortsatt upptag i och en begynnande långsam frisättning från . CSHT är längre. Patienten kan ha en viss kvarvarande analgesi vid ankomst till postop.
+   * Efter 6 timmars anestesi: Både det snabba och det långsamma perifera kompartmentet är nu betydligt mättade. När infusionen eller den sista bolusdosen ges, "understöds" plasmakoncentrationen av en stor reservoar av fentanyl som långsamt läcker ut från fettvävnaden. Koncentrationsfallet är nu mycket långsamt och styrs av den terminala eliminationsfasen. CSHT är mycket lång. Denna patient kan initialt vara smärtfri på uppvakningsavdelningen och kräva lite eller ingen morfin, men löper en betydande risk för fördröjd andningsdepression timmar senare när den sederande effekten av anestesimedlen har avtagit men den analgetiska/respirationsdeprimerande effekten av fentanyl kvarstår.
+Klinikerns uppgift är att mentalt följa "fentanylladdningen" i det långsamma kompartmentet. Vid långa operationer är den totala dosen fentanyl en sämre prediktor för patientens tillstånd vid anestesislut än vad administrationens duration är. Detta måste vägas in vid planering av postoperativ smärtlindring och övervakning.
+
+
+2.3. Remifentanil
+
+
+Remifentanil är en unik opioid med en farmakokinetisk profil som gör den idealisk för situationer som kräver snabb och precis titrering.
+   * Farmakokinetik: Dess unika egenskap är metabolismen via ospecifika esteraser i blod och vävnader, vilket är helt oberoende av lever- och njurfunktion.20 Detta resulterar i en extremt kort och förutsägbar kontext-
+okänslig halveringstid på endast 3–4 minuter, oavsett hur länge infusionen har pågått.20 Maximal effekt uppnås mycket snabbt, inom cirka 1.5 minuter.19
+   * Dosering och Klinisk Användning: Remifentanil administreras alltid som en kontinuerlig infusion. En typisk underhållsdos för generell anestesi är 0.05–0.2 mcg/kg/min.1 Dess förutsägbara och snabba offset gör den till förstahandsvalet för total intravenös anestesi (TIVA) och vid kirurgi där ett snabbt uppvaknande för neurologisk bedömning är kritiskt (t.ex. neurokirurgi). En avgörande klinisk aspekt är att remifentanil inte ger någon som helst kvarvarande analgesi efter att infusionen stängts av. Det är därför absolut nödvändigt att ha en proaktiv plan för postoperativ smärta. Detta innebär vanligtvis att man administrerar en bolusdos av en långverkande opioid, som morfin (0.1–0.15 mg/kg) eller oxykodon (0.1 mg/kg), cirka 20–30 minuter innan remifentanilinfusionen avslutas.20
+
+
+2.4. Morfin
+
+
+Morfin är referenssubstansen bland opioiderna och används främst för postoperativ smärtlindring.
+      * Farmakokinetik: Morfin är relativt hydrofilt, vilket leder till en långsammare passage över blod-hjärnbarriären. Maximal analgetisk effekt efter en intravenös dos uppnås först efter cirka 20 minuter.27 Eliminationshalveringstiden är cirka 2 timmar.28 Morfin metaboliseras i levern till två huvudsakliga metaboliter: morfin-3-glukuronid (M3G), som är neuroexcitatorisk och saknar analgetisk effekt, samt morfin-6-glukuronid (M6G). M6G är en potent analgetikum, till och med mer potent än morfin, och har en längre halveringstid. Ackumulering av M6G är en betydande riskfaktor för fördröjd och uttalad andningsdepression hos patienter med nedsatt njurfunktion.27
+      * Dosering och Klinisk Användning: På grund av sitt långsamma anslag är morfin olämpligt för intraoperativ titrering mot snabba kirurgiska stimuli. Dess huvudsakliga roll är att tillhandahålla en basal postoperativ smärtlindring. Det kan antingen ges mot slutet av operationen (ca 30 minuter före väckning) i en dos på 0.1–0.15 mg/kg, eller titreras på uppvakningsavdelningen.
+
+
+2.5. Oxykodon (i.v.)
+
+
+Intravenöst oxykodon är ett alternativ till morfin och fentanyl för perioperativ smärtlindring.
+      * Farmakokinetik: Studier av intravenös administrering visar ett snabbt anslag, med en maximal effekt som uppnås inom cirka 5 minuter.29 Eliminationshalveringstiden efter en intravenös dos är ungefär 3.1 timmar.30 Oxykodon metaboliseras via CYP-enzymer (CYP3A4 och CYP2D6) till metaboliter med varierande aktivitet, men det är modersubstansen oxykodon som står för den största delen av den analgetiska effekten.31
+      * Dosering och Klinisk Användning: En typisk intraoperativ bolusdos är 0.075–0.1 mg/kg.32 Jämförande studier med fentanyl tyder på att oxykodon har en längre verkningsduration, vilket resulterar i lägre smärtpoäng och minskat behov av rescue-analgetika på uppvakningsavdelningen. Detta kan dock ske på bekostnad av en något förlängd återhämtningstid.33 Dess snabbare anslag jämfört med morfin gör det till ett gångbart alternativ för att etablera postoperativ smärtlindring mot slutet av anestesin.
+
+
+3. Adjuvanta Analgetika: Farmakokinetik och Doseringsrekommendationer
+
+
+Adjuvanta analgetika är en heterogen grupp av läkemedel som, när de används som en del av en multimodal strategi, bidrar till smärtlindring och minskar opioidbehovet. Deras effektivitet bygger på verkningsmekanismer som kompletterar opioidernas.
+
+
+3.1. NSAID
+
+
+Dessa läkemedel verkar genom att hämma cyklooxygenas (COX)-enzymer, vilket minskar syntesen av inflammatoriska prostaglandiner.
+      * Ibuprofen (i.v.): En typisk bolusdos är 400–800 mg. Tiden till maximal plasmakoncentration (och därmed effekt) är beroende av infusionstiden; en snabb infusion över 5–7 minuter ger en högre och snabbare toppkoncentration (inom 10 minuter) jämfört med en 30-minutersinfusion.34 Halveringstiden är cirka 2 timmar.35
+      * Ketorolak (i.v.): En typisk bolusdos är 15–30 mg. Maximal analgetisk effekt uppnås inom 2–3 timmar.36 Halveringstiden är 5–6 timmar, men kan vara förlängd hos äldre patienter. På grund av risken för biverkningar (njurpåverkan, gastrointestinal blödning) är behandlingstiden begränsad, vanligtvis till maximalt 5 dagar.36
+
+
+3.2. COX-2-hämmare
+
+
+Dessa läkemedel hämmar selektivt COX-2-enzymet, vilket teoretiskt sett minskar risken för gastrointestinala biverkningar jämfört med icke-selektiva NSAID.
+      * Parecoxib (i.v.): En typisk bolusdos är 40 mg. Parecoxib är en prodrug som snabbt omvandlas till den aktiva metaboliten valdecoxib. Analgetisk effekt inträder inom 7–13 minuter, med maximal effekt efter cirka 2 timmar.37 Halveringstiden för parecoxib är endast 22 minuter, men valdecoxibs halveringstid är cirka 8 timmar, vilket ger en förlängd analgetisk verkan.37
+
+
+3.3. Kortikosteroider
+
+
+Kortikosteroider har antiinflammatoriska och analgetiska effekter, sannolikt genom hämning av fosfolipas A2 och därmed minskad produktion av prostaglandiner och leukotriener. De är också effektiva antiemetika.
+      * Betametason (Betapred) (i.v.): En typisk dos är 4–8 mg. Efter intravenös administrering av betametasonfosfat uppnås maximal plasmakoncentration av aktivt betametason inom 10–36 minuter.39 Den terminala halveringstiden är cirka 6.5 timmar. Den biologiska halveringstiden, som reflekterar effekten på HPA-axeln, är dock betydligt längre, 36–59 timmar.40
+
+
+3.4. Alfa-2-agonister
+
+
+Dessa läkemedel verkar genom att stimulera presynaptiska α2-receptorer i CNS, vilket minskar sympatikustonus och förstärker nedåtstigande smärthämmande signaler.
+      * Klonidin (Catapresan) (i.v.): En typisk bolusdos är 1–3 mcg/kg, administrerad långsamt. Efter en intravenös infusion uppnås maximal plasmakoncentration inom cirka 20 minuter.41 Klonidin har en bifasisk elimination med en initial distributionshalveringstid på cirka 11 minuter och en terminal eliminationshalveringstid som varierar mellan 9 och 22 timmar, vilket kan leda till förlängd sedation och hypotoni.41
+
+
+3.5. Dopaminantagonister
+
+
+Butyrofenoner som droperidol verkar primärt som antiemetika genom D2-receptorantagonism i kemoreceptortriggerzonen, men har även sedativa och svagt analgetiska egenskaper.
+      * Droperidol (i.v.): En lågdos för PONV-profylax är 0.625–1.25 mg. Effekten inträder snabbt, inom 3–10 minuter, med maximal effekt efter 30 minuter.43 Den sedativa effekten varar i 2–4 timmar, men en påverkan på medvetandegraden kan kvarstå i upp till 12 timmar.43 Den främsta risken är en dosberoende förlängning av QT-intervallet, vilket kräver försiktighet och EKG-övervakning hos riskpatienter.43
+
+
+3.6. Systemiska Lokalanestetika
+
+
+Intravenöst lidokain har analgetiska, antihyperalgetiska och antiinflammatoriska egenskaper.
+      * Lidokain (i.v.): En vanlig regim är en bolusdos på 1–1.5 mg/kg följt av en infusion på 1–3 mg/kg/h.9 Anslaget är omedelbart. Eliminationshalveringstiden är cirka 1.5–2 timmar vid kortare infusioner (<12 timmar). Vid längre infusioner kan aktiva metaboliter (främst monoetylglycinxylidid, MEGX) ackumuleras, vilket kan förlänga effekten och öka risken för toxicitet.45
+
+
+3.7. NMDA-receptorantagonister
+
+
+Genom att blockera N-metyl-D-aspartat (NMDA)-receptorn motverkar dessa medel central sensitisering, opioidtolerans och hyperalgesi.
+      * Esketamin (i.v.): Som S(+)-enantiomeren av ketamin är esketamin cirka dubbelt så potent. En subanestetisk, analgetisk regim innefattar en bolusdos på 0.1–0.25 mg/kg följt av en infusion på 0.1–0.25 mg/kg/h.1 Anslaget är mycket snabbt (<1 minut). Intressant nog är den kontextkänsliga halveringstiden efter en kort infusion förvånansvärt kort, cirka 10 minuter. Detta står i kontrast till den betydligt längre terminala eliminationshalveringstiden och innebär att eventuella psykotomimetiska biverkningar avklingar relativt snabbt efter avslutad infusion.3
+
+
+4. Underhållsanestesi med Sevofluran
+
+
+Sevofluran är en av de mest använda inhalationsanestesimedlen för underhåll av generell anestesi, uppskattad för sin snabba titrerbarhet och sitt snabba uppvaknande.
+
+
+4.1. Farmakodynamik och MAC-konceptet
+
+
+Den primära måttstocken för ett inhalationsanestesimedels potens är MAC (Minimum Alveolar Concentration). MAC definieras som den alveolära koncentrationen av ett anestesimedel vid 1 atmosfärs tryck som förhindrar motorisk respons på ett standardiserat smärtstimuli (hudincision) hos 50% av patienterna.
+      * MAC för Sevofluran: För en vuxen patient är MAC-värdet för sevofluran cirka 2.0%.1 Det efterfrågade underhållsintervallet på MAC 0.7–1.4 motsvarar därmed en end-tidal (utandad) koncentration på cirka 1.4–2.8%.
+      * MAC-reduktion med Opioider: En av de mest betydelsefulla interaktionerna inom anestesi är den synergistiska effekten mellan inhalationsanestetika och opioider. Administrering av en analgetisk dos av en opioid, som fentanyl eller remifentanil, minskar MAC-värdet för sevofluran markant. En terapeutisk opioidkoncentration kan reducera MAC med 50% eller mer. Ytterligare ökningar av opioiddosen ger en avtagande effekt på MAC-reduktionen, ett så kallat "tak-effekt" (ceiling effect), som ofta ligger vid en total MAC-reduktion på 50–90% beroende på opioid och dos.48 Denna synergi är kliniskt fundamental, då den tillåter användning av lägre och säkrare koncentrationer av sevofluran, vilket minskar risken för hemodynamisk depression och andra dosberoende biverkningar.
+
+
+4.2. Farmakokinetik och Uppvaknande
+
+
+Hastigheten med vilken en patient somnar och vaknar från en inhalationsanestesi styrs primärt av läkemedlets fysikaliska egenskaper, framför allt dess löslighet.
+      * Blod:gas-löslighetskoefficient: Sevoflurans främsta farmakokinetiska egenskap är dess låga blod:gas-löslighetskoefficient, som är cirka 0.69.51 Detta värde beskriver hur läkemedlet fördelar sig mellan alveolargas och blod vid jämvikt. Ett lågt värde innebär att sevofluran är relativt olösligt i blod. Konsekvensen blir att en liten mängd av medlet behöver lösas i blodet för att partialtrycket i blodet snabbt ska komma i jämvikt med partialtrycket i alveolerna. Eftersom hjärnans partialtryck snabbt följer blodets, leder detta till en mycket snabb induktion och, framför allt, ett snabbt och förutsägbart uppvaknande när tillförseln av sevofluran avbryts.
+      * Kontextkänslig elimination och vävnadsackumulering: Även om uppvaknandet från sevofluran är snabbt, är den fullständiga eliminationen från kroppen en betydligt längre process, särskilt efter långvarig anestesi. Detta beror på ackumulering i vävnader med sämre blodflöde men hög affinitet för anestesimedlet, framför allt fettvävnad. Sevofluran är mer fettlösligt än desfluran men mindre än isofluran (olja:gas-koefficient ca 50).47
+      * Efter en kort anestesi är uppvaknandet mycket snabbt eftersom endast en liten mängd sevofluran har hunnit ackumuleras i fettvävnaden.
+      * Efter en lång anestesi (>4–6 timmar) har en betydande mängd sevofluran lagrats i fettet. Denna reservoar fungerar som en depå som långsamt frisätter anestesimedlet tillbaka till blodet, vilket förlänger den terminala eliminationsfasen avsevärt. Den terminala halveringstiden från fettkompartmentet är uppskattad till cirka 20 timmar.53 Även om patienten snabbt återfår medvetandet och kan extuberas (då hjärnkoncentrationen sjunkit under MAC-awake), kvarstår subkliniska koncentrationer i kroppen under många timmar, potentiellt i dagar.52 Detta kan bidra till förlängd kognitiv påverkan, trötthet och en ökad känslighet för andra sedativa läkemedel postoperativt. Det är en viktig insikt att "vaken" på uppvakningsavdelningen inte är synonymt med "fullständigt återställd", och att även "snabba" inhalationsmedel som sevofluran har långvariga subkliniska effekter som är beroende av anestesins duration.
+
+
+5. Sammanfattande Tabeller och Kliniska Rekommendationer
+
+
+Detta avslutande kapitel sammanfattar rapportens centrala farmakokinetiska data i ett tabellformat avsett för snabb klinisk referens. Tabellerna är utformade för att ge en överskådlig och praktiskt användbar guide till de läkemedel som diskuterats.
+
+
+Tabell 2: MME-konverteringstabell för Intravenös Administration
+
+
+
+
+Opioid
+	Ekvianalgetisk i.v. Dos (mg)
+	MME-konverteringsfaktor (per mg)
+	Morfin
+	10
+	1
+	Alfentanil
+	1
+	10
+	Fentanyl
+	0.1
+	100
+	Remifentanil
+	0.1
+	100
+	Oxykodon
+	10
+	1
+	Tabellen visar doser som är ungefärligt ekvianalgetiska med 10 mg intravenöst morfin och den motsvarande faktorn för att konvertera 1 mg av respektive opioid till MME.16 Remifentanils MME-värde är teoretiskt och svårt att applicera kliniskt på grund av dess extremt korta halveringstid, men inkluderas för jämförelse.
+	
+
+	
+
+	
+
+	
+
+Tabell 3: Sammanfattande Farmakokinetik för Perioperativa Analgetika
+
+
+
+
+Läkemedel
+	Läkemedelsklass
+	Typisk i.v. Bolusdos
+	Infusionshastighet
+	Tid till Toppeffekt (min)
+	Halveringstid (T½)
+	Kliniska Pärlor/Varningar
+	Opioider
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Alfentanil
+	Opioid (μ-agonist)
+	5–15 mcg/kg
+	0.5–1.5 mcg/kg/min
+	~1.5
+	1.5–1.8 h (CSHT ~47 min)
+	Snabbast anslag. Bra för korta, intensiva stimuli. Ackumuleras vid längre infusion. 18
+	Fentanyl
+	Opioid (μ-agonist)
+	1–2 mcg/kg
+	N/A
+	5–6
+	Trifasisk:  ~6 min,  ~1 h,  ~16 h
+	Lång CSHT vid långa ingrepp p.g.a. fettackumulering. Risk för sen andningsdepression. 19
+	Remifentanil
+	Opioid (μ-agonist)
+	N/A
+	0.05–0.2 mcg/kg/min
+	~1.5
+	3–4 min (kontext-okänslig)
+	Metaboliseras av esteraser. Extremt snabb offset. Ingen residualanalgesi. Kräver postop smärtplan. 20
+	Morfin
+	Opioid (μ-agonist)
+	0.1–0.15 mg/kg
+	N/A
+	~20
+	~2 h
+	Långsamt anslag. Aktiv metabolit (M6G) ackumuleras vid njursvikt. Standard för postop smärta. 27
+	Oxykodon
+	Opioid (μ-agonist)
+	0.1 mg/kg
+	N/A
+	~5
+	~3 h
+	Snabbare anslag än morfin. Bra alternativ för smärtlindring mot slutet av kirurgi. 29
+	Adjuvanter
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Betametason
+	Kortikosteroid
+	4–8 mg
+	N/A
+	10–36
+	~6.5 h (biologisk T½ 36–59 h)
+	Anti-inflammatorisk, analgetisk och potent antiemetisk effekt. 39
+	Ibuprofen
+	NSAID
+	400–800 mg
+	N/A
+	10–60 (infusionsberoende)
+	~2 h
+	Snabb effekt vid snabb infusion. Kontraindicerat vid njursvikt, ulcus, hög blödningsrisk. 34
+	Parecoxib
+	COX-2-hämmare
+	40 mg
+	N/A
+	120 (peak)
+	22 min (prodrug), ~8 h (aktiv metabolit)
+	Lång duration. Mindre risk för GI-biverkningar och trombocytpåverkan än NSAID. 37
+	Ketorolak
+	NSAID
+	15–30 mg
+	N/A
+	120–180 (peak)
+	5–6 h
+	Potent NSAID. Begränsad behandlingstid (max 5 dagar). Försiktighet vid nedsatt njurfunktion. 36
+	Klonidin
+	α2-agonist
+	1–3 mcg/kg (långsamt)
+	N/A
+	~20
+	9–22 h
+	Ger sedation, anxiolys, analgesi. Risk för hypotoni och bradykardi. Lång halveringstid. 41
+	Droperidol
+	Dopaminantagonist
+	0.625–1.25 mg
+	N/A
+	30 (peak)
+	2–4 h (sedation)
+	Potent antiemetikum med sedativa egenskaper. Risk för QT-förlängning; EKG-monitorering vid risk. 43
+	Lidokain
+	Lokalanestetikum
+	1–1.5 mg/kg
+	1–3 mg/kg/h
+	Omedelbar
+	1.5–2 h
+	Anti-inflammatorisk och antihyperalgetisk. Minskar tarmparalys. Risk för toxicitet vid höga doser. 44
+	Esketamin
+	NMDA-antagonist
+	0.1–0.25 mg/kg
+	0.1–0.25 mg/kg/h
+	< 1
+	CSHT ~10 min (kort infusion)
+	Motverkar hyperalgesi och opioidtolerans. Risk för psykotomimetiska biverkningar. 3
+	Inhalationsanestesi
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Sevofluran
+	Inhalationsmedel
+	N/A
+	1.4–2.8% (MAC 0.7–1.4)
+	2–3 min (jämvikt)
+	CSHT beror på duration
+	Låg blod:gas-löslighet ger snabbt uppvaknande. Ackumuleras i fett vid långa ingrepp. 51
+	
+
+Tabell 4: Kvantifierad Opioidsparande Effekt av Adjuvanter
+
+
+
+
+Läkemedelsklass
+	Läkemedel
+	Typisk i.v. Dosering
+	Förväntad MME-reduktion (%)
+	NSAID
+	Ibuprofen, Ketorolak
+	800 mg / 30 mg
+	20–60%
+	COX-2-hämmare
+	Parecoxib
+	40 mg
+	20–60%
+	Kortikosteroider
+	Betametason
+	4–8 mg (0.11–0.2 mg/kg)
+	~20–30%
+	NMDA-antagonister
+	Esketamin
+	0.1–0.25 mg/kg bolus + 0.1–0.25 mg/kg/h infusion
+	30–40%
+	Alfa-2-agonister
+	Klonidin
+	1–3 mcg/kg bolus
+	30–50%
+	Lokalanestetika
+	Lidokain
+	1.5 mg/kg bolus + 1.5–2 mg/kg/h infusion
+	20–40%
+	Dopaminantagonister
+	Droperidol
+	0.625–1.25 mg
+	~20–40%
+	Tabellen sammanfattar den förväntade minskningen i postoperativ opioidkonsumtion vid användning av vanliga adjuvanta analgetika. Procentsatserna är estimat baserade på metaanalyser och kliniska studier.5
+	
+
+	
+
+	
+
+	
+
+	Citerade verk
+      1. Smärtlindringsdata för kirurgiska ingrepp1.docx
+      2. Effects Of Intravenous Lidocaine Infusions On Postoperative Opioid Consumption In Adults Undergoing Laparoscopic Abdominal Surgery - DUNE - University of New England, hämtad oktober 3, 2025, https://dune.une.edu/cgi/viewcontent.cgi?article=1060&context=na_capstones
+      3. Pharmacology of TIVA and TCI, hämtad oktober 3, 2025, https://anaesthetics.ukzn.ac.za/wp-content/uploads/2024/06/PHARMA-OF-TIVA-AND-TCI-Ref-2016.pdf
+      4. Clonidine in Anesthesiology: A Brief Review - Biomedical Journal of Scientific & Technical Research, hämtad oktober 3, 2025, https://biomedres.us/pdfs/BJSTR.MS.ID.001481.pdf
+      5. (PDF) The Impact of Opioid-Sparing Analgesia on Postoperative Pain and Recovery: A Systematic Review and Meta-Analysis of Randomized Controlled Trials - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/394025811_The_Impact_of_Opioid-Sparing_Analgesia_on_Postoperative_Pain_and_Recovery_A_Systematic_Review_and_Meta-Analysis_of_Randomized_Controlled_Trials
+      6. Intravenously Administered Nonsteroidal Anti-Inflammatory Drugs in Clinical Practice: A Narrative Review - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC11859530/
+      7. Perioperative Single Dose Systemic Dexamethasone for Postoperative Pain A Meta-analysis of Randomized Controlled Trials | Request PDF - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/51530804_Perioperative_Single_Dose_Systemic_Dexamethasone_for_Postoperative_Pain_A_Meta-analysis_of_Randomized_Controlled_Trials
+      8. Intravenous lidocaine on postoperative pain and opioid consumption during gynecological surgery: a meta-analysis of randomized controlled trials - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/364376474_Intravenous_lidocaine_on_postoperative_pain_and_opioid_consumption_during_gynecological_surgery_a_meta-analysis_of_randomized_controlled_trials
+      9. The effect of systemic lidocaine on post-operative opioid consumption in ambulatory surgical patients: a meta-analysis of randomized controlled trials | springermedizin.de, hämtad oktober 3, 2025, https://www.springermedizin.de/the-effect-of-systemic-lidocaine-on-post-operative-opioid-consum/19076606
+      10. The effect of intraoperative lidocaine infusion on opioid consumption and pain after totally extraperitoneal laparoscopic inguinal hernioplasty: a randomized controlled trial | springermedizin.de, hämtad oktober 3, 2025, https://www.springermedizin.de/the-effect-of-intraoperative-lidocaine-infusion-on-opioid-consum/18046554
+      11. www.researchgate.net, hämtad oktober 3, 2025, https://www.researchgate.net/publication/366928154_Intraoperative_Intravenous_Infusion_of_Esmketamine_Has_Opioid-Sparing_Effect_and_Improves_the_Quality_of_Recovery_in_Patients_Undergoing_Thoracic_Surgery_A_Randomized_Double-Blind_Placebo-Controlled_C#:~:text=Conclusions%3A%20Intraoperative%20intravenous%20esketamine%20at,in%20patients%20undergoing%20thoracic%20surgery.
+      12. The effect on post-operative pain of intravenous clonidine given before induction of anaesthesia - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/232535799_The_effect_on_post-operative_pain_of_intravenous_clonidine_given_before_induction_of_anaesthesia
+      13. The effect on post-operative pain of intravenous clonidine given before induction of anaesthesia - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC3469914/
+      14. Effect of preoperative administration of systemic alpha-2 agonists on postoperative pain: a systematic review and meta-analysis - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC7713826/
+      15. DRopEridol for Abdominal pain in the emergency department for Morphine Equivalent Reduction. The DREAMER study - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/39798184/
+      16. Opioid Equivalency - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK535402/
+      17. Opioid Oral Morphine Milligram Equivalent (MME) Conversion Factorsi,ii - Utah.gov, hämtad oktober 3, 2025, https://medicaid-documents.dhhs.utah.gov/Documents/files/Opioid-Morphine-EQ-Conversion-Factors.pdf
+      18. Alfentanil - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK470456/
+      19. Rational Opioid Selection - Medic's Corner, hämtad oktober 3, 2025, http://www.jvsmedicscorner.com/Anaesth-Pharmacology_files/Pharmacokinetics,%20Pharmacodynamics,%20and%20Rational%20opioid%20selection.10.pdf
+      20. Remifentanil: Pharmacokinetics, Pharmacodynamics, and Current Clinical Applications, hämtad oktober 3, 2025, https://clinmedjournals.org/articles/cmrcr/clinical-medical-reviews-and-case-reports-cmrcr-7-304.php?jid=cmrcr
+      21. Measured context-sensitive half-times of remifentanil and alfentanil - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/7486182/
+      22. Fentanyl - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK459275/
+      23. Fentanyl - Wikipedia, hämtad oktober 3, 2025, https://en.wikipedia.org/wiki/Fentanyl
+      24. Pharmacokinetic–pharmacodynamic modelling in anaesthesia - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC4294078/
+      25. Pharmacokinetics of drug infusions - Oxford Academic, hämtad oktober 3, 2025, https://academic.oup.com/bjaed/article-pdf/4/3/76/825519/mkh021.pdf
+      26. Basic Pharmacologic Principles - NYSORA, hämtad oktober 3, 2025, https://www.nysora.com/anesthesia/basic-pharmacologic-principles/
+      27. Postoperative intravenous morphine titration | BJA: British Journal of Anaesthesia | Oxford Academic, hämtad oktober 3, 2025, https://academic.oup.com/bja/article/108/2/193/399723
+      28. Morphine - StatPearls - NCBI Bookshelf, hämtad oktober 3, 2025, https://www.ncbi.nlm.nih.gov/books/NBK526115/
+      29. Feasibility of using oxycodone as the sole opioid for induction and maintenance of general anaesthesia in minor/moderate surgery - NET, hämtad oktober 3, 2025, https://rcastoragev2.blob.core.windows.net/7b36ef9bc5e188a606715b371eceb513/PMC7570800.pdf
+      30. Pharmacokinetics of morphine and oxycodone following intravenous administration in elderly patients - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC2376067/
+      31. Oxycodone - Wikipedia, hämtad oktober 3, 2025, https://en.wikipedia.org/wiki/Oxycodone
+      32. Oxycodone is safe and effective for general anesthesia | Journal of Opioid Management, hämtad oktober 3, 2025, https://wmpllc.org/ojs/index.php/jom/article/view/1533
+      33. Comparison of the analgesic efficacy of oxycodone and fentanyl after dental surgery - Anesthesia and Pain Medicine, hämtad oktober 3, 2025, https://www.anesth-pain-med.org/journal/view.php?number=87
+      34. Pharmacokinetics of Intravenous Ibuprofen Implications of Time of Infusion in the Treatment of Pain and Fever - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/221816416_Pharmacokinetics_of_Intravenous_Ibuprofen_Implications_of_Time_of_Infusion_in_the_Treatment_of_Pain_and_Fever
+      35. Intravenous ibuprofen: the first injectable product for the treatment of pain and fever - PMC - PubMed Central, hämtad oktober 3, 2025, https://pmc.ncbi.nlm.nih.gov/articles/PMC3004645/
+      36. TORADOL (ketorolac tromethamine tablets) Rx only WARNING TORADOL (ketorolac tromethamine), a nonsteroidal anti-inflammatory drug - accessdata.fda.gov, hämtad oktober 3, 2025, https://www.accessdata.fda.gov/drugsatfda_docs/label/2013/019645s019lbl.pdf
+      37. Parecoxib - Wikipedia, hämtad oktober 3, 2025, https://en.wikipedia.org/wiki/Parecoxib
+      38. Parecoxib - Australian Prescriber - Therapeutic Guidelines, hämtad oktober 3, 2025, https://australianprescriber.tg.org.au/articles/parecoxib.html
+      39. Pharmacokinetics of betamethasone in healthy adults after intravenous administration, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/6662164/
+      40. Pharmacokinetics of Betamethasone After Single-Dose Intramuscular Administration of Betamethasone Phosphate and Betamethasone Acetate to Healthy Subjects | Request PDF - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/51864405_Pharmacokinetics_of_Betamethasone_After_Single-Dose_Intramuscular_Administration_of_Betamethasone_Phosphate_and_Betamethasone_Acetate_to_Healthy_Subjects
+      41. Duraclon (clonidine hydrochloride) injection, solution Bioniche Pharma USA LLC - accessdata.fda.gov, hämtad oktober 3, 2025, https://www.accessdata.fda.gov/drugsatfda_docs/label/2010/020615s003lbl.pdf
+      42. Clonidine: Uses, Interactions, Mechanism of Action | DrugBank Online, hämtad oktober 3, 2025, https://go.drugbank.com/drugs/DB00575
+      43. DROPERIDOL INJECTION USP - E-lactancia, hämtad oktober 3, 2025, https://e-lactancia.org/media/papers/Droperidol-DS-SandozCanada2010.pdf
+      44. Lidocaine infusión, basics and clinical issues - SciELO Colombia, hämtad oktober 3, 2025, http://www.scielo.org.co/scielo.php?script=sci_arttext&pid=S0120-33472022000200301
+      45. Pharmacokinetics and pharmacodynamics of lignocaine: A review, hämtad oktober 3, 2025, https://www.wjgnet.com/2218-6182/full/v4/i2/17.htm
+      46. Context-Sensitive Half-Times | Request PDF - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/publication/276964654_Context-Sensitive_Half-Times
+      47. Pharmacology – Inhalant Anesthetics, hämtad oktober 3, 2025, https://www.westernu.edu/mediafiles/veterinary/vet-anesthesia-analgesia/pharmacology-inhalant-anesthetics.pdf
+      48. Drug interactions: volatile anesthetics and opioids - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/9278850/
+      49. Maximum reduction in the sevoflurane minimum alveolar concentration... | Download Scientific Diagram - ResearchGate, hämtad oktober 3, 2025, https://www.researchgate.net/figure/Maximum-reduction-in-the-sevoflurane-minimum-alveolar-concentration-MAC-produced-by_fig2_228102133
+      50. Opioid tolerance blunts the reduction in the sevoflurane minimum alveolar concentration produced by remifentanil in the rat - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/19352151/
+      51. Inhaled Anesthetics - NYSORA, hämtad oktober 3, 2025, https://www.nysora.com/anesthesia/inhaled-anesthetics/
+      52. Theoretical context-sensitive elimination times for inhalation anaesthetics - Oxford Academic, hämtad oktober 3, 2025, https://academic.oup.com/bja/article/104/5/648/310520
+      53. Sevoflurane: Uses, Interactions, Mechanism of Action | DrugBank Online, hämtad oktober 3, 2025, https://go.drugbank.com/drugs/DB01236
+      54. Theoretical context-sensitive elimination times for inhalation anaesthetics - PubMed, hämtad oktober 3, 2025, https://pubmed.ncbi.nlm.nih.gov/20233751/
+      55. Medications - SGNA, hämtad oktober 3, 2025, https://www.sgna.org/Practice-Resources/GI-Nurse-Sedation/Medications
+      56. Sevoflurane - Wikipedia, hämtad oktober 3, 2025, https://en.wikipedia.org/wiki/Sevoflurane
