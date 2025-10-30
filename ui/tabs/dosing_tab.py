@@ -218,195 +218,195 @@ def render_dosing_tab(specialties, procedures_df):
     # Full-width sections for recommendation and logging
     st.subheader("💡 Dosrekommendation")
 
-        if st.button("🧮 Beräkna Rekommendation", type="primary", use_container_width=True):
-            current_inputs = get_current_inputs(procedures_df)
-            # Get temporal doses from session state
-            temporal_doses = st.session_state.get('temporal_doses', [])
-            regel_calc = calculate_rule_based_dose(current_inputs, procedures_df, temporal_doses)
-            regel_dose = regel_calc.get('finalDose', 0.0)
+    if st.button("🧮 Beräkna Rekommendation", type="primary", use_container_width=True):
+        current_inputs = get_current_inputs(procedures_df)
+        # Get temporal doses from session state
+        temporal_doses = st.session_state.get('temporal_doses', [])
+        regel_calc = calculate_rule_based_dose(current_inputs, procedures_df, temporal_doses)
+        regel_dose = regel_calc.get('finalDose', 0.0)
 
-            all_cases = db.get_all_cases()
-            cases_df_ml = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
-            num_proc_cases = 0
-            if not cases_df_ml.empty and 'procedure_id' in cases_df_ml.columns and current_inputs.get('procedure_id'):
-                num_proc_cases = len(cases_df_ml[cases_df_ml['procedure_id'] == current_inputs['procedure_id']])
+        all_cases = db.get_all_cases()
+        cases_df_ml = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
+        num_proc_cases = 0
+        if not cases_df_ml.empty and 'procedure_id' in cases_df_ml.columns and current_inputs.get('procedure_id'):
+            num_proc_cases = len(cases_df_ml[cases_df_ml['procedure_id'] == current_inputs['procedure_id']])
 
-            if num_proc_cases >= APP_CONFIG['ML_THRESHOLD_PER_PROCEDURE']:
-                # Add temporal doses to current_inputs for ML
-                current_inputs['temporal_doses'] = temporal_doses
-                xgb_calc = predict_with_xgboost(current_inputs, procedures_df)
-                xgb_dose = xgb_calc.get('finalDose', 0.0)
+        if num_proc_cases >= APP_CONFIG['ML_THRESHOLD_PER_PROCEDURE']:
+            # Add temporal doses to current_inputs for ML
+            current_inputs['temporal_doses'] = temporal_doses
+            xgb_calc = predict_with_xgboost(current_inputs, procedures_df)
+            xgb_dose = xgb_calc.get('finalDose', 0.0)
 
-                weight_xgb = min(1.0, num_proc_cases / 50)
-                ensemble_dose = regel_dose * (1 - weight_xgb) + xgb_dose * weight_xgb
-                ensemble_dose = round(ensemble_dose / 0.25) * 0.25
+            weight_xgb = min(1.0, num_proc_cases / 50)
+            ensemble_dose = regel_dose * (1 - weight_xgb) + xgb_dose * weight_xgb
+            ensemble_dose = round(ensemble_dose / 0.25) * 0.25
 
-                st.session_state.current_calculation = xgb_calc.copy()
-                st.session_state.current_calculation['finalDose'] = ensemble_dose
-                st.session_state.current_calculation['engine'] = f"Ensemble (XGBoost {int(weight_xgb*100)}% + Regel {int((1-weight_xgb)*100)}%)"
-            else:
-                st.session_state.current_calculation = regel_calc
+            st.session_state.current_calculation = xgb_calc.copy()
+            st.session_state.current_calculation['finalDose'] = ensemble_dose
+            st.session_state.current_calculation['engine'] = f"Ensemble (XGBoost {int(weight_xgb*100)}% + Regel {int((1-weight_xgb)*100)}%)"
+        else:
+            st.session_state.current_calculation = regel_calc
 
-        if st.session_state.current_calculation:
-            calc = st.session_state.current_calculation
-            final_dose = calc.get('finalDose', 0.0)
-            engine = calc.get('engine', "Väntar på beräkning...")
+    if st.session_state.current_calculation:
+        calc = st.session_state.current_calculation
+        final_dose = calc.get('finalDose', 0.0)
+        engine = calc.get('engine', "Väntar på beräkning...")
 
-            current_inputs = get_current_inputs(procedures_df)
-            all_cases = db.get_all_cases()
-            cases_df_confidence = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
+        current_inputs = get_current_inputs(procedures_df)
+        all_cases = db.get_all_cases()
+        cases_df_confidence = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
 
-            num_total_cases = len(cases_df_confidence) if not cases_df_confidence.empty else 0
-            num_proc_cases = 0
-            if not cases_df_confidence.empty and 'procedure_id' in cases_df_confidence.columns:
-                proc_cases_df = cases_df_confidence[cases_df_confidence['procedure_id'] == current_inputs['procedure_id']]
-                num_proc_cases = len(proc_cases_df)
+        num_total_cases = len(cases_df_confidence) if not cases_df_confidence.empty else 0
+        num_proc_cases = 0
+        if not cases_df_confidence.empty and 'procedure_id' in cases_df_confidence.columns:
+            proc_cases_df = cases_df_confidence[cases_df_confidence['procedure_id'] == current_inputs['procedure_id']]
+            num_proc_cases = len(proc_cases_df)
 
-            user_id = auth.get_current_user_id()
-            composite_key = calc.get('compositeKey', '')
-            calibration_factor = db.get_calibration_factor(user_id, composite_key) if composite_key else 1.0
+        user_id = auth.get_current_user_id()
+        composite_key = calc.get('compositeKey', '')
+        calibration_factor = db.get_calibration_factor(user_id, composite_key) if composite_key else 1.0
 
-            low_confidence = (num_proc_cases < 3 and abs(calibration_factor - 1.0) < 0.1) or num_total_cases < 5
+        low_confidence = (num_proc_cases < 3 and abs(calibration_factor - 1.0) < 0.1) or num_total_cases < 5
 
-            procedure_id = current_inputs.get('procedure_id')
+        procedure_id = current_inputs.get('procedure_id')
 
-            # Validate recommended dose (only for perioperative starting dose)
-            is_safe, severity, validation_msg = validate_recommended_dose(final_dose)
+        # Validate recommended dose (only for perioperative starting dose)
+        is_safe, severity, validation_msg = validate_recommended_dose(final_dose)
 
-            info_lines = []
-            info_lines.append(f"### 💡 Förslag: {final_dose} mg ({engine})")
-            info_lines.append("⚙️ **Använd som utgångspunkt** och justera efter klinisk bedömning.")
+        info_lines = []
+        info_lines.append(f"### 💡 Förslag: {final_dose} mg ({engine})")
+        info_lines.append("⚙️ **Använd som utgångspunkt** och justera efter klinisk bedömning.")
 
-            # Show validation warning if dose is high
-            if severity == 'WARNING':
-                info_lines.append(f"\n{validation_msg}")
+        # Show validation warning if dose is high
+        if severity == 'WARNING':
+            info_lines.append(f"\n{validation_msg}")
 
-            if current_inputs['weight'] > 0 and current_inputs['height'] > 0:
-                from calculation_engine import calculate_bmi
-                bmi = calculate_bmi(current_inputs['weight'], current_inputs['height'])
-                ibw = calc.get('ibw')
-                abw = calc.get('abw')
-                actual_weight = calc.get('actual_weight')
+        if current_inputs['weight'] > 0 and current_inputs['height'] > 0:
+            from calculation_engine import calculate_bmi
+            bmi = calculate_bmi(current_inputs['weight'], current_inputs['height'])
+            ibw = calc.get('ibw')
+            abw = calc.get('abw')
+            actual_weight = calc.get('actual_weight')
 
-                info_lines.append(f"**BMI:** {bmi:.1f} kg/m²")
+            info_lines.append(f"**BMI:** {bmi:.1f} kg/m²")
 
-                if ibw and abw and actual_weight:
-                    info_lines.append(f"**IBW:** {ibw:.1f} kg")
-                    if abw < actual_weight:
-                        info_lines.append(f"**ABW:** {abw:.1f} kg (används för dosering)")
-                    else:
-                        info_lines.append(f"**Aktuell vikt** används för dosering")
+            if ibw and abw and actual_weight:
+                info_lines.append(f"**IBW:** {ibw:.1f} kg")
+                if abw < actual_weight:
+                    info_lines.append(f"**ABW:** {abw:.1f} kg (används för dosering)")
+                else:
+                    info_lines.append(f"**Aktuell vikt** används för dosering")
 
-            if procedure_id:
-                proc_data = procedures_df[procedures_df['id'] == procedure_id]
-                if not proc_data.empty:
-                    pain_score = float(proc_data.iloc[0].get('painTypeScore', 5))
-                    pain_type_desc = "Visceral" if pain_score <= 3 else ("Somatisk" if pain_score >= 7 else "Blandad")
-                    pain_emoji = "🔵" if pain_score <= 3 else ("🔴" if pain_score >= 7 else "🟣")
-                    info_lines.append(f"{pain_emoji} **Smärttyp:** {pain_type_desc} ({pain_score:.0f}/10)")
+        if procedure_id:
+            proc_data = procedures_df[procedures_df['id'] == procedure_id]
+            if not proc_data.empty:
+                pain_score = float(proc_data.iloc[0].get('painTypeScore', 5))
+                pain_type_desc = "Visceral" if pain_score <= 3 else ("Somatisk" if pain_score >= 7 else "Blandad")
+                pain_emoji = "🔵" if pain_score <= 3 else ("🔴" if pain_score >= 7 else "🟣")
+                info_lines.append(f"{pain_emoji} **Smärttyp:** {pain_type_desc} ({pain_score:.0f}/10)")
 
-            st.info("\n".join(info_lines))
+        st.info("\n".join(info_lines))
 
-            if low_confidence:
-                st.warning("⚠️ **Låg konfidiens** - Använd kliniskt omdömme!")
-                st.caption(f"📊 Detta ingrepp har endast **{num_proc_cases}** loggade fall. Systemet kan inte ge en tillförlitlig dosrekommendation ännu. Vi uppmuntrar dig starkt att logga given dos och utfall så att algoritmerna kan lära sig och förbättras för framtida fall!")
-            else:
-                if num_proc_cases < 10:
-                    st.caption(f"ℹ️ Baserad på {num_proc_cases} tidigare fall för detta ingrepp")
+        if low_confidence:
+            st.warning("⚠️ **Låg konfidiens** - Använd kliniskt omdömme!")
+            st.caption(f"📊 Detta ingrepp har endast **{num_proc_cases}** loggade fall. Systemet kan inte ge en tillförlitlig dosrekommendation ännu. Vi uppmuntrar dig starkt att logga given dos och utfall så att algoritmerna kan lära sig och förbättras för framtida fall!")
+        else:
+            if num_proc_cases < 10:
+                st.caption(f"ℹ️ Baserad på {num_proc_cases} tidigare fall för detta ingrepp")
 
-            if current_inputs['weight'] > 0 and current_inputs['height'] > 0:
-                from calculation_engine import calculate_bmi
-                bmi = calculate_bmi(current_inputs['weight'], current_inputs['height'])
+        if current_inputs['weight'] > 0 and current_inputs['height'] > 0:
+            from calculation_engine import calculate_bmi
+            bmi = calculate_bmi(current_inputs['weight'], current_inputs['height'])
 
-                bmi_warnings = []
-                if bmi < 18.5:
-                    bmi_warnings.append("⚠️ Undervikt - risk för förlängd effekt och ökad känslighet")
-                elif bmi >= 30 and bmi < 35:
-                    bmi_warnings.append("⚠️ Fetma grad I - övervaka noga")
-                elif bmi >= 35 and bmi < 40:
-                    bmi_warnings.append("⚠️ Fetma grad II - risk för förlängd effekt och andningsdepression")
-                elif bmi >= 40:
-                    bmi_warnings.append("⚠️ Fetma grad III - hög risk, överväg dosreduktion")
+            bmi_warnings = []
+            if bmi < 18.5:
+                bmi_warnings.append("⚠️ Undervikt - risk för förlängd effekt och ökad känslighet")
+            elif bmi >= 30 and bmi < 35:
+                bmi_warnings.append("⚠️ Fetma grad I - övervaka noga")
+            elif bmi >= 35 and bmi < 40:
+                bmi_warnings.append("⚠️ Fetma grad II - risk för förlängd effekt och andningsdepression")
+            elif bmi >= 40:
+                bmi_warnings.append("⚠️ Fetma grad III - hög risk, överväg dosreduktion")
 
-                if current_inputs['age'] > 75 and final_dose > 10:
-                    bmi_warnings.append("⚠️ Hög dos för patient >75 år")
+            if current_inputs['age'] > 75 and final_dose > 10:
+                bmi_warnings.append("⚠️ Hög dos för patient >75 år")
 
-                if bmi_warnings:
-                    for warning in bmi_warnings:
-                        st.warning(warning)
+            if bmi_warnings:
+                for warning in bmi_warnings:
+                    st.warning(warning)
 
-            if 'feature_importance' in calc and calc['feature_importance'] is not None:
-                with st.expander("🔬 Feature Importance - Vilka faktorer påverkar mest?"):
-                    feat_imp = calc['feature_importance'].head(10)
-                    st.markdown("**Top 10 viktigaste faktorer för denna dos:**")
-                    st.bar_chart(feat_imp.set_index('feature')['importance'])
-                    st.caption("Högre värde = större påverkan på dosrekommendationen")
+        if 'feature_importance' in calc and calc['feature_importance'] is not None:
+            with st.expander("🔬 Feature Importance - Vilka faktorer påverkar mest?"):
+                feat_imp = calc['feature_importance'].head(10)
+                st.markdown("**Top 10 viktigaste faktorer för denna dos:**")
+                st.bar_chart(feat_imp.set_index('feature')['importance'])
+                st.caption("Högre värde = större påverkan på dosrekommendationen")
         else:
             st.info("Fyll i data och klicka på 'Beräkna Rekommendation'.")
 
     st.subheader("📈 Logga Utfall")
-        if st.session_state.current_calculation:
-            calc = st.session_state.current_calculation
-            current_inputs = get_current_inputs(procedures_df)
-            all_cases = db.get_all_cases()
-            cases_df_log = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
+    if st.session_state.current_calculation:
+        calc = st.session_state.current_calculation
+        current_inputs = get_current_inputs(procedures_df)
+        all_cases = db.get_all_cases()
+        cases_df_log = pd.DataFrame(all_cases) if all_cases else pd.DataFrame()
 
-            num_total_cases = len(cases_df_log) if not cases_df_log.empty else 0
-            num_proc_cases = 0
-            if not cases_df_log.empty and 'procedure_id' in cases_df_log.columns:
-                proc_cases = cases_df_log[cases_df_log['procedure_id'] == current_inputs['procedure_id']]
-                num_proc_cases = len(proc_cases)
+        num_total_cases = len(cases_df_log) if not cases_df_log.empty else 0
+        num_proc_cases = 0
+        if not cases_df_log.empty and 'procedure_id' in cases_df_log.columns:
+            proc_cases = cases_df_log[cases_df_log['procedure_id'] == current_inputs['procedure_id']]
+            num_proc_cases = len(proc_cases)
 
-            user_id = auth.get_current_user_id()
-            composite_key = calc.get('compositeKey', '')
-            calibration_factor = db.get_calibration_factor(user_id, composite_key) if composite_key else 1.0
-            low_confidence = (num_proc_cases < 3 and abs(calibration_factor - 1.0) < 0.1) or num_total_cases < 5
+        user_id = auth.get_current_user_id()
+        composite_key = calc.get('compositeKey', '')
+        calibration_factor = db.get_calibration_factor(user_id, composite_key) if composite_key else 1.0
+        low_confidence = (num_proc_cases < 3 and abs(calibration_factor - 1.0) < 0.1) or num_total_cases < 5
 
-            if low_confidence:
-                st.success("✨ **Ditt bidrag är särskilt värdefullt!** Genom att logga detta fall hjälper du systemet att lära sig och ge bättre rekommendationer nästa gång.")
+        if low_confidence:
+            st.success("✨ **Ditt bidrag är särskilt värdefullt!** Genom att logga detta fall hjälper du systemet att lära sig och ge bättre rekommendationer nästa gång.")
 
-            final_dose = st.session_state.current_calculation.get('finalDose', 0.0)
-            st.number_input("Administrerad dos Oxycodon (mg)", min_value=0.0, step=0.25, key='givenDose', value=final_dose, format="%.2f")
+        final_dose = st.session_state.current_calculation.get('finalDose', 0.0)
+        st.number_input("Administrerad dos Oxycodon (mg)", min_value=0.0, step=0.25, key='givenDose', value=final_dose, format="%.2f")
 
-            st.button("💾 Spara Fall (initial)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
-                     help="Spara fallet direkt efter administrerad dos - du kan redigera och lägga till utfall senare")
+        st.button("💾 Spara Fall (initial)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
+                 help="Spara fallet direkt efter administrerad dos - du kan redigera och lägga till utfall senare")
 
-            st.divider()
-            st.markdown("**Postoperativa data (lägg till senare):**")
+        st.divider()
+        st.markdown("**Postoperativa data (lägg till senare):**")
 
-            st.slider("Högsta VAS under första timmen (UVA)", 0, 10, 3, key='vas')
-            st.number_input("Extra dos given på UVA första timmen (mg)", min_value=0.0, step=0.25, key='uvaDose',
-                          help="Endast rescue-doser inom den första timmen efter väckning räknas som underdosering. Doser givna senare är normal smärtbehandling.")
+        st.slider("Högsta VAS under första timmen (UVA)", 0, 10, 3, key='vas')
+        st.number_input("Extra dos given på UVA första timmen (mg)", min_value=0.0, step=0.25, key='uvaDose',
+                      help="Endast rescue-doser inom den första timmen efter väckning räknas som underdosering. Doser givna senare är normal smärtbehandling.")
 
-            st.write("**När gavs rescue-doser? (hjälper modellen skilja fentanyl-svans från grunddos)**")
-            rescue_timing_cols = st.columns(2)
-            rescue_timing_cols[0].checkbox("Rescue <30 min (tidig smärta = kort fentanylsvans)", key='rescue_early')
-            rescue_timing_cols[1].checkbox("Rescue >30 min (sen smärta = för låg grunddos)", key='rescue_late')
+        st.write("**När gavs rescue-doser? (hjälper modellen skilja fentanyl-svans från grunddos)**")
+        rescue_timing_cols = st.columns(2)
+        rescue_timing_cols[0].checkbox("Rescue <30 min (tidig smärta = kort fentanylsvans)", key='rescue_early')
+        rescue_timing_cols[1].checkbox("Rescue >30 min (sen smärta = för låg grunddos)", key='rescue_late')
 
-            postop_cols = st.columns(2)
-            postop_cols[0].number_input("Post-op tid (timmar)", 0, 48, 0, 1, key='postop_hours', help="Tid på postop i timmar")
-            postop_cols[1].number_input("Post-op tid (min)", 0, 55, 0, 5, key='postop_minutes', help="Tid på postop i minuter (5 min steg)")
+        postop_cols = st.columns(2)
+        postop_cols[0].number_input("Post-op tid (timmar)", 0, 48, 0, 1, key='postop_hours', help="Tid på postop i timmar")
+        postop_cols[1].number_input("Post-op tid (min)", 0, 55, 0, 5, key='postop_minutes', help="Tid på postop i minuter (5 min steg)")
 
-            st.selectbox(
-                "Orsak till post-op tid",
-                ["Normal återhämtning", "Andningspåverkan/trötthet (för hög dos)", "Klinisk rutin (t.ex. blödningsrisk)", "Smärtgenombrott/redosering (för låg dos)"],
-                key='postop_reason',
-                help="Ange orsak till post-op tid - hjälper maskininlärningen att optimera dosen korrekt"
-            )
+        st.selectbox(
+            "Orsak till post-op tid",
+            ["Normal återhämtning", "Andningspåverkan/trötthet (för hög dos)", "Klinisk rutin (t.ex. blödningsrisk)", "Smärtgenombrott/redosering (för låg dos)"],
+            key='postop_reason',
+            help="Ange orsak till post-op tid - hjälper maskininlärningen att optimera dosen korrekt"
+        )
 
-            st.write("**Postoperativ vakenhetsnivå:**")
-            respiratory = st.radio(
-                "",
-                ["vaken", "trött", "sederad väckbar", "sederad djupt", "naturlig sömn"],
-                index=0,
-                key='respiratory_status',
-                help="Postoperativ medvetandegrad",
-                label_visibility="collapsed"
-            )
+        st.write("**Postoperativ vakenhetsnivå:**")
+        respiratory = st.radio(
+            "",
+            ["vaken", "trött", "sederad väckbar", "sederad djupt", "naturlig sömn"],
+            index=0,
+            key='respiratory_status',
+            help="Postoperativ medvetandegrad",
+            label_visibility="collapsed"
+        )
 
-            st.checkbox("Grav trötthet", key='severe_fatigue', help="Tecken på för mycket catapressan eller droperidol")
+        st.checkbox("Grav trötthet", key='severe_fatigue', help="Tecken på för mycket catapressan eller droperidol")
 
-            st.button("✅ Uppdatera Fall (komplett)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
-                     help="Uppdatera fallet med kompletta postoperativa data")
-        else:
-            st.info("Beräkna en dos för att kunna logga ett utfall.")
+        st.button("✅ Uppdatera Fall (komplett)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
+                 help="Uppdatera fallet med kompletta postoperativa data")
+    else:
+        st.info("Beräkna en dos för att kunna logga ett utfall.")
