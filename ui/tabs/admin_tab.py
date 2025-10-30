@@ -1,6 +1,9 @@
 import streamlit as st
 import database as db
 import auth
+import database_backup
+import json
+from datetime import datetime
 from config import APP_CONFIG
 
 def render_admin_tab():
@@ -251,6 +254,122 @@ def render_admin_tab():
 
         with col_stat4:
             st.metric("Custom-ingrepp", len(custom_procs))
+
+        st.divider()
+
+        # Backup & Restore Section
+        st.markdown("### 💾 Backup & Återställning")
+        st.caption("Säkerhetskopiera databasen för att bevara data vid app-omstart på Streamlit Cloud")
+
+        # Get backup info
+        backup_info = database_backup.get_backup_info()
+
+        col_backup1, col_backup2 = st.columns(2)
+
+        with col_backup1:
+            st.markdown("#### 📥 Aktuell Backup")
+            if backup_info["exists"]:
+                st.success("✅ Backup finns")
+                st.caption(f"**Skapad:** {backup_info['timestamp']}")
+                st.caption(f"**Innehåll:** {backup_info['num_cases']} fall, {backup_info['num_users']} användare")
+            else:
+                st.warning("⚠️ Ingen backup hittades")
+                st.caption("Skapa första backup genom att klicka nedan")
+
+        with col_backup2:
+            st.markdown("#### 🔄 Snabbåtgärder")
+
+            # Create backup button
+            if st.button("💾 Skapa Backup Nu", type="primary", use_container_width=True):
+                with st.spinner("Skapar backup..."):
+                    success = database_backup.auto_backup()
+                    if success:
+                        st.success("✅ Backup skapad!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Backup misslyckades")
+
+            # Manual restore button (with warning)
+            if st.button("♻️ Återställ från Backup", use_container_width=True, help="⚠️ Varning: Ersätter nuvarande data"):
+                st.session_state.show_restore_confirm = True
+
+            # Restore confirmation dialog
+            if st.session_state.get('show_restore_confirm', False):
+                st.warning("⚠️ **VARNING:** Detta kommer ersätta all nuvarande data med backup!")
+                col_confirm1, col_confirm2 = st.columns(2)
+
+                with col_confirm1:
+                    if st.button("✅ JA, Återställ", type="primary"):
+                        with st.spinner("Återställer från backup..."):
+                            backup_data = database_backup.load_backup_from_file()
+                            if backup_data:
+                                success = database_backup.import_database_from_json(backup_data)
+                                if success:
+                                    st.success("✅ Databas återställd!")
+                                    st.session_state.show_restore_confirm = False
+                                    st.rerun()
+                                else:
+                                    st.error("❌ Återställning misslyckades")
+                            else:
+                                st.error("❌ Kunde inte läsa backup-fil")
+
+                with col_confirm2:
+                    if st.button("❌ Avbryt"):
+                        st.session_state.show_restore_confirm = False
+                        st.rerun()
+
+        st.divider()
+
+        # Download/Upload backup files
+        st.markdown("### 📤 Export/Import Backup-fil")
+        st.caption("Ladda ner backup för säker förvaring eller ladda upp tidigare backup")
+
+        col_export1, col_export2 = st.columns(2)
+
+        with col_export1:
+            st.markdown("#### ⬇️ Ladda ner Backup")
+
+            if st.button("📥 Exportera Backup (JSON)", use_container_width=True):
+                backup_data = database_backup.export_database_to_json()
+                if backup_data:
+                    # Convert to JSON string
+                    json_str = json.dumps(backup_data, indent=2, ensure_ascii=False)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+                    st.download_button(
+                        label="💾 Ladda ner backup.json",
+                        data=json_str,
+                        file_name=f"anestesi_backup_{timestamp}.json",
+                        mime="application/json",
+                        use_container_width=True
+                    )
+                    st.success("✅ Backup redo för nedladdning!")
+                else:
+                    st.error("❌ Kunde inte skapa backup")
+
+        with col_export2:
+            st.markdown("#### ⬆️ Ladda upp Backup")
+
+            uploaded_file = st.file_uploader(
+                "Välj backup-fil (JSON)",
+                type=['json'],
+                key='backup_upload',
+                help="Ladda upp tidigare exporterad backup-fil"
+            )
+
+            if uploaded_file is not None:
+                if st.button("📤 Importera Backup", type="primary", use_container_width=True):
+                    try:
+                        backup_data = json.load(uploaded_file)
+                        with st.spinner("Importerar backup..."):
+                            success = database_backup.import_database_from_json(backup_data)
+                            if success:
+                                st.success("✅ Backup importerad!")
+                                st.rerun()
+                            else:
+                                st.error("❌ Import misslyckades")
+                    except Exception as e:
+                        st.error(f"❌ Fel vid läsning av fil: {e}")
 
         st.divider()
 

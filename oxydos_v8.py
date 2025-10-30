@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # Import våra nya moduler
 import database as db
 import auth
+import database_backup
 from ui.main_layout import render_main_layout
 from callbacks import get_current_inputs, handle_save_and_learn
 from migrations import run_migrations
@@ -49,6 +50,13 @@ def initialize_session():
             # Run migrations and add indexes
             run_migrations()
             logger.info("Migrations completed")
+
+            # Auto-restore from backup if database is empty
+            restore_performed = database_backup.auto_restore()
+            if restore_performed:
+                logger.info("Database restored from backup")
+            else:
+                logger.info("No restore needed or no backup available")
 
             # Initialize admin user
             auth.initialize_admin()

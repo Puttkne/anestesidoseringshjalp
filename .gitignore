@@ -9,6 +9,10 @@ anestesi.db
 anesthesia_dosing.db
 database.json
 
+# IMPORTANT: database_backup.json is NOT ignored - it should be committed to GitHub
+# This allows Streamlit Cloud to restore data after reboot
+# database_backup.json does NOT contain sensitive local data
+
 # Python
 __pycache__/
 *.py[cod]
