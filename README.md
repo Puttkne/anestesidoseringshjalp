@@ -17,21 +17,26 @@ Version 7 introducerar ett revolutionerande interpolationssystem för ålder och
 
 ## Innehållsförteckning
 1.  [Systemarkitektur](#systemarkitektur)
-2.  [Användargränssnittet (UI) - Detaljerad Genomgång](#användargränssnittet-ui---detaljerad-genomgång)
-3.  [Regelbaserade Beräkningsmotorn - Steg för Steg](#regelbaserade-beräkningsmotorn---steg-för-steg)
+2.  [Databashantering & Backup](#databashantering--backup) **⭐ NYTT!**
+    *   [Hur Backup-systemet Fungerar](#hur-backup-systemet-fungerar)
+    *   [Skapa och Hantera Backups](#skapa-och-hantera-backups)
+    *   [Återställning från Backup](#återställning-från-backup)
+    *   [Utvecklingsworkflow med Git](#utvecklingsworkflow-med-git)
+3.  [Användargränssnittet (UI) - Detaljerad Genomgång](#användargränssnittet-ui---detaljerad-genomgång)
+4.  [Regelbaserade Beräkningsmotorn - Steg för Steg](#regelbaserade-beräkningsmotorn---steg-för-steg)
     *   [Exempelberäkning](#exempelberäkning)
-4.  [Inlärningssystemet - Back-Calculation i Detalj](#inlärningssystemet---back-calculation-i-detalj)
+5.  [Inlärningssystemet - Back-Calculation i Detalj](#inlärningssystemet---back-calculation-i-detalj)
     *   [Steg 1: Beräkna Faktiskt Behov (`calculate_actual_requirement`)](#steg-1-beräkna-faktiskt-behov-calculate_actual_requirement)
     *   [Steg 2: Fördela Prediktionsfelet](#steg-2-fördela-prediktionsfelet)
-5.  [XGBoost ML-Modell - Under Huven](#xgboost-ml-modell---under-huven)
+6.  [XGBoost ML-Modell - Under Huven](#xgboost-ml-modell---under-huven)
     *   [Vad är Gradient Boosting?](#vad-är-gradient-boosting)
     *   [Mål-sökande Iteration i Praktiken](#mål-sökande-iteration-i-praktiken)
     *   [Exempel på Funktionsteknik (Feature Engineering)](#exempel-på-funktionsteknik-feature-engineering)
-6.  [Djupdykning: Ålder och Vikt - Interpolationssystem (NYA!)](#djupdykning-ålder-och-vikt---interpolationssystem)
+7.  [Djupdykning: Ålder och Vikt - Interpolationssystem (NYA!)](#djupdykning-ålder-och-vikt---interpolationssystem)
     *   [Åldershantering: Finkorning med Interpolation](#åldershantering-finkorning-med-interpolation)
     *   [Vikthantering: Varje Kilo Räknas](#vikthantering-varje-kilo-räknas)
     *   [Hur Interpolation Fungerar](#hur-interpolation-fungerar)
-7.  [Kärnkomponenter och Datastrukturer](#kärnkomponenter-och-datastrukturer)
+8.  [Kärnkomponenter och Datastrukturer](#kärnkomponenter-och-datastrukturer)
     *   [3D Smärtprofilen](#3d-smärtprofilen)
     *   [4D Kroppssammansättning](#4d-kroppssammansättning)
     *   [Globala Lärandeparametrar](#globala-lärandeparametrar)
@@ -47,6 +52,357 @@ Applikationen är byggd i Python med **Streamlit** som webb-ramverk. Den består
 2.  **XGBoost ML-Modell (`ml_model.py`):** En maskininlärningsmodell (Extrem Gradient Boosting) som tränats på historisk data. Den är inte direkt kopplad till det regelbaserade inlärningssystemet, utan måste träna om från grunden på den ackumulerade datan i databasen för att uppdateras. Den fungerar som en oberoende "second opinion".
 
 Data lagras i en **SQLite-databas (`anestesi.db`)**, som hanteras via modulen `database.py`. All logik är separerad i moduler för att underlätta underhåll och utveckling.
+
+---
+
+## Databashantering & Backup
+
+**🆕 NYTT I VERSION 8:** Automatiskt backup- och återställningssystem för databaspersistens!
+
+### Problemet med Streamlit Cloud
+
+Streamlit Community Cloud använder **ephemeral (tillfällig) lagring**, vilket innebär:
+
+- ✅ **Data bevaras** när appen går i viloläge
+- ⚠️ **Data KAN FÖRLORAS** när appen omstartar eller redeployeras
+- 🔄 **Lösning:** Automatiskt backup-system med GitHub-integration
+
+### Hur Backup-systemet Fungerar
+
+Systemet använder **SQLite med automatisk JSON-backup** för att bevara data mellan omstarter:
+
+#### Arkitektur
+
+```
+Lokalt (utveckling):
+anestesi.db (SQLite) ─────► database_backup.json (JSON)
+     ↓                              ↓
+Patientdata                   Exporterad backup
+Kalibreringsfaktorer         (säker för GitHub)
+Användare
+Procedurer
+
+Streamlit Cloud (produktion):
+Startar med tom databas
+     ↓
+Upptäcker tom databas
+     ↓
+Återställer från database_backup.json (från GitHub)
+     ↓
+Fortsätter med bevarad data ✓
+```
+
+#### Säkerhetsfunktioner
+
+- 🔐 **Lösenord INTE i backup** - Endast användarnamn sparas, lösenord återskapas från Streamlit Secrets
+- ✅ **database.json skyddad** - Lokal databas med potentiellt känslig data går ALDRIG till GitHub
+- ✅ **database_backup.json säker** - Innehåller endast strukturerad data för återställning
+- 🔒 **Admin-kontroller** - Endast administratörer kan skapa/återställa backups
+
+### Skapa och Hantera Backups
+
+#### Första Gången (Initial Setup)
+
+1. **Deploya appen till Streamlit Cloud**
+2. **Logga in som admin**
+   - Användarnamn: `Blapa`
+   - Lösenord: `Flubber1`
+
+3. **Använd appen och logga några fall**
+   - Detta skapar initial data i databasen
+
+4. **Skapa första backupen:**
+   - Gå till **Admin-fliken** → **Systemstatus**
+   - Scrolla ner till **"Backup & Återställning"**
+   - Klicka **"💾 Skapa Backup Nu"**
+   - Vänta tills meddelandet "✅ Backup skapad!" visas
+
+5. **Commit backup till GitHub:**
+   ```bash
+   # I VS Code eller terminal
+   git add database_backup.json
+   git commit -m "Add initial database backup"
+   git push
+   ```
+
+6. **Nu är din data säker!** 🎉
+
+#### Regelbunden Backup (Rekommenderat)
+
+Skapa backups regelbundet, särskilt efter:
+- Att ha loggat många nya fall (t.ex. varje vecka)
+- Efter viktiga inställningsändringar i Admin-panelen
+- Före planerade uppdateringar av applikationen
+
+**Snabbprocess:**
+```bash
+# 1. Öppna appen → Admin → Skapa Backup Nu
+# 2. I terminal:
+git add database_backup.json
+git commit -m "Update database backup - $(date +%Y-%m-%d)"
+git push
+```
+
+#### Backup-information
+
+I Admin-panelen ser du:
+- ✅ **Backup Status** - Finns backup, när skapades den
+- 📊 **Innehåll** - Antal fall, användare, kalibreringsfaktorer
+- 📅 **Tidsstämpel** - Exakt när backupen skapades
+
+### Återställning från Backup
+
+#### Automatisk Återställning (Standard)
+
+När appen startar på Streamlit Cloud:
+
+```python
+# I oxydos_v8.py - initialize_session()
+restore_performed = database_backup.auto_restore()
+```
+
+**Logik:**
+1. Kollar om `anestesi.db` är tom (0 fall)
+2. Om tom: Leta efter `database_backup.json`
+3. Om backup finns: Återställ automatiskt alla data
+4. Om ingen backup: Starta med fresh database
+
+**Resultat:** Data bevaras automatiskt mellan omstarter! ✓
+
+#### Manuell Återställning
+
+Om du behöver återställa manuellt (t.ex. efter dataförlust):
+
+1. **Gå till Admin → Systemstatus → Backup & Återställning**
+2. **Klicka "♻️ Återställ från Backup"**
+3. **Bekräfta varningen** (detta ersätter nuvarande data!)
+4. **Vänta på "✅ Databas återställd!"**
+
+#### Återställning från Fil
+
+Om du har sparat en backup-fil lokalt:
+
+1. **Admin → Systemstatus → Export/Import Backup-fil**
+2. **Välj fil** under "⬆️ Ladda upp Backup"
+3. **Klicka "📤 Importera Backup"**
+4. **Vänta på import**
+
+### Export och Nedladdning
+
+#### Ladda ner Backup (Säker Förvaring)
+
+För att spara en kopia lokalt på din dator:
+
+1. **Admin → Systemstatus → Export/Import**
+2. **Klicka "📥 Exportera Backup (JSON)"**
+3. **Klicka "💾 Ladda ner backup.json"**
+4. **Spara filen** - Den får automatiskt tidsstämpel: `anestesi_backup_20251030_143022.json`
+
+**Användningsområden:**
+- Arkivering av historisk data
+- Migrering mellan installationer
+- Extra säkerhetskopiering utanför GitHub
+
+#### Backup-filformat
+
+```json
+{
+  "backup_timestamp": "2025-10-30T14:30:22.123456",
+  "version": "1.0",
+  "users": [
+    {
+      "id": 1,
+      "username": "Blapa",
+      "is_admin": 1,
+      "created_at": "2025-10-30T10:00:00"
+    }
+  ],
+  "cases": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "age": 45,
+      "weight": 75,
+      "procedure_id": "knee_arthroplasty",
+      "given_dose": 7.5,
+      "vas": 2,
+      ...
+    }
+  ],
+  "calibration_factors": [...],
+  "procedures": [...]
+}
+```
+
+### Utvecklingsworkflow med Git
+
+#### Daglig Utveckling
+
+```bash
+# 1. Gör kodändringar i VS Code
+# 2. Testa lokalt
+streamlit run oxydos_v8.py
+
+# 3. Commit kod (INTE database_backup.json om den inte ändrats)
+git add oxydos_v8.py calculation_engine.py
+git commit -m "Fix: Updated dose calculation logic"
+git push
+
+# 4. Streamlit Cloud auto-redeployar (2-3 min)
+```
+
+#### Efter Betydelsefull Dataändring
+
+```bash
+# 1. Använd appen, logga nya fall
+# 2. Skapa backup via Admin-panelen
+# 3. Commit backup
+git add database_backup.json
+git commit -m "Backup: Added 25 new cases"
+git push
+```
+
+#### Workflow-tips
+
+- ✅ **DO:** Commit `database_backup.json` efter datainsamling
+- ✅ **DO:** Skapa backup innan stora kodändringar
+- ❌ **DON'T:** Commit `anestesi.db` eller `database.json` (skyddade av `.gitignore`)
+- ❌ **DON'T:** Commit `.env` eller `secrets.toml` (innehåller lösenord)
+
+### Felsökning
+
+#### "Ingen backup hittades"
+
+**Problem:** Admin-panelen visar ingen backup.
+
+**Lösning:**
+```bash
+# Kontrollera om fil finns
+ls database_backup.json
+
+# Om den inte finns, skapa en:
+# 1. Öppna appen lokalt
+# 2. Admin → Skapa Backup Nu
+# 3. Commit och pusha
+```
+
+#### "Backup skapad men data försvann ändå"
+
+**Problem:** Backup skapades men committades inte till GitHub.
+
+**Lösning:**
+```bash
+# Kolla git status
+git status
+
+# Om database_backup.json är "modified" eller "untracked":
+git add database_backup.json
+git commit -m "Add database backup"
+git push
+
+# Nu kommer Streamlit Cloud ha tillgång till backupen
+```
+
+#### "Import från backup misslyckades"
+
+**Problem:** Felmeddelande vid återställning.
+
+**Möjliga orsaker:**
+1. Korrupt backup-fil
+2. Fel format
+3. Databaslåsning
+
+**Lösning:**
+```bash
+# 1. Kontrollera fil-format
+cat database_backup.json | head -20
+
+# 2. Verifiera JSON-syntax
+python -c "import json; json.load(open('database_backup.json'))"
+
+# 3. Om korrupt, använd tidigare backup eller skapa ny
+```
+
+### Avancerad Användning
+
+#### Automatisk Periodisk Backup (Framtida Feature)
+
+För att automatisera backups kan du sätta upp en GitHub Action:
+
+```yaml
+# .github/workflows/auto-backup.yml
+name: Scheduled Database Backup
+on:
+  schedule:
+    - cron: '0 2 * * 0'  # Varje söndag kl 02:00
+  workflow_dispatch:  # Manuell trigger
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Trigger backup via API
+        run: |
+          # Implementera backup-trigger
+          echo "Scheduled backup completed"
+```
+
+#### Migrering mellan Miljöer
+
+För att flytta data från lokal utveckling till produktion:
+
+1. **Lokalt:** Exportera backup via Admin-panelen
+2. **Ladda ner** backup-filen
+3. **Produktionsmiljö:** Importera backup via Admin-panelen
+4. **Verifiera** att all data finns
+
+#### Dataanalys från Backup
+
+Backupfilen är ren JSON och kan analyseras:
+
+```python
+import json
+import pandas as pd
+
+# Läs backup
+with open('database_backup.json', 'r') as f:
+    backup = json.load(f)
+
+# Analysera fall
+cases_df = pd.DataFrame(backup['cases'])
+print(f"Totalt antal fall: {len(cases_df)}")
+print(f"Genomsnittlig dos: {cases_df['given_dose'].mean():.2f} mg")
+print(f"Vanligaste ingrepp: {cases_df['procedure_id'].value_counts().head()}")
+```
+
+### Säkerhetsöverväganden
+
+#### Vad Sparas INTE i Backup
+
+- ❌ **Lösenordshashar** - Säkerhet först
+- ❌ **Sessionstokens** - Föråldras ändå
+- ❌ **Temporära cachade beräkningar**
+- ❌ **Loggfiler med potentiell känslig info**
+
+#### Vad Sparas i Backup
+
+- ✅ **Användarnamn** (inga lösenord)
+- ✅ **Patientfall** (ålder, vikt, doser, utfall)
+- ✅ **Kalibreringsfaktorer** (ML-lärandeparametrar)
+- ✅ **Procedurer** (kirurgiska ingrepp och metadata)
+
+#### GDPR-överväganden
+
+Backupfilen innehåller **inga personuppgifter** som kan identifiera patienter:
+- Inga personnummer
+- Inga namn
+- Inga adresser
+- Endast kliniska parametrar (ålder, vikt, doser, VAS-score)
+
+**Juridisk bedömning:** Ansvar ligger hos användaren att säkerställa att loggad data följer lokala dataskyddsregler.
+
+---
 
 ## Användargränssnittet (UI) - Detaljerad Genomgång
 
