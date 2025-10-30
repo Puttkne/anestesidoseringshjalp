@@ -1039,6 +1039,16 @@ def get_sex_factor(sex: str, default_factor: float) -> float:
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
+
+            # Ensure table exists (in case migrations didn't run)
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS learning_sex_factors (
+                    sex TEXT PRIMARY KEY,
+                    sex_factor REAL DEFAULT 1.0,
+                    num_observations INTEGER DEFAULT 0
+                )
+            ''')
+
             cursor.execute('''
                 SELECT sex_factor FROM learning_sex_factors
                 WHERE sex = ?
@@ -1047,10 +1057,13 @@ def get_sex_factor(sex: str, default_factor: float) -> float:
             return row['sex_factor'] if row else default_factor
     except sqlite3.IntegrityError as e:
         logger.error(f"Integrity error in get_sex_factor: {e}")
-        raise
+        return default_factor
+    except sqlite3.OperationalError as e:
+        logger.warning(f"Table issue in get_sex_factor: {e}, using default")
+        return default_factor
     except Exception as e:
         logger.error(f"Error in get_sex_factor: {e}")
-        raise
+        return default_factor
 
 def update_sex_factor(sex: str, default_factor: float, adjustment: float) -> float:
     """Uppdatera könsfaktor (GLOBAL för alla användare sedan v4)"""

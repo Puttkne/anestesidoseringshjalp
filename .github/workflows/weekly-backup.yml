@@ -1,0 +1,121 @@
+name: Weekly Database Backup
+
+on:
+  schedule:
+    # Runs every Friday at 18:00 UTC (19:00 CET in winter, 20:00 CEST in summer)
+    - cron: '0 18 * * 5'
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions tab
+
+jobs:
+  create-backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install streamlit pandas requests
+
+      - name: Trigger backup creation
+        run: |
+          echo "📅 Weekly automated backup triggered"
+          echo "🕐 Time: $(date)"
+
+          # The app needs to be running to create a backup
+          # This workflow will commit any existing backup changes
+
+          if [ -f "database_backup.json" ]; then
+            echo "✅ Backup file exists"
+            BACKUP_SIZE=$(stat -f%z "database_backup.json" 2>/dev/null || stat -c%s "database_backup.json" 2>/dev/null)
+            echo "📦 Backup size: $BACKUP_SIZE bytes"
+
+            # Get backup timestamp from file
+            BACKUP_DATE=$(python -c "import json; data=json.load(open('database_backup.json')); print(data.get('backup_timestamp', 'unknown'))" 2>/dev/null || echo "unknown")
+            echo "📅 Last backup: $BACKUP_DATE"
+          else
+            echo "⚠️ No backup file found"
+            echo "ℹ️ Please create initial backup via Admin panel in the app"
+          fi
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          if [ -f "database_backup.json" ]; then
+            git add database_backup.json
+
+            # Check if there are changes to commit
+            if git diff --cached --quiet; then
+              echo "NO_CHANGES=true" >> $GITHUB_OUTPUT
+              echo "ℹ️ No changes to backup file since last commit"
+            else
+              echo "NO_CHANGES=false" >> $GITHUB_OUTPUT
+              echo "✅ Backup file has changes"
+            fi
+          else
+            echo "NO_CHANGES=true" >> $GITHUB_OUTPUT
+            echo "⚠️ No backup file to commit"
+          fi
+
+      - name: Commit and push backup
+        if: steps.check_changes.outputs.NO_CHANGES == 'false'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          TIMESTAMP=$(date +"%Y-%m-%d %H:%M")
+          git commit -m "🤖 Automated weekly backup - $TIMESTAMP"
+          git push
+
+          echo "✅ Backup committed and pushed to GitHub"
+
+      - name: Summary
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📊 Weekly Backup Summary"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          if [ "${{ steps.check_changes.outputs.NO_CHANGES }}" == "false" ]; then
+            echo "✅ Status: Backup updated and committed"
+          else
+            echo "ℹ️ Status: No changes detected"
+          fi
+          echo "🕐 Completed: $(date)"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          echo ""
+          echo "💡 Note: This workflow commits existing backup changes."
+          echo "📝 To create a new backup, use the Admin panel in the app:"
+          echo "   Admin → System Status → Create Backup Now"
+
+      - name: Create issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '⚠️ Weekly Backup Failed - ' + new Date().toISOString().split('T')[0],
+              body: '## Automated Weekly Backup Failed\n\n' +
+                    '**Workflow:** Weekly Database Backup\n' +
+                    '**Run ID:** ' + context.runId + '\n' +
+                    '**Time:** ' + new Date().toLocaleString() + '\n\n' +
+                    '### Action Required\n' +
+                    '1. Check the [workflow run logs](' + context.payload.repository.html_url + '/actions/runs/' + context.runId + ')\n' +
+                    '2. Verify backup file exists in the repository\n' +
+                    '3. Manually create backup via Admin panel if needed\n' +
+                    '4. Re-run the failed workflow\n\n' +
+                    '**Status:** ❌ Failed',
+              labels: ['automation', 'backup', 'priority']
+            })
