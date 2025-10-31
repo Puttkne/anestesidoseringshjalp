@@ -119,8 +119,8 @@ Motor: Regelmotor | XGBoost (X fall)
 ## Teknisk Implementation
 
 ### Filer Modifierade
-- **oxydos_v8.py (rad 573-607):** Konfidenskontroll i rekommendationsvy
-- **oxydos_v8.py (rad 657-679):** Uppmuntran i loggningsvy
+- **oxydoseks.py (rad 573-607):** Konfidenskontroll i rekommendationsvy
+- **oxydoseks.py (rad 657-679):** Uppmuntran i loggningsvy
 
 ### Beräkningslogik
 ```python

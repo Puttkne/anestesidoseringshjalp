@@ -43,7 +43,7 @@ update_synergy_factor(user_id, drug_combination, adjustment)
 
 ## 🚧 TODO (Application Layer Integration)
 
-### 3. Update `calculate_rule_based_dose()` in oxydos_v8.py
+### 3. Update `calculate_rule_based_dose()` in oxydoseks.py
 
 Nuvarande kod (ca rad 300-500) behöver uppdateras för varje adjuvant:
 
@@ -116,7 +116,7 @@ if user_id:
 
 ---
 
-### 4. Update `handle_save_and_learn()` in oxydos_v8.py
+### 4. Update `handle_save_and_learn()` in oxydoseks.py
 
 Nuvarande kod (ca rad 700-900) behöver uppdateras:
 

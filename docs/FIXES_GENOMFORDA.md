@@ -59,8 +59,8 @@ new_base_mme = max(min_allowed, min(max_allowed, ...))
 **Problem:** Lidocaine lärde sig inte från outcomes
 **Fix:**
 ```python
-# oxydos_v8.py rad 674-687 (learning)
-# oxydos_v8.py rad 244-266 (beräkning)
+# oxydoseks.py rad 674-687 (learning)
+# oxydoseks.py rad 244-266 (beräkning)
 lidocaine_multipliers = {'Bolus': 0.90, 'Infusion': 0.80}
 learned_mult = db.get_adjuvant_multiplier(user_id, f"Lidocaine {lidocaine_choice}", ...)
 ```
@@ -72,8 +72,8 @@ learned_mult = db.get_adjuvant_multiplier(user_id, f"Lidocaine {lidocaine_choice
 **Problem:** Betapred lärde sig inte från outcomes
 **Fix:**
 ```python
-# oxydos_v8.py rad 689-702 (learning)
-# oxydos_v8.py rad 268-290 (beräkning)
+# oxydoseks.py rad 689-702 (learning)
+# oxydoseks.py rad 268-290 (beräkning)
 betapred_multipliers = {'4 mg': 0.96, '8 mg': 0.92}
 learned_mult = db.get_adjuvant_multiplier(user_id, f"Betapred {betapred_choice}", ...)
 ```
@@ -85,7 +85,7 @@ learned_mult = db.get_adjuvant_multiplier(user_id, f"Betapred {betapred_choice}"
 **Problem:** Alla adjuvanter tillsammans kunde ge <30% av basdos (farligt lågt)
 **Fix:**
 ```python
-# oxydos_v8.py rad 299-303
+# oxydoseks.py rad 299-303
 min_mme_allowed = base_mme_before_adjuvants * 0.3
 if mme < min_mme_allowed:
     mme = min_mme_allowed
@@ -103,7 +103,7 @@ if mme < min_mme_allowed:
 **Problem:** ASA 5 (moribund) fick samma dos som ASA 4
 **Fix:**
 ```python
-# oxydos_v8.py rad 181-186
+# oxydoseks.py rad 181-186
 asa_map = {'ASA 1': 1, 'ASA 2': 2, 'ASA 3': 3, 'ASA 4': 4, 'ASA 5': 5}
 if asa == 5: mme *= 0.7  # 30% reduktion för säkerhet
 ```
@@ -337,10 +337,10 @@ def save_case(case_data: Dict, user_id: int) -> int:
 - Bug reports: GitHub issues
 
 **Versionshistorik:**
-- v8.0: Initial release med 5 inlärningssystem
-- v8.1: NSAID och Ketamine dosvariering
-- v8.2: Batch learning reduktion (±0.5 → ±0.3)
-- **v8.3: PRE-PRODUCTION FIXES (denna version)** ✅
+- Alfa V0.8: Initial release med 5 inlärningssystem
+- Alfa V0.8.1: NSAID och Ketamine dosvariering
+- Alfa V0.8.2: Batch learning reduktion (±0.5 → ±0.3)
+- **Alfa V0.8.3: PRE-PRODUCTION FIXES (denna version)** ✅
   - Säkerhetsgränser för alla parametrar
   - Lidocaine/Betapred learning
   - Total multiplier floor

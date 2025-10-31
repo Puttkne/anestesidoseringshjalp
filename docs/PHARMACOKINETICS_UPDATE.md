@@ -1,4 +1,4 @@
-# Farmakokinetiska Uppdateringar - v8.1
+# Farmakokinetiska Uppdateringar - Alfa V0.8.1
 
 ## Översikt
 Baserat på klinisk feedback har tre kritiska uppdateringar implementerats:
@@ -186,7 +186,7 @@ adjustment *= rescue_boost
 - Adjuvanter: NSAID, Betapred 8mg
 - Fentanyl: 100 μg intraop
 
-### FÖRE Uppdateringar (v8.0)
+### FÖRE Uppdateringar (Alfa V0.8)
 ```
 baseMME = 14
 × NSAID (0.8) = 11.2
@@ -199,7 +199,7 @@ Inlärning: +0.45 (45%)
 Ny kalibreringsfaktor: 1.45
 ```
 
-### EFTER Uppdateringar (v8.1)
+### EFTER Uppdateringar (Alfa V0.8.1)
 ```
 baseMME = 16  (+2 MME från uppdatering!)
 × NSAID (0.8) = 12.8
@@ -229,7 +229,7 @@ Utfall: VAS 2, rescue 0 mg ✓
 
 ### Filer Modifierade
 
-**oxydos_v8.py (rad 165-173)**
+**oxydoseks.py (rad 165-173)**
 ```python
 # Korrekt fentanyl-farmakokinetik
 fentanyl_remaining_fraction = 0.175
@@ -237,7 +237,7 @@ fentanyl_mme_remaining = (inputs['fentanylDose'] / 100.0) * 10 * fentanyl_remain
 mme = max(0, mme - fentanyl_mme_remaining)
 ```
 
-**oxydos_v8.py (rad 463-468)**
+**oxydoseks.py (rad 463-468)**
 ```python
 # Aggressivare inlärning vid rescue >4 mg
 rescue_boost = 1.0

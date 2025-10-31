@@ -80,7 +80,7 @@ return {
 **Test:** Kompilerade alla 13 Python-moduler med `python -m py_compile`
 
 **Resultat:** ✅ Alla filer kompilerar utan fel
-- oxydos_v8.py
+- oxydoseks.py
 - database.py
 - ml_model.py
 - calculation_engine.py
@@ -132,7 +132,7 @@ return {
 
 ### ✅ Kan Startas
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### ✅ Alla Core Features Fungerar
@@ -171,7 +171,7 @@ export ADMIN_PASSWORD=ditt_säkra_lösenord
 
 ### 3. Testa Applikationen
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 1. Logga in med valfritt användarnamn (skapas automatiskt)
 2. Välj ett ingrepp från listan

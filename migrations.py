@@ -836,9 +836,9 @@ def migrate_to_v7():
 
 def migrate_to_v8():
     """
-    Migration to version 8: Rename baseMME to baseIME.
+    Migration to Alfa V0.8: Rename baseMME to baseIME.
     """
-    logger.info("Running migration to version 8: Renaming baseMME to baseIME...")
+    logger.info("Running migration to Alfa V0.8: Renaming baseMME to baseIME...")
 
     try:
         with get_connection() as conn:
@@ -861,6 +861,16 @@ def migrate_to_v8():
             except sqlite3.OperationalError as e:
                 if "no such column" in str(e).lower() or "duplicate column" in str(e).lower():
                     logger.warning("Column custom_procedures.baseMME does not exist or already renamed, skipping.")
+                else:
+                    raise
+
+            # Rename in learning_procedures table
+            try:
+                cursor.execute("ALTER TABLE learning_procedures RENAME COLUMN base_mme TO base_ime")
+                logger.info("Renamed learning_procedures.base_mme to learning_procedures.base_ime")
+            except sqlite3.OperationalError as e:
+                if "no such column" in str(e).lower() or "duplicate column" in str(e).lower():
+                    logger.warning("Column learning_procedures.base_mme does not exist or already renamed, skipping.")
                 else:
                     raise
 

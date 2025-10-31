@@ -1,5 +1,5 @@
 """
-Manual Validation Script for Anestesi-assistent v8.0
+Manual Validation Script for Anestesi-assistent Alfa V0.8
 Systematically validates the app against all 250+ manual checkpoints
 """
 
@@ -70,7 +70,7 @@ def validate_authentication(page, results, fresh_session=False):
             page.goto(APP_URL, wait_until="networkidle", timeout=15000)
             time.sleep(2)
 
-            if page.locator("text=Anestesi-assistent v8.0 - Inloggning").is_visible():
+            if page.locator("text=Anestesi-assistent Alfa V0.8 - Inloggning").is_visible():
                 results.add_pass(category, "Login page displays on first visit")
             else:
                 results.add_fail(category, "Login page displays", "Title not visible")
@@ -882,7 +882,7 @@ def main():
     """Main validation workflow"""
     print("="*80)
     print("COMPREHENSIVE APPLICATION VALIDATION")
-    print("Anestesi-assistent v8.0")
+    print("Anestesi-assistent Alfa V0.8")
     print("="*80)
     print(f"\nStarting validation at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"Target URL: {APP_URL}\n")

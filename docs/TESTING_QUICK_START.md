@@ -112,7 +112,7 @@ playwright install chromium
 Make sure the app runs normally first:
 
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### Tests timeout?
