@@ -162,9 +162,9 @@ def handle_save_and_learn(procedures_df):
     learning_updates = []
 
     # Learn from actual requirement (back-calculation approach)
-    success, msg = learn_procedure_requirements(user_id, requirement_data, current_inputs, procedures_df)
-    if success and msg:
-        learning_updates.append(msg)
+    # success, msg = learn_procedure_requirements(user_id, requirement_data, current_inputs, procedures_df)
+    # if success and msg:
+    #     learning_updates.append(msg)
 
     # Learn patient factors (age, weight, ASA)
     patient_updates = learn_patient_factors(user_id, requirement_data, current_inputs)
