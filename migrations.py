@@ -11,7 +11,7 @@ from database import get_connection
 logger = logging.getLogger(__name__)
 
 # Current schema version
-CURRENT_SCHEMA_VERSION = 7
+CURRENT_SCHEMA_VERSION = 8
 
 
 def get_db_version() -> int:
@@ -305,7 +305,7 @@ def migrate_to_v4():
                 if has_num_cases:
                     cursor.execute("""
                         SELECT procedure_id,
-                               AVG(base_mme) as avg_base_mme,
+                               AVG(base_ime) as avg_base_ime,
                                AVG(pain_type) as avg_pain_type,
                                SUM(COALESCE(num_cases, 0)) as total_cases
                         FROM learning_procedures
@@ -314,7 +314,7 @@ def migrate_to_v4():
                 else:
                     cursor.execute("""
                         SELECT procedure_id,
-                               AVG(base_mme) as avg_base_mme,
+                               AVG(base_ime) as avg_base_ime,
                                AVG(pain_type) as avg_pain_type,
                                0 as total_cases
                         FROM learning_procedures
@@ -326,7 +326,7 @@ def migrate_to_v4():
                 cursor.execute('''
                     CREATE TABLE learning_procedures (
                         procedure_id TEXT PRIMARY KEY,
-                        base_mme REAL,
+                        base_ime REAL,
                         pain_type REAL,
                         num_cases INTEGER DEFAULT 0
                     )
@@ -334,7 +334,7 @@ def migrate_to_v4():
 
                 if proc_data:
                     cursor.executemany('''
-                        INSERT INTO learning_procedures (procedure_id, base_mme, pain_type, num_cases)
+                        INSERT INTO learning_procedures (procedure_id, base_ime, pain_type, num_cases)
                         VALUES (?, ?, ?, ?)
                     ''', proc_data)
                     logger.info(f"Migrated {len(proc_data)} procedure learning entries (aggregated from all users)")
@@ -609,7 +609,7 @@ def migrate_to_v5():
     """
     Migration to version 5: Add percentage-based adjuvant learning.
 
-    This replaces the old MME-based adjuvant learning with a percentage-based system
+    This replaces the old IME-based adjuvant learning with a percentage-based system
     that properly scales with patient weight and procedure requirements.
 
     Table structure:
@@ -623,10 +623,10 @@ def migrate_to_v5():
         with get_connection() as conn:
             cursor = conn.cursor()
 
-            # Drop old MME-based table if it exists
+            # Drop old IME-based table if it exists
             cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='learning_adjuvants'")
             if cursor.fetchone():
-                logger.info("Dropping old MME-based learning_adjuvants table")
+                logger.info("Dropping old IME-based learning_adjuvants table")
                 cursor.execute("DROP TABLE learning_adjuvants")
 
             # Create new percentage-based table (global learning)
@@ -679,7 +679,7 @@ def migrate_to_v6():
             cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='learning_procedures'")
             if cursor.fetchone():
                 # Get existing data
-                cursor.execute("SELECT procedure_id, base_mme, pain_type, num_cases FROM learning_procedures")
+                cursor.execute("SELECT procedure_id, base_ime, pain_type, num_cases FROM learning_procedures")
                 existing_data = cursor.fetchall()
 
                 # Drop old table
@@ -690,7 +690,7 @@ def migrate_to_v6():
                 cursor.execute('''
                     CREATE TABLE learning_procedures (
                         procedure_id TEXT PRIMARY KEY,
-                        base_mme REAL,
+                        base_ime REAL,
                         pain_somatic REAL DEFAULT 5.0,
                         pain_visceral REAL DEFAULT 5.0,
                         pain_neuropathic REAL DEFAULT 2.0,
@@ -702,12 +702,12 @@ def migrate_to_v6():
                 # Migrate existing data (pain_type → pain_somatic, add defaults for visceral/neuropathic)
                 if existing_data:
                     migrated_data = [
-                        (proc_id, base_mme, pain_type, 5.0, 2.0, num_cases)
-                        for proc_id, base_mme, pain_type, num_cases in existing_data
+                        (proc_id, base_ime, pain_type, 5.0, 2.0, num_cases)
+                        for proc_id, base_ime, pain_type, num_cases in existing_data
                     ]
                     cursor.executemany('''
                         INSERT INTO learning_procedures
-                        (procedure_id, base_mme, pain_somatic, pain_visceral, pain_neuropathic, num_cases)
+                        (procedure_id, base_ime, pain_somatic, pain_visceral, pain_neuropathic, num_cases)
                         VALUES (?, ?, ?, ?, ?, ?)
                     ''', migrated_data)
                     logger.info(f"Migrated {len(migrated_data)} procedure entries to 3D pain learning")
@@ -716,7 +716,7 @@ def migrate_to_v6():
                 cursor.execute('''
                     CREATE TABLE IF NOT EXISTS learning_procedures (
                         procedure_id TEXT PRIMARY KEY,
-                        base_mme REAL,
+                        base_ime REAL,
                         pain_somatic REAL DEFAULT 5.0,
                         pain_visceral REAL DEFAULT 5.0,
                         pain_neuropathic REAL DEFAULT 2.0,
@@ -834,6 +834,44 @@ def migrate_to_v7():
         raise
 
 
+def migrate_to_v8():
+    """
+    Migration to version 8: Rename baseMME to baseIME.
+    """
+    logger.info("Running migration to version 8: Renaming baseMME to baseIME...")
+
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+
+            # Rename in procedures table
+            try:
+                cursor.execute("ALTER TABLE procedures RENAME COLUMN baseMME TO baseIME")
+                logger.info("Renamed procedures.baseMME to procedures.baseIME")
+            except sqlite3.OperationalError as e:
+                if "no such column" in str(e).lower() or "duplicate column" in str(e).lower():
+                    logger.warning("Column procedures.baseMME does not exist or already renamed, skipping.")
+                else:
+                    raise
+
+            # Rename in custom_procedures table
+            try:
+                cursor.execute("ALTER TABLE custom_procedures RENAME COLUMN baseMME TO baseIME")
+                logger.info("Renamed custom_procedures.baseMME to custom_procedures.baseIME")
+            except sqlite3.OperationalError as e:
+                if "no such column" in str(e).lower() or "duplicate column" in str(e).lower():
+                    logger.warning("Column custom_procedures.baseMME does not exist or already renamed, skipping.")
+                else:
+                    raise
+
+            conn.commit()
+            logger.info("Migration to version 8 completed")
+
+    except Exception as e:
+        logger.error(f"Error in migration to v8: {e}")
+        raise
+
+
 def run_migrations():
     """
     Run all pending migrations.
@@ -877,6 +915,10 @@ def run_migrations():
     if current_version < 7:
         migrate_to_v7()
         set_db_version(7)
+
+    if current_version < 8:
+        migrate_to_v8()
+        set_db_version(8)
 
     logger.info(f"Migrations completed. Database now at version {CURRENT_SCHEMA_VERSION}")
 
