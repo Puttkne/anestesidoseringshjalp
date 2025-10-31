@@ -4,7 +4,7 @@
 
 ### Step 1: Start the App
 ```bash
-streamlit run oxydos_v8.py --server.headless true --server.port 8501 &
+streamlit run oxydoseks.py --server.headless true --server.port 8501 &
 ```
 
 ### Step 2: Wait 5 seconds
@@ -29,7 +29,7 @@ python test_full_playwright.py
 ```
 >> Starting light UI test...
 [OK] Screenshot saved to test_screenshot.png
-[OK] App loaded successfully - found title 'Anestesi-assistent v8.0'
+[OK] App loaded successfully - found title 'Anestesi-assistent Alfa V0.8'
 [OK] Found login button - login page is working
 [OK] Found username field
 [OK] Found password field
@@ -79,7 +79,7 @@ curl http://localhost:8501
 pkill -f streamlit
 
 # Restart app
-streamlit run oxydos_v8.py --server.headless true --server.port 8501 &
+streamlit run oxydoseks.py --server.headless true --server.port 8501 &
 
 # Wait longer
 sleep 10

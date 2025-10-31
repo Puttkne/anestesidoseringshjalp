@@ -25,7 +25,7 @@ pip install python-dotenv
 
 ### Steg 4: Starta appen
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### Steg 5: Logga in som admin

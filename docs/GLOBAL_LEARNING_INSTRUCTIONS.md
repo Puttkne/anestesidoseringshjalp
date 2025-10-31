@@ -29,7 +29,7 @@ python update_other_files_for_global_learning.py
 ### Step 2: Start the Application
 
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 **What happens automatically:**

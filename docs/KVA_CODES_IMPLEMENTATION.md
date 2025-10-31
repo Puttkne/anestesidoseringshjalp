@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS custom_procedures (
 
 #### Vid val av ingrepp:
 ```python
-# oxydos_v8.py:480 - get_current_inputs()
+# oxydoseks.py:480 - get_current_inputs()
 proc_row = procedures_df[
     (procedures_df['name'] == procedure_name) &
     (procedures_df['specialty'] == specialty)

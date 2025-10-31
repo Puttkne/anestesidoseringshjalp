@@ -46,7 +46,7 @@
 ## Files to KEEP
 
 ### Core Application
-- `oxydos_v8.py` - Main application ✅
+- `oxydoseks.py` - Main application ✅
 - `database.py` - Database functions ✅
 - `calculation_engine.py` - Dose calculations ✅
 - `config.py` - Configuration ✅

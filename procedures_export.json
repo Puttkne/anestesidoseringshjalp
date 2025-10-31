@@ -4,7 +4,7 @@
     "specialty": "Gynekologi",
     "name": "Hysterektomi, abdominell (öppen)",
     "kva_code": "LCD00",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 8,
     "visceral_score": 6,
     "neuropathic_score": 2
@@ -14,7 +14,7 @@
     "specialty": "Gynekologi",
     "name": "Hysterektomi, laparoskopisk (TLH)",
     "kva_code": "LCD01",
-    "baseMME": 7,
+    "baseIME": 7,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -24,7 +24,7 @@
     "specialty": "Gynekologi",
     "name": "Hysterektomi, vaginal",
     "kva_code": "LCD04",
-    "baseMME": 8,
+    "baseIME": 8,
     "somatic_score": 4,
     "visceral_score": 7,
     "neuropathic_score": 2
@@ -34,7 +34,7 @@
     "specialty": "Gynekologi",
     "name": "Endometrioskirurgi, extensiv (lap)",
     "kva_code": "LCD96",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 5
@@ -44,7 +44,7 @@
     "specialty": "Gynekologi",
     "name": "Myomektomi (öppen)",
     "kva_code": "LCC10",
-    "baseMME": 11,
+    "baseIME": 11,
     "somatic_score": 8,
     "visceral_score": 6,
     "neuropathic_score": 2
@@ -54,7 +54,7 @@
     "specialty": "Gynekologi",
     "name": "Ovariell cystektomi (lap)",
     "kva_code": "LAF01",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -64,7 +64,7 @@
     "specialty": "Gynekologi",
     "name": "Salpingektomi (vid X)",
     "kva_code": "LAD00",
-    "baseMME": 8,
+    "baseIME": 8,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -74,7 +74,7 @@
     "specialty": "Gynekologi",
     "name": "Laparoskopi, diagnostisk",
     "kva_code": "JAD00",
-    "baseMME": 8,
+    "baseIME": 8,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 1
@@ -84,7 +84,7 @@
     "specialty": "Gynekologi",
     "name": "Kejsarsnitt (med spinal/EDA)",
     "kva_code": "MAB00",
-    "baseMME": 7,
+    "baseIME": 7,
     "somatic_score": 7,
     "visceral_score": 5,
     "neuropathic_score": 2
@@ -94,7 +94,7 @@
     "specialty": "Gynekologi",
     "name": "Dilatation & Skrapning (D&C)",
     "kva_code": "LCA10",
-    "baseMME": 7,
+    "baseIME": 7,
     "somatic_score": 2,
     "visceral_score": 9,
     "neuropathic_score": 1
@@ -104,7 +104,7 @@
     "specialty": "Gynekologi",
     "name": "Konisering",
     "kva_code": "LCB00",
-    "baseMME": 7,
+    "baseIME": 7,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 1
@@ -114,7 +114,7 @@
     "specialty": "Gynekologi",
     "name": "Hysteroskopi, operativ",
     "kva_code": "LCD99",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 2,
     "visceral_score": 9,
     "neuropathic_score": 1
@@ -124,7 +124,7 @@
     "specialty": "Gynekologi",
     "name": "Inkontinensslinga (TVT/TOT)",
     "kva_code": "KCF10",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 8,
     "visceral_score": 3,
     "neuropathic_score": 4
@@ -134,7 +134,7 @@
     "specialty": "Gynekologi",
     "name": "Perinealruptur grad 3-4, sutur",
     "kva_code": "MAE20",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 5
@@ -144,7 +144,7 @@
     "specialty": "Gynekologi",
     "name": "Vulvektomi",
     "kva_code": "LFA20",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 10,
     "visceral_score": 2,
     "neuropathic_score": 6
@@ -154,7 +154,7 @@
     "specialty": "Gynekologi",
     "name": "Bäckenutrymning (exenteration)",
     "kva_code": "PJH00",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 7,
     "visceral_score": 7,
     "neuropathic_score": 6
@@ -164,7 +164,7 @@
     "specialty": "Kirurgi",
     "name": "Appendektomi, laparoskopisk",
     "kva_code": "JEA01",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -174,7 +174,7 @@
     "specialty": "Kirurgi",
     "name": "Kolecystektomi, laparoskopisk",
     "kva_code": "JKA21",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 3,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -184,7 +184,7 @@
     "specialty": "Kirurgi",
     "name": "Kolecystektomi, öppen",
     "kva_code": "JKA20",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 8,
     "visceral_score": 6,
     "neuropathic_score": 2
@@ -194,7 +194,7 @@
     "specialty": "Kirurgi",
     "name": "Hemikolektomi, laparoskopisk",
     "kva_code": "JFH01",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 4,
     "visceral_score": 8,
     "neuropathic_score": 3
@@ -204,7 +204,7 @@
     "specialty": "Kirurgi",
     "name": "Hemikolektomi, öppen",
     "kva_code": "JFH00",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 8,
     "visceral_score": 6,
     "neuropathic_score": 3
@@ -214,7 +214,7 @@
     "specialty": "Kirurgi",
     "name": "Sigmoideumresektion (öppen)",
     "kva_code": "JFH10",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 7,
     "visceral_score": 7,
     "neuropathic_score": 3
@@ -224,7 +224,7 @@
     "specialty": "Kirurgi",
     "name": "Låg främre resektion (rektum)",
     "kva_code": "JFH31",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 6,
     "visceral_score": 7,
     "neuropathic_score": 5
@@ -234,7 +234,7 @@
     "specialty": "Kirurgi",
     "name": "Abdominoperineal resektion (APR)",
     "kva_code": "JFH40",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 8,
     "visceral_score": 7,
     "neuropathic_score": 6
@@ -244,7 +244,7 @@
     "specialty": "Kirurgi",
     "name": "Ljumskbråck, öppen (Lichtenstein)",
     "kva_code": "JAH10",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -254,7 +254,7 @@
     "specialty": "Kirurgi",
     "name": "Ljumskbråck, laparoskopisk (TEP/TAPP)",
     "kva_code": "JAH11",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 4,
     "visceral_score": 7,
     "neuropathic_score": 3
@@ -264,7 +264,7 @@
     "specialty": "Kirurgi",
     "name": "Ventralbråck, öppen",
     "kva_code": "JAH20",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 9,
     "visceral_score": 4,
     "neuropathic_score": 3
@@ -274,7 +274,7 @@
     "specialty": "Kirurgi",
     "name": "Obesitaskirurgi (Bypass/Sleeve)",
     "kva_code": "JDF20",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 4,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -284,7 +284,7 @@
     "specialty": "Kirurgi",
     "name": "Explorativ laparotomi",
     "kva_code": "JAW96",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 7,
     "visceral_score": 7,
     "neuropathic_score": 3
@@ -294,7 +294,7 @@
     "specialty": "Kirurgi",
     "name": "Whipples operation",
     "kva_code": "JLC33",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 7,
     "visceral_score": 8,
     "neuropathic_score": 4
@@ -304,7 +304,7 @@
     "specialty": "Kirurgi",
     "name": "Leverresektion",
     "kva_code": "JJC20",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 8,
     "visceral_score": 7,
     "neuropathic_score": 3
@@ -314,7 +314,7 @@
     "specialty": "Kirurgi",
     "name": "Gastrektomi (partiell/total)",
     "kva_code": "JDC20",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 7,
     "visceral_score": 8,
     "neuropathic_score": 3
@@ -324,7 +324,7 @@
     "specialty": "Kirurgi",
     "name": "Esofagusresektion",
     "kva_code": "JBW96",
-    "baseMME": 22,
+    "baseIME": 22,
     "somatic_score": 8,
     "visceral_score": 7,
     "neuropathic_score": 4
@@ -334,7 +334,7 @@
     "specialty": "Kirurgi",
     "name": "Mastektomi",
     "kva_code": "HAC20",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 5
@@ -344,7 +344,7 @@
     "specialty": "Kirurgi",
     "name": "Partiell mastektomi",
     "kva_code": "HAC10",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -354,7 +354,7 @@
     "specialty": "Kirurgi",
     "name": "Thyroidektomi / Hemithyroidektomi",
     "kva_code": "BAB00",
-    "baseMME": 13,
+    "baseIME": 13,
     "somatic_score": 8,
     "visceral_score": 3,
     "neuropathic_score": 2
@@ -364,7 +364,7 @@
     "specialty": "Kirurgi",
     "name": "Parathyroidektomi",
     "kva_code": "BAA00",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 8,
     "visceral_score": 3,
     "neuropathic_score": 2
@@ -374,7 +374,7 @@
     "specialty": "Kirurgi",
     "name": "Splenektomi, laparoskopisk",
     "kva_code": "JNA01",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 4,
     "visceral_score": 8,
     "neuropathic_score": 2
@@ -384,7 +384,7 @@
     "specialty": "Kirurgi",
     "name": "Hemorrojdektomi",
     "kva_code": "JJH10",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 10,
     "visceral_score": 2,
     "neuropathic_score": 5
@@ -394,7 +394,7 @@
     "specialty": "Kirurgi",
     "name": "Fistula-in-ano",
     "kva_code": "JJH20",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 10,
     "visceral_score": 2,
     "neuropathic_score": 6
@@ -404,7 +404,7 @@
     "specialty": "Ortopedi",
     "name": "Höftprotes, total",
     "kva_code": "NFB30",
-    "baseMME": 19,
+    "baseIME": 19,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -414,7 +414,7 @@
     "specialty": "Ortopedi",
     "name": "Knäprotes, total",
     "kva_code": "NGB30",
-    "baseMME": 19,
+    "baseIME": 19,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -424,7 +424,7 @@
     "specialty": "Ortopedi",
     "name": "Höftfrakturkirurgi (spik/protes)",
     "kva_code": "NFJ62",
-    "baseMME": 22,
+    "baseIME": 22,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 5
@@ -434,7 +434,7 @@
     "specialty": "Ortopedi",
     "name": "Femurfraktur, märgspik",
     "kva_code": "NHJ42",
-    "baseMME": 19,
+    "baseIME": 19,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -444,7 +444,7 @@
     "specialty": "Ortopedi",
     "name": "Tibiafraktur, märgspik",
     "kva_code": "NHJ52",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -454,7 +454,7 @@
     "specialty": "Ortopedi",
     "name": "Fotledsfraktur (ORIF)",
     "kva_code": "NHJ92",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -464,7 +464,7 @@
     "specialty": "Ortopedi",
     "name": "Handledsfraktur, platta (ORIF)",
     "kva_code": "NCJ72",
-    "baseMME": 13,
+    "baseIME": 13,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 5
@@ -474,7 +474,7 @@
     "specialty": "Ortopedi",
     "name": "Axelfraktur / Skulderprotes",
     "kva_code": "NAJ42",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 5
@@ -484,7 +484,7 @@
     "specialty": "Ortopedi",
     "name": "Ryggkirurgi, fusion (1-2 nivåer)",
     "kva_code": "NAG59",
-    "baseMME": 22,
+    "baseIME": 22,
     "somatic_score": 9,
     "visceral_score": 3,
     "neuropathic_score": 8
@@ -494,7 +494,7 @@
     "specialty": "Ortopedi",
     "name": "Ryggdekompression (Laminektomi)",
     "kva_code": "ABC46",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 8,
     "visceral_score": 2,
     "neuropathic_score": 7
@@ -504,7 +504,7 @@
     "specialty": "Ortopedi",
     "name": "ACL-rekonstruktion",
     "kva_code": "NGD21",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 3
@@ -514,7 +514,7 @@
     "specialty": "Ortopedi",
     "name": "Rotatorkuff-sutur",
     "kva_code": "NAL66",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -524,7 +524,7 @@
     "specialty": "Ortopedi",
     "name": "Skulderartroskopi (dekompression)",
     "kva_code": "NAW01",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -534,7 +534,7 @@
     "specialty": "Ortopedi",
     "name": "Meniskresektion, artroskopisk",
     "kva_code": "NGE51",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 9,
     "visceral_score": 1,
     "neuropathic_score": 2
@@ -544,7 +544,7 @@
     "specialty": "Ortopedi",
     "name": "Karpaltunnelklyvning",
     "kva_code": "ACC55",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 8,
     "visceral_score": 1,
     "neuropathic_score": 8
@@ -554,7 +554,7 @@
     "specialty": "Ortopedi",
     "name": "Hallux valgus-kirurgi",
     "kva_code": "NHM99",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -564,7 +564,7 @@
     "specialty": "Ortopedi",
     "name": "Amputation, underben",
     "kva_code": "NHQ10",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 8
@@ -574,7 +574,7 @@
     "specialty": "Ortopedi",
     "name": "Excision av ganglion, handled",
     "kva_code": "NCF10",
-    "baseMME": 10,
+    "baseIME": 10,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 3
@@ -584,7 +584,7 @@
     "specialty": "Urologi",
     "name": "Prostatektomi, laparoskopisk/robot",
     "kva_code": "KEC21",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 4,
     "visceral_score": 8,
     "neuropathic_score": 6
@@ -594,7 +594,7 @@
     "specialty": "Urologi",
     "name": "Nefrektomi, laparoskopisk",
     "kva_code": "KAC11",
-    "baseMME": 19,
+    "baseIME": 19,
     "somatic_score": 4,
     "visceral_score": 8,
     "neuropathic_score": 3
@@ -604,7 +604,7 @@
     "specialty": "Urologi",
     "name": "Nefrektomi, öppen",
     "kva_code": "KAC10",
-    "baseMME": 21,
+    "baseIME": 21,
     "somatic_score": 8,
     "visceral_score": 6,
     "neuropathic_score": 3
@@ -614,7 +614,7 @@
     "specialty": "Urologi",
     "name": "Cystektomi med blåssubstitut",
     "kva_code": "KCC40",
-    "baseMME": 21,
+    "baseIME": 21,
     "somatic_score": 5,
     "visceral_score": 8,
     "neuropathic_score": 5
@@ -624,7 +624,7 @@
     "specialty": "Urologi",
     "name": "TUR-P (hyvling av prostata)",
     "kva_code": "KED30",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 2,
     "visceral_score": 9,
     "neuropathic_score": 2
@@ -634,7 +634,7 @@
     "specialty": "Urologi",
     "name": "TUR-B (blåstumör)",
     "kva_code": "KCE10",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 2,
     "visceral_score": 9,
     "neuropathic_score": 1
@@ -644,7 +644,7 @@
     "specialty": "Urologi",
     "name": "Ureteroskopi (stenextraktion)",
     "kva_code": "KBA10",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 1,
     "visceral_score": 10,
     "neuropathic_score": 2
@@ -654,7 +654,7 @@
     "specialty": "Urologi",
     "name": "PCNL (perkutan njurstenskirurgi)",
     "kva_code": "KAD20",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 5,
     "visceral_score": 7,
     "neuropathic_score": 3
@@ -664,7 +664,7 @@
     "specialty": "Urologi",
     "name": "ESWL (stötvågsbehandling njursten)",
     "kva_code": "KAG00",
-    "baseMME": 11,
+    "baseIME": 11,
     "somatic_score": 4,
     "visceral_score": 7,
     "neuropathic_score": 1
@@ -674,7 +674,7 @@
     "specialty": "Urologi",
     "name": "Hydrocelektomi",
     "kva_code": "KGA20",
-    "baseMME": 11,
+    "baseIME": 11,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 3
@@ -684,7 +684,7 @@
     "specialty": "Urologi",
     "name": "Vasektomi",
     "kva_code": "KFF00",
-    "baseMME": 9,
+    "baseIME": 9,
     "somatic_score": 9,
     "visceral_score": 1,
     "neuropathic_score": 3
@@ -694,7 +694,7 @@
     "specialty": "ÖNH",
     "name": "Tonsillektomi",
     "kva_code": "EMB20",
-    "baseMME": 16,
+    "baseIME": 16,
     "somatic_score": 9,
     "visceral_score": 4,
     "neuropathic_score": 3
@@ -704,7 +704,7 @@
     "specialty": "ÖNH",
     "name": "Näs- & bihålekirurgi (FESS)",
     "kva_code": "DAC20",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 8,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -714,7 +714,7 @@
     "specialty": "ÖNH",
     "name": "Septoplastik",
     "kva_code": "DAD20",
-    "baseMME": 11,
+    "baseIME": 11,
     "somatic_score": 8,
     "visceral_score": 2,
     "neuropathic_score": 3
@@ -724,7 +724,7 @@
     "specialty": "ÖNH",
     "name": "Parotidektomi",
     "kva_code": "DRD00",
-    "baseMME": 15,
+    "baseIME": 15,
     "somatic_score": 8,
     "visceral_score": 2,
     "neuropathic_score": 6
@@ -734,7 +734,7 @@
     "specialty": "ÖNH",
     "name": "Halskörtelutrymning",
     "kva_code": "AAF10",
-    "baseMME": 18,
+    "baseIME": 18,
     "somatic_score": 8,
     "visceral_score": 3,
     "neuropathic_score": 6
@@ -744,7 +744,7 @@
     "specialty": "ÖNH",
     "name": "Mikrolaryngoskopi (MLS)",
     "kva_code": "DQW01",
-    "baseMME": 11,
+    "baseIME": 11,
     "somatic_score": 7,
     "visceral_score": 4,
     "neuropathic_score": 2
@@ -754,7 +754,7 @@
     "specialty": "ÖNH",
     "name": "Mastoidektomi",
     "kva_code": "DCA20",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -764,7 +764,7 @@
     "specialty": "ÖNH",
     "name": "Sömnapnékirurgi (UPPP)",
     "kva_code": "DQA96",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 8,
     "visceral_score": 4,
     "neuropathic_score": 3
@@ -774,7 +774,7 @@
     "specialty": "ÖNH",
     "name": "Tympanoplastik",
     "kva_code": "DCC00",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 8,
     "visceral_score": 2,
     "neuropathic_score": 3
@@ -784,7 +784,7 @@
     "specialty": "Tand",
     "name": "Visdomstandsextraktion, komplicerad",
     "kva_code": "GAH10",
-    "baseMME": 12,
+    "baseIME": 12,
     "somatic_score": 9,
     "visceral_score": 1,
     "neuropathic_score": 5
@@ -794,7 +794,7 @@
     "specialty": "Tand",
     "name": "Ortognatisk kirurgi (käkförflyttning)",
     "kva_code": "DHW96",
-    "baseMME": 20,
+    "baseIME": 20,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 6
@@ -804,7 +804,7 @@
     "specialty": "Tand",
     "name": "Mandibelfraktur (ORIF)",
     "kva_code": "DHJ99",
-    "baseMME": 17,
+    "baseIME": 17,
     "somatic_score": 10,
     "visceral_score": 1,
     "neuropathic_score": 6
@@ -814,7 +814,7 @@
     "specialty": "Tand",
     "name": "Multipla extraktioner",
     "kva_code": "GAH20",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 9,
     "visceral_score": 1,
     "neuropathic_score": 4
@@ -824,7 +824,7 @@
     "specialty": "Tand",
     "name": "Benaugmentation (käke)",
     "kva_code": "DHE96",
-    "baseMME": 13,
+    "baseIME": 13,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 4
@@ -834,7 +834,7 @@
     "specialty": "Tand",
     "name": "TMJ-artroskopi (käkled)",
     "kva_code": "DGW01",
-    "baseMME": 14,
+    "baseIME": 14,
     "somatic_score": 9,
     "visceral_score": 2,
     "neuropathic_score": 5

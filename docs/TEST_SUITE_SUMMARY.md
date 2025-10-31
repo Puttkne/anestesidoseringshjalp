@@ -1,4 +1,4 @@
-# Test Suite Summary - Anestesi-assistent v8.0
+# Test Suite Summary - Anestesi-assistent Alfa V0.8
 
 ## 🎯 What Was Created
 
@@ -148,7 +148,7 @@ All tests automatically generate screenshots for debugging:
 ### Quick Test (5 seconds)
 ```bash
 # Terminal 1: Start app
-streamlit run oxydos_v8.py --server.headless true --server.port 8501
+streamlit run oxydoseks.py --server.headless true --server.port 8501
 
 # Terminal 2: Run quick test
 python test_ui_light.py
@@ -157,7 +157,7 @@ python test_ui_light.py
 ### Full Test Suite (60 seconds)
 ```bash
 # Terminal 1: Start app
-streamlit run oxydos_v8.py --server.headless true --server.port 8501
+streamlit run oxydoseks.py --server.headless true --server.port 8501
 
 # Terminal 2: Run full suite
 python test_full_playwright.py
@@ -229,7 +229,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install playwright
       - run: playwright install chromium
-      - run: streamlit run oxydos_v8.py &
+      - run: streamlit run oxydoseks.py &
       - run: sleep 10
       - run: python test_full_playwright.py
 ```
@@ -289,4 +289,4 @@ anestesidoseringshjälp/
 
 *Last Updated: 2025-10-14*
 *Test Suite Version: 1.0*
-*Application: Anestesidoseringshjälp v8.0*
+*Application: Anestesidoseringshjälp Alfa V0.8*

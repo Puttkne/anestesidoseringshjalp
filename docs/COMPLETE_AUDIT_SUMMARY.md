@@ -247,7 +247,7 @@ TABLES (22 total):
 ### 3.1 Module Dependencies
 
 ```
-oxydos_v8.py (Main app)
+oxydoseks.py (Main app)
 ├─ imports: streamlit, pandas, database, auth
 ├─ loads: procedures (from DB)
 └─ renders: UI tabs
@@ -407,7 +407,7 @@ pharmacokinetics.py
 ## 6. File Inventory
 
 ### Core Application Files (15)
-- `oxydos_v8.py` - Main Streamlit app
+- `oxydoseks.py` - Main Streamlit app
 - `calculation_engine.py` - Dose calculation logic
 - `learning_engine.py` - Outcome learning & back-calculation
 - `database.py` - SQLite database operations

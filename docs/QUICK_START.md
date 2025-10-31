@@ -1,4 +1,4 @@
-# Quick Start Guide - Updated Anestesi-assistent v8.0
+# Quick Start Guide - Updated Anestesi-assistent Alfa V0.8
 
 ## What's New? 🎉
 
@@ -25,7 +25,7 @@ pip install -r requirements-dev.txt
 
 ### 2. First Run
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 **On first run, the system will:**

@@ -24,7 +24,7 @@
 
 ### 1. Hur XGBoost Fungerar i Appen
 
-#### Nuvarande Implementation (oxydos_v8.py rad 369-473)
+#### Nuvarande Implementation (oxydoseks.py rad 369-473)
 
 **Aktivering:**
 ```python
@@ -571,4 +571,4 @@ print(f"Rescue rate: {rescue_rate:.1f}%")
 
 *Guide skriven: 2025-10-04*
 *XGBoost version: 2.0+*
-*Implementation: oxydos_v8.py rad 369-473*
+*Implementation: oxydoseks.py rad 369-473*

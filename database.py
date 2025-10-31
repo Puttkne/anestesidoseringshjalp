@@ -93,7 +93,7 @@ def init_database():
                     specialty TEXT NOT NULL,
                     name TEXT NOT NULL,
                     kva_code TEXT,
-                    baseMME INTEGER NOT NULL,
+                    baseIME INTEGER NOT NULL,
                     painTypeScore INTEGER NOT NULL
                 )
             ''')
@@ -155,7 +155,7 @@ def init_database():
                     specialty TEXT NOT NULL,
                     name TEXT NOT NULL,
                     kva_code TEXT,
-                    baseMME INTEGER NOT NULL,
+                    baseIME INTEGER NOT NULL,
                     painType TEXT NOT NULL,
                     painTypeScore INTEGER NOT NULL,
                     created_by INTEGER,
@@ -239,7 +239,7 @@ def init_database():
                 CREATE TABLE IF NOT EXISTS learning_procedures (
                     user_id INTEGER,
                     procedure_id TEXT,
-                    base_mme REAL,
+                    base_ime REAL,
                     pain_type REAL,
                     total_cases INTEGER DEFAULT 0,
                     PRIMARY KEY (user_id, procedure_id)
@@ -295,14 +295,14 @@ def init_database():
                             procedures_data = json.load(f)
                         for proc in procedures_data:
                             cursor.execute('''
-                                INSERT INTO procedures (id, specialty, name, kva_code, baseMME, painTypeScore)
+                                INSERT INTO procedures (id, specialty, name, kva_code, baseIME, painTypeScore)
                                 VALUES (?, ?, ?, ?, ?, ?)
                             ''', (
                                 proc['id'],
                                 proc['specialty'],
                                 proc['name'],
                                 proc.get('kva_code'),
-                                proc['baseMME'],
+                                proc['baseIME'],
                                 proc.get('painTypeScore', proc.get('somatic_score', 5))
                             ))
                         conn.commit()
@@ -394,14 +394,14 @@ def save_custom_procedure(proc_data: Dict, user_id: int):
             pain_type_score = pain_type_map.get(pain_type, 5)
             cursor.execute('''
                 INSERT INTO custom_procedures (
-                    id, specialty, name, kva_code, baseMME, painType, painTypeScore, created_by
+                    id, specialty, name, kva_code, baseIME, painType, painTypeScore, created_by
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 proc_data['id'],
                 proc_data['specialty'],
                 proc_data['name'],
                 proc_data.get('kva_code'),
-                proc_data['baseMME'],
+                proc_data['baseIME'],
                 pain_type,
                 pain_type_score,
                 user_id
@@ -1176,11 +1176,11 @@ def update_body_composition_factor(metric_type: str, metric_value: float,
 
 # ============ Learning system - procedure learning ============
 
-def get_procedure_learning(user_id: int, procedure_id: str, default_base_mme: float, default_pain_type: float) -> Dict:
+def get_procedure_learning(user_id: int, procedure_id: str, default_base_ime: float, default_pain_type: float) -> Dict:
     """Hämta inlärd data för ett ingrepp"""
     if not user_id or not procedure_id:
         return {
-            'base_mme': default_base_mme,
+            'base_ime': default_base_ime,
             'pain_type': default_pain_type,
             'total_cases': 0
         }
@@ -1192,26 +1192,26 @@ def get_procedure_learning(user_id: int, procedure_id: str, default_base_mme: fl
                 CREATE TABLE IF NOT EXISTS learning_procedures (
                     user_id INTEGER,
                     procedure_id TEXT,
-                    base_mme REAL,
+                    base_ime REAL,
                     pain_type REAL,
                     total_cases INTEGER DEFAULT 0,
                     PRIMARY KEY (user_id, procedure_id)
                 )
             ''')
             cursor.execute('''
-                SELECT base_mme, pain_type, total_cases FROM learning_procedures
+                SELECT base_ime, pain_type, total_cases FROM learning_procedures
                 WHERE user_id = ? AND procedure_id = ?
             ''', (user_id, procedure_id))
             row = cursor.fetchone()
             if row:
                 return {
-                    'base_mme': row['base_mme'],
+                    'base_ime': row['base_ime'],
                     'pain_type': row['pain_type'],
                     'total_cases': row['total_cases']
                 }
             else:
                 return {
-                    'base_mme': default_base_mme,
+                    'base_ime': default_base_ime,
                     'pain_type': default_pain_type,
                     'total_cases': 0
                 }
@@ -1222,27 +1222,27 @@ def get_procedure_learning(user_id: int, procedure_id: str, default_base_mme: fl
         logger.error(f"Error in get_procedure_learning: {e}")
         raise
 
-def update_procedure_learning(procedure_id: str, default_base_mme: float,
-                              default_pain_type: float, base_mme_adjustment: float,
+def update_procedure_learning(procedure_id: str, default_base_ime: float,
+                              default_pain_type: float, base_ime_adjustment: float,
                               pain_type_adjustment: float) -> Dict:
     """Uppdatera inlärd data för ett ingrepp"""
     if not user_id or not procedure_id:
-        return {'base_mme': default_base_mme, 'pain_type': default_pain_type}
+        return {'base_ime': default_base_ime, 'pain_type': default_pain_type}
 
-    current = get_procedure_learning(procedure_id, default_base_mme, default_pain_type)
-    new_base_mme = max(default_base_mme * 0.5, min(default_base_mme * 2.0,
-                                                     current['base_mme'] + base_mme_adjustment))
+    current = get_procedure_learning(procedure_id, default_base_ime, default_pain_type)
+    new_base_ime = max(default_base_ime * 0.5, min(default_base_ime * 2.0,
+                                                     current['base_ime'] + base_ime_adjustment))
     new_pain_type = max(0, min(10, current['pain_type'] + pain_type_adjustment))
 
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT OR REPLACE INTO learning_procedures (procedure_id, base_mme, pain_type, total_cases)
+                INSERT OR REPLACE INTO learning_procedures (procedure_id, base_ime, pain_type, total_cases)
                 VALUES (?, ?, ?, ?, ?)
-            ''', (user_id, procedure_id, new_base_mme, new_pain_type, current['total_cases'] + 1))
+            ''', (user_id, procedure_id, new_base_ime, new_pain_type, current['total_cases'] + 1))
             conn.commit()
-            return {'base_mme': new_base_mme, 'pain_type': new_pain_type}
+            return {'base_ime': new_base_ime, 'pain_type': new_pain_type}
     except sqlite3.IntegrityError as e:
         logger.error(f"Integrity error in update_procedure_learning: {e}")
         raise
@@ -1522,7 +1522,7 @@ def get_setting(key: str, default_value=None):
             cursor.execute('SELECT value FROM app_settings WHERE key = ?', (key,))
             row = cursor.fetchone()
             if row:
-                # Försök konvertera till float om det ser ut som ett nummer
+                # Försök konvertera till float om det ser ut som ett nuimer
                 try:
                     return float(row['value'])
                 except (ValueError, TypeError):
@@ -1767,7 +1767,7 @@ def update_adjuvant_potency_percent(adjuvant_name: str, default_potency_percent:
 
 # ============ Learning system - 3D PAIN procedure learning (NEW in v6) ============
 
-def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
+def get_procedure_learning_3d(procedure_id: str, default_base_ime: float,
                                default_pain_somatic: float, default_pain_visceral: float,
                                default_pain_neuropathic: float) -> Dict:
     """
@@ -1775,7 +1775,7 @@ def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
 
     Args:
         procedure_id: Procedure identifier
-        default_base_mme: Default base MME requirement
+        default_base_ime: Default base IME requirement
         default_pain_somatic: Default somatic pain score (0-10)
         default_pain_visceral: Default visceral pain score (0-10)
         default_pain_neuropathic: Default neuropathic pain score (0-10)
@@ -1787,7 +1787,7 @@ def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                SELECT base_mme, pain_somatic, pain_visceral, pain_neuropathic, num_cases
+                SELECT base_ime, pain_somatic, pain_visceral, pain_neuropathic, num_cases
                 FROM learning_procedures
                 WHERE procedure_id = ?
             ''', (procedure_id,))
@@ -1795,7 +1795,7 @@ def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
 
             if row:
                 return {
-                    'base_mme': row['base_mme'],
+                    'base_ime': row['base_ime'],
                     'pain_somatic': row['pain_somatic'],
                     'pain_visceral': row['pain_visceral'],
                     'pain_neuropathic': row['pain_neuropathic'],
@@ -1803,7 +1803,7 @@ def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
                 }
             else:
                 return {
-                    'base_mme': default_base_mme,
+                    'base_ime': default_base_ime,
                     'pain_somatic': default_pain_somatic,
                     'pain_visceral': default_pain_visceral,
                     'pain_neuropathic': default_pain_neuropathic,
@@ -1817,10 +1817,10 @@ def get_procedure_learning_3d(procedure_id: str, default_base_mme: float,
         raise
 
 
-def update_procedure_learning_3d(procedure_id: str, default_base_mme: float,
+def update_procedure_learning_3d(procedure_id: str, default_base_ime: float,
                                   default_pain_somatic: float, default_pain_visceral: float,
                                   default_pain_neuropathic: float,
-                                  base_mme_adjustment: float,
+                                  base_ime_adjustment: float,
                                   pain_somatic_adjustment: float,
                                   pain_visceral_adjustment: float,
                                   pain_neuropathic_adjustment: float) -> Dict:
@@ -1829,9 +1829,9 @@ def update_procedure_learning_3d(procedure_id: str, default_base_mme: float,
 
     Args:
         procedure_id: Procedure identifier
-        default_base_mme: Default base MME
+        default_base_ime: Default base IME
         default_pain_somatic/visceral/neuropathic: Default pain scores
-        base_mme_adjustment: Adjustment to base MME
+        base_ime_adjustment: Adjustment to base IME
         pain_somatic/visceral/neuropathic_adjustment: Adjustments to pain dimensions
 
     Returns:
@@ -1839,14 +1839,14 @@ def update_procedure_learning_3d(procedure_id: str, default_base_mme: float,
     """
     try:
         current = get_procedure_learning_3d(
-            procedure_id, default_base_mme,
+            procedure_id, default_base_ime,
             default_pain_somatic, default_pain_visceral, default_pain_neuropathic
         )
 
         # Apply adjustments with bounds
-        new_base_mme = max(
-            default_base_mme * 0.5,
-            min(default_base_mme * 2.0, current['base_mme'] + base_mme_adjustment)
+        new_base_ime = max(
+            default_base_ime * 0.5,
+            min(default_base_ime * 2.0, current['base_ime'] + base_ime_adjustment)
         )
         new_pain_somatic = max(0, min(10, current['pain_somatic'] + pain_somatic_adjustment))
         new_pain_visceral = max(0, min(10, current['pain_visceral'] + pain_visceral_adjustment))
@@ -1857,21 +1857,21 @@ def update_procedure_learning_3d(procedure_id: str, default_base_mme: float,
             cursor = conn.cursor()
             cursor.execute('''
                 INSERT OR REPLACE INTO learning_procedures
-                (procedure_id, base_mme, pain_somatic, pain_visceral, pain_neuropathic, num_cases)
+                (procedure_id, base_ime, pain_somatic, pain_visceral, pain_neuropathic, num_cases)
                 VALUES (?, ?, ?, ?, ?, ?)
-            ''', (procedure_id, new_base_mme, new_pain_somatic, new_pain_visceral,
+            ''', (procedure_id, new_base_ime, new_pain_somatic, new_pain_visceral,
                    new_pain_neuropathic, new_num_cases))
             conn.commit()
 
             logger.info(
                 f"Updated 3D procedure learning for {procedure_id}: "
-                f"MME={new_base_mme:.1f}, somatic={new_pain_somatic:.1f}, "
+                f"IME={new_base_ime:.1f}, somatic={new_pain_somatic:.1f}, "
                 f"visceral={new_pain_visceral:.1f}, neuropathic={new_pain_neuropathic:.1f}, "
                 f"cases={new_num_cases}"
             )
 
             return {
-                'base_mme': new_base_mme,
+                'base_ime': new_base_ime,
                 'pain_somatic': new_pain_somatic,
                 'pain_visceral': new_pain_visceral,
                 'pain_neuropathic': new_pain_neuropathic,

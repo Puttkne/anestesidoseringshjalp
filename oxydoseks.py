@@ -29,7 +29,7 @@ def load_css(file_name):
 
 # --- Grundkonfiguration av sidan ---
 st.set_page_config(
-    page_title="Anestesi-assistent v8.0",
+    page_title="Anestesi-assistent Alfa V0.8",
     page_icon="🤖",
     layout="wide"
 )
@@ -99,7 +99,7 @@ procedures_df, specialties = load_procedures()
 def main():
     if not auth.is_logged_in():
         # Login UI
-        st.title("🔐 Anestesi-assistent v8.0 - Inloggning")
+        st.title("🔐 Anestesi-assistent Alfa V0.8 - Inloggning")
         with st.form("login_form"):
             user_id_input = st.text_input("Användar-ID", placeholder="t.ex. DN123")
             password_input = st.text_input("Lösenord", type="password")

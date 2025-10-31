@@ -42,7 +42,7 @@ git push -u origin master
 4. Select:
    - **Repository**: Your GitHub repo
    - **Branch**: master
-   - **Main file path**: oxydos_v8.py
+   - **Main file path**: oxydoseks.py
 5. Click **"Advanced settings"** and add secrets:
    ```toml
    [admin]
@@ -76,7 +76,7 @@ The app will take 2-5 minutes to deploy. You'll get a public URL like:
 If deployment fails:
 1. Check the logs in Streamlit Cloud dashboard
 2. Verify all dependencies are in requirements.txt
-3. Ensure oxydos_v8.py is in the root directory
+3. Ensure oxydoseks.py is in the root directory
 4. Check that secrets are properly configured
 
 ### Updating Your App

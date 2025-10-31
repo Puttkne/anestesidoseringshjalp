@@ -14,13 +14,13 @@ if curl -s http://localhost:8501 > /dev/null 2>&1; then
     echo ""
 else
     echo "[WARNING] Streamlit app is not running on http://localhost:8501"
-    echo "[INFO] Please start the app first with: streamlit run oxydos_v8.py"
+    echo "[INFO] Please start the app first with: streamlit run oxydoseks.py"
     echo ""
     read -p "Do you want to start the app now? (y/n) " -n 1 -r
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo "[INFO] Starting Streamlit app..."
-        streamlit run oxydos_v8.py &
+        streamlit run oxydoseks.py &
         STREAMLIT_PID=$!
         echo "[INFO] Waiting 10 seconds for app to start..."
         sleep 10
