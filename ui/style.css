@@ -1,52 +1,103 @@
-/* Modern Slate/Cyan Design - Inspired by Tailwind CSS */
-/* Matches React frontend app design */
+/* ===================================================================
+   ANESTHESIA ASSISTANT - CLINICAL UI DESIGN SYSTEM
+   Adapted from shadcn/ui + Tailwind CSS
+   All colors use HSL for consistency with modern design systems
+   =================================================================== */
+
+/* ===== DESIGN TOKENS - HSL COLOR SYSTEM ===== */
 
 :root {
-    /* Primary Colors - Cyan accent */
-    --primary-cyan: #06b6d4;        /* cyan-500 */
-    --primary-cyan-light: #22d3ee;  /* cyan-400 */
-    --primary-cyan-dark: #0891b2;   /* cyan-600 */
-    --primary-cyan-hover: #0e7490;  /* cyan-700 */
+    /* Primary Clinical Blue */
+    --primary: 217 91% 60%;              /* Main clinical blue */
+    --primary-foreground: 0 0% 100%;     /* White text on primary */
+    --primary-hover: 217 91% 55%;        /* Hover state */
+    --primary-active: 217 91% 50%;       /* Active state */
 
-    /* Purple accent for ML */
-    --purple-accent: #c084fc;       /* purple-400 */
+    /* Accent Teal/Cyan */
+    --accent: 174 72% 56%;               /* Teal accent */
+    --accent-foreground: 0 0% 100%;      /* White text on accent */
+    --accent-hover: 174 72% 51%;         /* Hover state */
 
-    /* Background Colors - Slate */
-    --bg-dark: #0f172a;            /* slate-900 - main background */
-    --bg-card: #1e293b;            /* slate-800 - cards */
-    --bg-card-hover: #334155;      /* slate-700 - hover states */
-    --bg-input: #334155;           /* slate-700 - inputs */
-    --bg-secondary: rgba(51, 65, 85, 0.5);  /* slate-700/50 */
+    /* Background Colors - Light Mode */
+    --background: 210 20% 98%;           /* Main background */
+    --foreground: 215 25% 15%;           /* Main text */
 
-    /* Border Colors */
-    --border-default: #334155;     /* slate-700 */
-    --border-light: #475569;       /* slate-600 */
+    /* Card Components */
+    --card: 0 0% 100%;                   /* Card background */
+    --card-foreground: 215 25% 15%;      /* Card text */
+    --card-hover: 210 17% 97%;           /* Card hover */
 
-    /* Text Colors */
-    --text-white: #ffffff;
-    --text-primary: #e2e8f0;       /* slate-200 */
-    --text-secondary: #cbd5e1;     /* slate-300 */
-    --text-muted: #94a3b8;         /* slate-400 */
-    --text-dim: #64748b;           /* slate-500 */
+    /* Secondary Colors */
+    --secondary: 210 17% 95%;            /* Secondary backgrounds */
+    --secondary-foreground: 215 25% 15%; /* Secondary text */
+
+    /* Muted/Subtle */
+    --muted: 210 17% 95%;                /* Muted backgrounds */
+    --muted-foreground: 215 15% 45%;     /* Muted text */
+
+    /* Borders & Inputs */
+    --border: 214 20% 88%;               /* Border color */
+    --input: 214 20% 88%;                /* Input borders */
+    --ring: 217 91% 60%;                 /* Focus ring */
 
     /* Status Colors */
-    --success: #4ade80;            /* green-400 */
-    --warning: #facc15;            /* yellow-400 */
-    --danger: #ef4444;             /* red-500 */
+    --success: 142 71% 45%;              /* Success green */
+    --success-foreground: 0 0% 100%;     /* White text on success */
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --warning: 38 92% 50%;               /* Warning orange */
+    --warning-foreground: 0 0% 100%;     /* White text on warning */
+
+    --info: 199 89% 48%;                 /* Info blue */
+    --info-foreground: 0 0% 100%;        /* White text on info */
+
+    --destructive: 0 84% 60%;            /* Error red */
+    --destructive-foreground: 0 0% 100%; /* White text on error */
+
+    /* Effects */
+    --radius: 0.5rem;                    /* Border radius */
+    --shadow-elevated: 0 4px 12px -2px hsl(217 91% 60% / 0.12);
+    --shadow-card: 0 2px 8px -1px hsl(217 91% 60% / 0.08);
+    --shadow-lg: 0 10px 25px -5px hsl(217 91% 60% / 0.15);
+    --gradient-clinical: linear-gradient(135deg, hsl(217 91% 60%), hsl(199 89% 48%));
 }
 
-/* ===== GLOBAL STYLES ===== */
+/* ===== DARK MODE OVERRIDES ===== */
+
+.dark, [data-theme="dark"] {
+    /* Background Colors - Dark Mode */
+    --background: 215 28% 12%;           /* Dark background */
+    --foreground: 210 20% 95%;           /* Light text */
+
+    /* Card Components - Dark */
+    --card: 215 25% 15%;                 /* Dark card */
+    --card-foreground: 210 20% 95%;      /* Light card text */
+    --card-hover: 215 25% 18%;           /* Dark card hover */
+
+    /* Secondary - Dark */
+    --secondary: 215 20% 20%;            /* Dark secondary */
+    --secondary-foreground: 210 20% 95%; /* Light secondary text */
+
+    /* Muted - Dark */
+    --muted: 215 20% 20%;                /* Dark muted */
+    --muted-foreground: 215 15% 60%;     /* Light muted text */
+
+    /* Borders & Inputs - Dark */
+    --border: 215 20% 25%;               /* Dark borders */
+    --input: 215 20% 25%;                /* Dark input borders */
+
+    /* Adjusted shadows for dark mode */
+    --shadow-elevated: 0 4px 12px -2px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 2px 8px -1px hsl(0 0% 0% / 0.25);
+    --shadow-lg: 0 10px 25px -5px hsl(0 0% 0% / 0.5);
+}
+
+/* ===== GLOBAL BASE STYLES ===== */
 
 .stApp {
-    background-color: var(--bg-dark) !important;
-    color: var(--text-primary) !important;
+    background: hsl(var(--background)) !important;
+    color: hsl(var(--foreground)) !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    line-height: 1.6 !important;
 }
 
 /* Hide default Streamlit header */
@@ -55,112 +106,143 @@ header[data-testid="stHeader"] {
     height: 0rem !important;
 }
 
-/* Main container */
+/* Main container with proper padding */
 .block-container {
-    padding-top: 0.5rem !important;
-    padding-bottom: 1rem !important;
+    padding: 2rem 1rem !important;
     max-width: 1400px !important;
+    margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+    .block-container {
+        padding: 2rem !important;
+    }
 }
 
 /* ===== TYPOGRAPHY ===== */
 
-/* Main heading */
 h1 {
-    color: var(--text-white) !important;
-    font-size: 2.25rem !important;
+    color: hsl(var(--foreground)) !important;
+    font-size: 2.5rem !important;
     font-weight: 700 !important;
     text-align: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 1 !important;
+    margin: 1rem 0 2rem 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
 }
 
-/* Cyan accent in heading */
-h1 span {
-    color: var(--primary-cyan-light) !important;
+/* Gradient text for main heading accent */
+h1 .gradient-text {
+    background: var(--gradient-clinical) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
-/* Section headings */
-h2, h3 {
-    color: var(--primary-cyan-light) !important;
+h2 {
+    color: hsl(var(--primary)) !important;
+    font-size: 1.5rem !important;
     font-weight: 700 !important;
-    font-size: 1.25rem !important;
     margin-bottom: 1rem !important;
+    letter-spacing: -0.01em !important;
 }
 
 h3 {
-    font-size: 1.125rem !important;
+    color: hsl(var(--primary)) !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.75rem !important;
 }
 
 /* Regular text */
 .stMarkdown, .stMarkdown p, .stMarkdown li {
-    color: var(--text-primary) !important;
+    color: hsl(var(--foreground)) !important;
     line-height: 1.6 !important;
 }
 
-/* Small text */
+/* Small text / captions */
 .stMarkdown small, .stCaption {
-    color: var(--text-muted) !important;
+    color: hsl(var(--muted-foreground)) !important;
     font-size: 0.875rem !important;
 }
 
 /* ===== CARD COMPONENTS ===== */
 
-/* Card-style containers */
+/* Card styling for containers */
 div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"],
 div[data-testid="stExpander"] {
-    background-color: var(--bg-card) !important;
-    border: 1px solid var(--border-default) !important;
-    border-radius: 0.75rem !important;
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: var(--radius) !important;
     padding: 1.5rem !important;
-    box-shadow: var(--shadow-lg) !important;
+    box-shadow: var(--shadow-card) !important;
     margin-bottom: 1rem !important;
+    transition: all 0.2s ease !important;
 }
 
-/* Expander styling */
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"]:hover {
+    box-shadow: var(--shadow-elevated) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Expander (accordion) styling */
 div[data-testid="stExpander"] {
-    background-color: var(--bg-card) !important;
-    border: 1px solid var(--border-default) !important;
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
 }
 
 div[data-testid="stExpander"] summary {
-    color: var(--primary-cyan-light) !important;
+    color: hsl(var(--primary)) !important;
     font-weight: 600 !important;
+    padding: 0.75rem !important;
+    cursor: pointer !important;
+}
+
+div[data-testid="stExpander"] summary:hover {
+    color: hsl(var(--primary-hover)) !important;
 }
 
 /* ===== TABS STYLING ===== */
 
 .stTabs {
     background-color: transparent !important;
+    margin-bottom: 2rem !important;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    background-color: var(--bg-secondary) !important;
-    border-radius: 0.75rem !important;
-    padding: 0.5rem !important;
-    gap: 0.5rem !important;
+    background: hsl(var(--muted)) !important;
+    border-radius: var(--radius) !important;
+    padding: 0.25rem !important;
+    gap: 0.25rem !important;
     display: flex !important;
     justify-content: center !important;
+    border: 1px solid hsl(var(--border)) !important;
 }
 
 .stTabs [data-baseweb="tab"] {
-    color: var(--text-secondary) !important;
+    color: hsl(var(--muted-foreground)) !important;
     background-color: transparent !important;
-    border-radius: 0.5rem !important;
-    padding: 0.5rem 1rem !important;
+    border-radius: calc(var(--radius) - 0.125rem) !important;
+    padding: 0.75rem 1.5rem !important;
     font-weight: 500 !important;
-    transition: all 0.2s !important;
+    transition: all 0.2s ease !important;
     border: none !important;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    background-color: var(--bg-card-hover) !important;
+    background: hsl(var(--card-hover)) !important;
+    color: hsl(var(--foreground)) !important;
 }
 
 .stTabs [aria-selected="true"] {
-    background-color: var(--primary-cyan) !important;
-    color: var(--text-white) !important;
-    box-shadow: var(--shadow-md) !important;
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+/* Tab content area */
+.stTabs [data-baseweb="tab-panel"] {
+    padding-top: 1.5rem !important;
 }
 
 /* ===== INPUT ELEMENTS ===== */
@@ -169,320 +251,468 @@ div[data-testid="stExpander"] summary {
 .stNumberInput input,
 .stTextInput input,
 .stTextArea textarea {
-    background-color: var(--bg-input) !important;
-    color: var(--text-white) !important;
-    border: 1px solid var(--border-light) !important;
-    border-radius: 0.5rem !important;
-    padding: 0.625rem !important;
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--foreground)) !important;
+    border: 1px solid hsl(var(--input)) !important;
+    border-radius: calc(var(--radius) - 0.125rem) !important;
+    padding: 0.625rem 0.75rem !important;
     font-size: 1rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.stNumberInput input:hover,
+.stTextInput input:hover,
+.stTextArea textarea:hover {
+    border-color: hsl(var(--ring)) !important;
 }
 
 .stNumberInput input:focus,
 .stTextInput input:focus,
 .stTextArea textarea:focus {
-    border-color: var(--primary-cyan) !important;
-    box-shadow: 0 0 0 1px var(--primary-cyan) !important;
+    border-color: hsl(var(--ring)) !important;
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.1) !important;
     outline: none !important;
 }
 
-/* Select boxes */
+/* Select boxes / Dropdowns */
 .stSelectbox select {
-    background-color: var(--bg-input) !important;
-    color: var(--text-white) !important;
-    border: 1px solid var(--border-light) !important;
-    border-radius: 0.5rem !important;
-    padding: 0.625rem !important;
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--foreground)) !important;
+    border: 1px solid hsl(var(--input)) !important;
+    border-radius: calc(var(--radius) - 0.125rem) !important;
+    padding: 0.625rem 0.75rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.stSelectbox select:hover {
+    border-color: hsl(var(--ring)) !important;
 }
 
 .stSelectbox select:focus {
-    border-color: var(--primary-cyan) !important;
-    box-shadow: 0 0 0 1px var(--primary-cyan) !important;
+    border-color: hsl(var(--ring)) !important;
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.1) !important;
+    outline: none !important;
 }
 
-/* Labels */
+/* Input labels */
 .stNumberInput label,
 .stTextInput label,
 .stSelectbox label,
 .stTextArea label {
-    color: var(--text-secondary) !important;
+    color: hsl(var(--foreground)) !important;
     font-size: 0.875rem !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     margin-bottom: 0.5rem !important;
 }
 
 /* Sliders */
 .stSlider {
-    padding: 0.5rem 0 !important;
+    padding: 1rem 0 !important;
 }
 
 .stSlider label {
-    color: var(--text-secondary) !important;
-    font-weight: 500 !important;
+    color: hsl(var(--foreground)) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
 }
 
 .stSlider [data-baseweb="slider"] {
     margin-top: 1rem !important;
 }
 
-/* Slider track */
 .stSlider [data-baseweb="slider"] [role="slider"] {
-    background-color: var(--primary-cyan) !important;
+    background: hsl(var(--primary)) !important;
+    border: 2px solid hsl(var(--card)) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.stSlider [data-baseweb="slider"] [data-baseweb="slider-track"] {
+    background: hsl(var(--muted)) !important;
 }
 
 /* Checkboxes */
 .stCheckbox {
-    color: var(--text-primary) !important;
-    background-color: var(--bg-secondary) !important;
+    background: hsl(var(--muted)) !important;
     padding: 0.75rem !important;
-    border-radius: 0.5rem !important;
+    border-radius: calc(var(--radius) - 0.125rem) !important;
+    transition: all 0.2s ease !important;
+}
+
+.stCheckbox:hover {
+    background: hsl(var(--card-hover)) !important;
 }
 
 .stCheckbox label {
     font-weight: 500 !important;
-    color: var(--text-primary) !important;
+    color: hsl(var(--foreground)) !important;
 }
 
 .stCheckbox input[type="checkbox"] {
-    accent-color: var(--primary-cyan) !important;
+    accent-color: hsl(var(--primary)) !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
 }
 
 /* Radio buttons */
 .stRadio {
-    color: var(--text-primary) !important;
+    color: hsl(var(--foreground)) !important;
 }
 
 .stRadio label {
-    color: var(--text-secondary) !important;
+    color: hsl(var(--foreground)) !important;
     font-weight: 500 !important;
+}
+
+.stRadio input[type="radio"] {
+    accent-color: hsl(var(--primary)) !important;
 }
 
 /* ===== BUTTONS ===== */
 
-/* Primary button */
+/* Primary button - Clinical Blue */
 .stButton > button {
-    background-color: var(--primary-cyan-dark) !important;
-    color: var(--text-white) !important;
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
     border: none !important;
-    border-radius: 0.5rem !important;
-    padding: 1rem 1.5rem !important;
-    font-weight: 700 !important;
-    font-size: 1.125rem !important;
-    box-shadow: var(--shadow-md) !important;
-    transition: all 0.2s !important;
+    border-radius: var(--radius) !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: all 0.2s ease !important;
     width: 100% !important;
+    letter-spacing: 0.01em !important;
 }
 
 .stButton > button:hover {
-    background-color: var(--primary-cyan-hover) !important;
-    box-shadow: var(--shadow-lg) !important;
-    transform: translateY(-1px) !important;
+    background: hsl(var(--primary-hover)) !important;
+    box-shadow: var(--shadow-elevated) !important;
+    transform: translateY(-2px) !important;
 }
 
 .stButton > button:active {
     transform: translateY(0) !important;
+    box-shadow: var(--shadow-card) !important;
 }
 
 /* Secondary button */
 .stButton > button[kind="secondary"] {
-    background-color: var(--bg-card) !important;
-    color: var(--primary-cyan) !important;
-    border: 1px solid var(--primary-cyan) !important;
+    background: hsl(var(--secondary)) !important;
+    color: hsl(var(--secondary-foreground)) !important;
+    border: 1px solid hsl(var(--border)) !important;
 }
 
 .stButton > button[kind="secondary"]:hover {
-    background-color: var(--bg-card-hover) !important;
+    background: hsl(var(--card-hover)) !important;
 }
 
-/* ===== INFO BOXES ===== */
+/* Download button styling */
+.stDownloadButton > button {
+    background: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+}
 
-/* Success boxes */
+.stDownloadButton > button:hover {
+    background: hsl(var(--accent-hover)) !important;
+}
+
+/* ===== STATUS/ALERT BOXES ===== */
+
+/* Success messages */
 .stSuccess {
-    background-color: rgba(74, 222, 128, 0.1) !important;
-    color: var(--success) !important;
-    border: 1px solid var(--success) !important;
-    border-radius: 0.5rem !important;
+    background: hsl(var(--success) / 0.1) !important;
+    color: hsl(var(--success)) !important;
+    border: 1px solid hsl(var(--success) / 0.3) !important;
+    border-radius: var(--radius) !important;
     padding: 1rem !important;
+    border-left: 4px solid hsl(var(--success)) !important;
 }
 
-/* Warning boxes */
+/* Warning messages */
 .stWarning {
-    background-color: rgba(250, 204, 21, 0.1) !important;
-    color: var(--warning) !important;
-    border: 1px solid var(--warning) !important;
-    border-radius: 0.5rem !important;
+    background: hsl(var(--warning) / 0.1) !important;
+    color: hsl(var(--warning)) !important;
+    border: 1px solid hsl(var(--warning) / 0.3) !important;
+    border-radius: var(--radius) !important;
     padding: 1rem !important;
+    border-left: 4px solid hsl(var(--warning)) !important;
 }
 
-/* Error boxes */
+/* Error messages */
 .stError {
-    background-color: rgba(239, 68, 68, 0.1) !important;
-    color: var(--danger) !important;
-    border: 1px solid var(--danger) !important;
-    border-radius: 0.5rem !important;
+    background: hsl(var(--destructive) / 0.1) !important;
+    color: hsl(var(--destructive)) !important;
+    border: 1px solid hsl(var(--destructive) / 0.3) !important;
+    border-radius: var(--radius) !important;
     padding: 1rem !important;
+    border-left: 4px solid hsl(var(--destructive)) !important;
 }
 
-/* Info boxes */
+/* Info messages */
 .stInfo {
-    background-color: var(--bg-card) !important;
-    color: var(--text-secondary) !important;
-    border: 1px solid var(--border-default) !important;
-    border-radius: 0.5rem !important;
+    background: hsl(var(--info) / 0.1) !important;
+    color: hsl(var(--info)) !important;
+    border: 1px solid hsl(var(--info) / 0.3) !important;
+    border-radius: var(--radius) !important;
     padding: 1rem !important;
+    border-left: 4px solid hsl(var(--info)) !important;
 }
 
-/* ===== METRICS ===== */
+/* ===== METRICS / STATS DISPLAY ===== */
 
 .stMetric {
-    background-color: var(--bg-secondary) !important;
-    border-radius: 0.5rem !important;
-    padding: 1rem !important;
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: var(--radius) !important;
+    padding: 1.5rem !important;
     text-align: center !important;
+    box-shadow: var(--shadow-card) !important;
+    transition: all 0.2s ease !important;
+}
+
+.stMetric:hover {
+    box-shadow: var(--shadow-elevated) !important;
+    transform: translateY(-2px) !important;
 }
 
 .stMetric label {
-    color: var(--primary-cyan-light) !important;
-    font-size: 0.875rem !important;
+    color: hsl(var(--muted-foreground)) !important;
+    font-size: 0.75rem !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
 }
 
 .stMetric [data-testid="stMetricValue"] {
-    color: var(--text-white) !important;
+    color: hsl(var(--primary)) !important;
     font-size: 2.5rem !important;
     font-weight: 700 !important;
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace !important;
+    margin: 0.5rem 0 !important;
 }
 
 .stMetric [data-testid="stMetricDelta"] {
-    color: var(--text-muted) !important;
-    font-size: 0.75rem !important;
+    color: hsl(var(--muted-foreground)) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
 }
 
 /* ===== DATAFRAMES / TABLES ===== */
 
 .stDataFrame {
-    border-radius: 0.5rem !important;
+    border-radius: var(--radius) !important;
     overflow: hidden !important;
+    border: 1px solid hsl(var(--border)) !important;
 }
 
 .stDataFrame table {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--foreground)) !important;
 }
 
 .stDataFrame thead tr {
-    background-color: var(--bg-dark) !important;
+    background: hsl(var(--muted)) !important;
 }
 
 .stDataFrame thead th {
-    color: var(--primary-cyan-light) !important;
+    color: hsl(var(--primary)) !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     font-size: 0.75rem !important;
-    padding: 0.75rem !important;
-    border-bottom: 1px solid var(--border-default) !important;
+    padding: 0.875rem !important;
+    border-bottom: 2px solid hsl(var(--border)) !important;
+    letter-spacing: 0.05em !important;
 }
 
 .stDataFrame tbody tr {
-    border-bottom: 1px solid var(--border-default) !important;
+    border-bottom: 1px solid hsl(var(--border)) !important;
+    transition: background 0.2s ease !important;
 }
 
 .stDataFrame tbody tr:hover {
-    background-color: var(--bg-secondary) !important;
+    background: hsl(var(--muted)) !important;
 }
 
 .stDataFrame tbody td {
-    padding: 1rem 0.75rem !important;
-    color: var(--text-primary) !important;
+    padding: 1rem 0.875rem !important;
+    color: hsl(var(--foreground)) !important;
 }
 
-/* ===== COLUMNS ===== */
+/* ===== COLUMNS LAYOUT ===== */
 
-/* Column spacing */
 div[data-testid="column"] {
     padding: 0 0.5rem !important;
 }
 
-/* Remove vertical spacing between elements */
-div[data-testid="column"] > div {
-    margin-bottom: 0 !important;
+/* First and last column - remove extra padding */
+div[data-testid="column"]:first-child {
+    padding-left: 0 !important;
 }
 
-/* Minimize gap between header columns */
-div[data-testid="column"]:has(h1) {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+div[data-testid="column"]:last-child {
+    padding-right: 0 !important;
 }
 
-/* ===== CUSTOM CLASSES ===== */
+/* ===== CUSTOM CLINICAL COMPONENTS ===== */
 
-/* Dose result card */
-.dose-result {
-    background-color: var(--bg-secondary) !important;
-    border-radius: 0.5rem !important;
-    padding: 1rem !important;
+/* Dose result card with clinical gradient */
+.dose-result-card {
+    background: var(--gradient-clinical) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    border-radius: var(--radius) !important;
+    padding: 2rem !important;
     text-align: center !important;
-    border: 1px dashed var(--border-light) !important;
+    box-shadow: var(--shadow-elevated) !important;
+    margin: 1rem 0 !important;
 }
 
-/* ML result card with purple accent */
-.ml-result {
-    border-color: var(--purple-accent) !important;
+/* Elevated card - for important information */
+.elevated-card {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: var(--radius) !important;
+    padding: 1.5rem !important;
+    box-shadow: var(--shadow-elevated) !important;
 }
 
-/* Breakdown items */
-.breakdown-item {
-    display: flex !important;
-    justify-content: space-between !important;
-    padding: 0.5rem 0 !important;
-    border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
+/* Clinical info badge */
+.clinical-badge {
+    display: inline-block !important;
+    background: hsl(var(--primary) / 0.1) !important;
+    color: hsl(var(--primary)) !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: calc(var(--radius) - 0.25rem) !important;
     font-size: 0.875rem !important;
+    font-weight: 600 !important;
+}
+
+/* Status badges */
+.status-success {
+    background: hsl(var(--success) / 0.1) !important;
+    color: hsl(var(--success)) !important;
+    border: 1px solid hsl(var(--success) / 0.3) !important;
+}
+
+.status-warning {
+    background: hsl(var(--warning) / 0.1) !important;
+    color: hsl(var(--warning)) !important;
+    border: 1px solid hsl(var(--warning) / 0.3) !important;
+}
+
+.status-error {
+    background: hsl(var(--destructive) / 0.1) !important;
+    color: hsl(var(--destructive)) !important;
+    border: 1px solid hsl(var(--destructive) / 0.3) !important;
 }
 
 /* ===== SPINNER / LOADING ===== */
 
 .stSpinner > div {
-    border-color: var(--primary-cyan) !important;
+    border-color: hsl(var(--primary)) transparent transparent transparent !important;
 }
 
-/* ===== SCROLLBAR ===== */
+/* ===== SCROLLBAR STYLING ===== */
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-card);
-    border-radius: 5px;
+    background: hsl(var(--muted));
+    border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--bg-card-hover);
-    border-radius: 5px;
+    background: hsl(var(--border));
+    border-radius: 6px;
+    border: 2px solid hsl(var(--muted));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--border-light);
+    background: hsl(var(--primary) / 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) hsl(var(--muted));
+}
+
+/* ===== SIDEBAR STYLING ===== */
+
+section[data-testid="stSidebar"] {
+    background: hsl(var(--card)) !important;
+    border-right: 1px solid hsl(var(--border)) !important;
+}
+
+section[data-testid="stSidebar"] .stMarkdown {
+    color: hsl(var(--foreground)) !important;
+}
+
+/* ===== TOOLTIPS ===== */
+
+.stTooltipIcon {
+    color: hsl(var(--muted-foreground)) !important;
+}
+
+.stTooltipIcon:hover {
+    color: hsl(var(--primary)) !important;
+}
+
+/* ===== CHARTS & VISUALIZATIONS ===== */
+
+.stPlotlyChart {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: var(--radius) !important;
+    padding: 1rem !important;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
     .block-container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding: 1rem !important;
     }
 
     h1 {
-        font-size: 1.875rem !important;
+        font-size: 2rem !important;
+    }
+
+    h2 {
+        font-size: 1.25rem !important;
     }
 
     .stButton > button {
-        padding: 0.875rem 1rem !important;
-        font-size: 1rem !important;
+        padding: 0.625rem 1rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    .stMetric [data-testid="stMetricValue"] {
+        font-size: 2rem !important;
+    }
+
+    div[data-testid="column"] {
+        padding: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* Focus indicators for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid hsl(var(--ring)) !important;
+    outline-offset: 2px !important;
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
@@ -490,9 +720,31 @@ div[data-testid="column"]:has(h1) {
 
 footer {
     text-align: center !important;
-    margin-top: 3rem !important;
+    margin-top: 4rem !important;
     padding-top: 2rem !important;
-    border-top: 1px solid var(--border-default) !important;
-    color: var(--text-dim) !important;
+    border-top: 1px solid hsl(var(--border)) !important;
+    color: hsl(var(--muted-foreground)) !important;
     font-size: 0.875rem !important;
+}
+
+footer a {
+    color: hsl(var(--primary)) !important;
+    text-decoration: none !important;
+}
+
+footer a:hover {
+    text-decoration: underline !important;
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+    .stButton, footer, header[data-testid="stHeader"] {
+        display: none !important;
+    }
+
+    .block-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
 }
