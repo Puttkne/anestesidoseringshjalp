@@ -2,7 +2,7 @@
 
 ## Overview
 
-This comprehensive test suite validates **every button and feature** in the Anestesi-assistent v8.0 application. The test suite uses Playwright for end-to-end testing to simulate real user interactions.
+This comprehensive test suite validates **every button and feature** in the Anestesi-assistent Alfa V0.8 application. The test suite uses Playwright for end-to-end testing to simulate real user interactions.
 
 ## Test Coverage
 
@@ -232,7 +232,7 @@ test_reports/                         # Generated reports
 **Solution**: Make sure Streamlit is installed and the app can run:
 
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### Issue: Browser doesn't launch

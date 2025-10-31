@@ -1,4 +1,4 @@
-# Comprehensive Test Checklist for Anestesi-assistent v8.0
+# Comprehensive Test Checklist for Anestesi-assistent Alfa V0.8
 
 Use this checklist for manual testing or to verify automated test coverage.
 

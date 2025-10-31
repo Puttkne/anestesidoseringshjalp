@@ -1,4 +1,4 @@
-# Anestesi-assistent v8.0 - En Djupgående Teknisk Förklaring
+# Anestesi-assistent Alfa V0.8 - En Djupgående Teknisk Förklaring
 
 Välkommen till Anestesi-assistenten, ett avancerat beslutsstöd för anestesipersonal. Detta dokument ger en detaljerad teknisk översikt av applikationens alla delar, från användargränssnittet till de underliggande algoritmerna och maskininlärningssystemen. Målet är att ge en fullständig förståelse för hur varje enskild del fungerar och interagerar med helheten.
 
@@ -57,7 +57,7 @@ Data lagras i en **SQLite-databas (`anestesi.db`)**, som hanteras via modulen `d
 
 ## Databashantering & Backup
 
-**🆕 NYTT I VERSION 8:** Automatiskt backup- och återställningssystem för databaspersistens!
+**🆕 NYTT I Alfa V0.8:** Automatiskt backup- och återställningssystem för databaspersistens!
 
 ### Problemet med Streamlit Cloud
 
@@ -157,7 +157,7 @@ I Admin-panelen ser du:
 När appen startar på Streamlit Cloud:
 
 ```python
-# I oxydos_v8.py - initialize_session()
+# I oxydoseks.py - initialize_session()
 restore_performed = database_backup.auto_restore()
 ```
 
@@ -241,10 +241,10 @@ För att spara en kopia lokalt på din dator:
 ```bash
 # 1. Gör kodändringar i VS Code
 # 2. Testa lokalt
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 
 # 3. Commit kod (INTE database_backup.json om den inte ändrats)
-git add oxydos_v8.py calculation_engine.py
+git add oxydoseks.py calculation_engine.py
 git commit -m "Fix: Updated dose calculation logic"
 git push
 

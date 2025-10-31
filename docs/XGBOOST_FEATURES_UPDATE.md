@@ -59,7 +59,7 @@ XGBoost använder nu **~40-60 features** istället för tidigare ~20-30. Alla ad
 
 ## 📊 FÖRE vs EFTER - Feature Jämförelse
 
-### FÖRE (v8.3.1):
+### FÖRE (Alfa V0.8.3.1):
 | Kategori | Features | Detalj |
 |----------|----------|--------|
 | Patientdata | 8 | age, weight, height, bmi, ibw, abw, sex, asa, opioidHistory, low_pain_threshold |
@@ -72,7 +72,7 @@ XGBoost använder nu **~40-60 features** istället för tidigare ~20-30. Alla ad
 
 ---
 
-### EFTER (v8.4):
+### EFTER (Alfa V0.8.4):
 | Kategori | Features | Detalj |
 |----------|----------|--------|
 | Patientdata | 9 | age, weight, height, bmi, ibw, abw, sex, asa, opioidHistory, low_pain_threshold, **renal_impairment ✨** |
@@ -99,7 +99,7 @@ CREATE TABLE cases (
 )
 ```
 
-### 2. UI (oxydos_v8.py)
+### 2. UI (oxydoseks.py)
 ```python
 # Njurstatus toggle tillagd
 risk_cols = st.columns(2)
@@ -107,7 +107,7 @@ risk_cols[0].toggle("Känd låg smärttröskel", key='lowPainThreshold')
 risk_cols[1].toggle("GFR <50 (njursvikt)", key='renalImpairment')  # ✨ NYTT
 ```
 
-### 3. XGBoost Feature Encoding (oxydos_v8.py rad 414-416)
+### 3. XGBoost Feature Encoding (oxydoseks.py rad 414-416)
 ```python
 # FÖRE:
 combined_encoded = pd.get_dummies(combined, columns=['specialty', 'opioidHistory', 'asa'], drop_first=True)
@@ -331,4 +331,4 @@ Gamla fall i databasen som inte har `renal_impairment`:
 ---
 
 *Uppdaterad: 2025-10-04*
-*Version: v8.4 (XGBoost Feature Expansion)*
+*Version: Alfa V0.8.4 (XGBoost Feature Expansion)*

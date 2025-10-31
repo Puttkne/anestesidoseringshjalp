@@ -12,7 +12,7 @@ echo [INFO] Checking if Streamlit app is running...
 curl -s http://localhost:8501 > nul 2>&1
 if %errorlevel% neq 0 (
     echo [WARNING] Streamlit app is not running on http://localhost:8501
-    echo [INFO] Please start the app first with: streamlit run oxydos_v8.py
+    echo [INFO] Please start the app first with: streamlit run oxydoseks.py
     echo.
     choice /C YN /M "Do you want to start the app now"
     if errorlevel 2 goto :skip_start
@@ -25,7 +25,7 @@ if %errorlevel% neq 0 (
 
 :start_app
 echo [INFO] Starting Streamlit app...
-start "Streamlit App" cmd /k "streamlit run oxydos_v8.py"
+start "Streamlit App" cmd /k "streamlit run oxydoseks.py"
 echo [INFO] Waiting 10 seconds for app to start...
 timeout /t 10 /nobreak > nul
 goto :run_tests

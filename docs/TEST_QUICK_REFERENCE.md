@@ -14,7 +14,7 @@ run_tests.bat
 ### Option 2: Manual Run
 ```bash
 # Terminal 1: Start the app
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 
 # Terminal 2: Run tests (wait 10 seconds after starting app)
 python test_comprehensive_playwright.py

@@ -1,5 +1,5 @@
 @echo off
-REM Quick Test Runner for Anestesi-assistent v8.0
+REM Quick Test Runner for Anestesi-assistent Alfa V0.8
 REM Run this to execute the full test suite
 
 echo ================================================================================

@@ -223,7 +223,7 @@ python -m py_compile calculation_engine.py ml_model.py
 python -c "import calculation_engine; import ml_model; print('✅ Import OK')"
 
 # 4. Kör applikationen
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ## TESTPLAN

@@ -1,4 +1,4 @@
-# Ketamine och NSAID Differentiering - v8.2
+# Ketamine och NSAID Differentiering - Alfa V0.8.2
 
 ## Översikt
 Två uppdateringar implementerade baserat på klinisk feedback:
@@ -44,7 +44,7 @@ if score_diff > 0.3:
 
 ### Implementationsdetaljer
 
-#### UI (oxydos_v8.py rad 805-817)
+#### UI (oxydoseks.py rad 805-817)
 ```python
 ketamine_choice = k_cols[1].selectbox("",
     ["Ej given",
@@ -63,7 +63,7 @@ else:
     st.session_state['ketamine'] = 'Nej'
 ```
 
-#### Beräkning (oxydos_v8.py rad 219-242)
+#### Beräkning (oxydoseks.py rad 219-242)
 ```python
 ketamine_choice = inputs.get('ketamine_choice', 'Ej given')
 if ketamine_choice != 'Ej given':
@@ -83,7 +83,7 @@ if ketamine_choice != 'Ej given':
     mme *= effective_multiplier
 ```
 
-#### Inlärning (oxydos_v8.py rad 648-662)
+#### Inlärning (oxydoseks.py rad 648-662)
 ```python
 ketamine_choice = current_inputs.get('ketamine_choice', 'Ej given')
 if ketamine_choice != 'Ej given':
@@ -101,7 +101,7 @@ if ketamine_choice != 'Ej given':
     adjuvant_updates.append(f"{ketamine_choice}: {new_mult:.2f}")
 ```
 
-#### Composite Key (oxydos_v8.py rad 291-299)
+#### Composite Key (oxydoseks.py rad 291-299)
 ```python
 ketamine_choice = inputs.get('ketamine_choice', 'Ej given')
 ketamine_chars = {
@@ -230,7 +230,7 @@ Skapas automatiskt med ketamine_choice kolumn inkluderad.
 ## Tekniska Ändringar - Sammanfattning
 
 ### Filer Modifierade
-1. **oxydos_v8.py**
+1. **oxydoseks.py**
    - Rad 148-155: Batch learning max ±0.5 → ±0.3
    - Rad 219-242: Ketamine dose-specific multipliers
    - Rad 291-299: Ketamine composite key chars

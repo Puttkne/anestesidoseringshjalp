@@ -315,7 +315,7 @@ def save_case(case_data: Dict, user_id: int) -> int:
 
 ### Kontrollera att alla inlärningssystem aktiveras korrekt:
 
-**handle_save_and_learn() i oxydos_v8.py rad 445-702:**
+**handle_save_and_learn() i oxydoseks.py rad 445-702:**
 
 1. ✓ **Calibration factor** (rad 580-597)
    - Aktiveras: ALLTID när outcome loggas

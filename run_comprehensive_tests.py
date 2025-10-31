@@ -1,5 +1,5 @@
 """
-Comprehensive Test Runner for Anestesi-assistent v8.0
+Comprehensive Test Runner for Anestesi-assistent Alfa V0.8
 Runs the full test suite and generates a detailed report.
 """
 

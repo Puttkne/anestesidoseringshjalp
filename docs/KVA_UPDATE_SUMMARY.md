@@ -19,7 +19,7 @@ KVÅ-koder har nu lagts till i systemet för alla 84 ingrepp. Detta möjliggör 
 - Befintlig databas migrerad (kolumner tillagda)
 
 ### 3. ✅ Dataflöde implementerat
-**Fil:** `oxydos_v8.py`
+**Fil:** `oxydoseks.py`
 - `get_current_inputs()` extraherar KVÅ-kod från valt ingrepp
 - KVÅ-kod sparas automatiskt när fall loggas
 - Används för dataexport och identifiering

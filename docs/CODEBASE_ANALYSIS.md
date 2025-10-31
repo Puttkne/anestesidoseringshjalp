@@ -1,12 +1,12 @@
-# Anestesidoseringshjälp v8.0 - Codebase Analysis
+# Anestesidoseringshjälp Alfa V0.8 - Codebase Analysis
 
-This document provides a detailed analysis of the Anestesidoseringshjälp v8.0 codebase. It covers the application's architecture, data flow, calculation engine, learning system, and postoperative analysis.
+This document provides a detailed analysis of the Anestesidoseringshjälp Alfa V0.8 codebase. It covers the application's architecture, data flow, calculation engine, learning system, and postoperative analysis.
 
 ## 1. High-Level Architecture
 
 The application consists of two main parts:
 
-1.  **Streamlit Frontend (`oxydos_v8.py`):** A comprehensive graphical user interface for anesthesiologists to input patient and procedure data, receive dose recommendations, and log postoperative outcomes.
+1.  **Streamlit Frontend (`oxydoseks.py`):** A comprehensive graphical user interface for anesthesiologists to input patient and procedure data, receive dose recommendations, and log postoperative outcomes.
 2.  **FastAPI Backend (`main.py`):** An API backend that exposes some of the application's functionality. It seems to be designed for a different frontend (likely a web application) and is not directly used by the Streamlit application.
 
 The core logic is encapsulated in a set of Python modules, including:
@@ -205,4 +205,4 @@ This module manages the database schema and migrations. It ensures that the data
 
 ## 5. Conclusion
 
-The Anestesidoseringshjälp v8.0 is a sophisticated and well-architected application that combines a rule-based expert system with a powerful machine learning component. The use of a central configuration file for all pharmacological data, a dedicated learning engine, and a comprehensive database schema makes the system robust, maintainable, and adaptive. The continuous learning loop, driven by postoperative outcome data, is a key feature that allows the system to improve its recommendations over time.
+The Anestesidoseringshjälp Alfa V0.8 is a sophisticated and well-architected application that combines a rule-based expert system with a powerful machine learning component. The use of a central configuration file for all pharmacological data, a dedicated learning engine, and a comprehensive database schema makes the system robust, maintainable, and adaptive. The continuous learning loop, driven by postoperative outcome data, is a key feature that allows the system to improve its recommendations over time.

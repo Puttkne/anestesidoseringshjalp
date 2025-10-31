@@ -1,6 +1,6 @@
-# Anestesi-assistent v8.0 - Uppgraderingsguide
+# Anestesi-assistent Alfa V0.8 - Uppgraderingsguide
 
-## 🆕 Nyheter i v8.0
+## 🆕 Nyheter i Alfa V0.8
 
 ### 1. **Säker Autentisering**
 - Användare loggar in med sitt användar-ID (första gången skapas kontot automatiskt)
@@ -46,7 +46,7 @@ Detta script kommer:
 ### Steg 3: Kör nya applikationen
 
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ## 🔐 Inloggning
@@ -66,7 +66,7 @@ streamlit run oxydos_v8.py
 ### Förberedelser:
 
 1. **Skapa ett GitHub repository** med följande filer:
-   - `oxydos_v8.py` (huvudapplikationen)
+   - `oxydoseks.py` (huvudapplikationen)
    - `database.py` (databashantering)
    - `auth.py` (autentisering)
    - `requirements.txt` (beroenden)
@@ -88,8 +88,8 @@ streamlit run oxydos_v8.py
 3. **Pusha till GitHub:**
    ```bash
    git init
-   git add oxydos_v8.py database.py auth.py requirements.txt .gitignore
-   git commit -m "Initial commit of v8.0"
+   git add oxydoseks.py database.py auth.py requirements.txt .gitignore
+   git commit -m "Initial commit of Alfa V0.8"
    git branch -M main
    git remote add origin https://github.com/dittanvändarnamn/anestesi-app.git
    git push -u origin main
@@ -99,7 +99,7 @@ streamlit run oxydos_v8.py
    - Gå till [share.streamlit.io](https://share.streamlit.io)
    - Logga in med GitHub
    - Välj ditt repository
-   - Välj `oxydos_v8.py` som main file
+   - Välj `oxydoseks.py` som main file
    - Klicka "Deploy"
 
 ### Viktigt vid deployment:
@@ -159,7 +159,7 @@ pip install streamlit-authenticator
 
 ## 📝 Changelog
 
-### v8.0 (2025-10-03)
+### Alfa V0.8 (2025-10-03)
 - ✅ Autentisering med bcrypt-hashade lösenord
 - ✅ SQLite-databas istället för JSON
 - ✅ Rättighetshantering (användare kan bara redigera sina egna fall)

@@ -110,7 +110,7 @@ CREATE TABLE adjuvant_effectiveness (
 - `update_adjuvant_effectiveness()`: Update after outcome
 - `get_all_adjuvant_effectiveness()`: Analytics/display
 
-### `oxydos_v8.py`
+### `oxydoseks.py`
 - **Rule engine**: Applies pain type matching in dose calculation
 - **XGBoost**: Adds pain features to training
 - **Learning**: Updates both calibration and adjuvant effectiveness

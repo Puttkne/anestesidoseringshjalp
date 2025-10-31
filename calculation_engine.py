@@ -143,7 +143,7 @@ def calculate_age_factor(age: int) -> float:
     return max(MIN_AGE_FACTOR, math.exp((REFERENCE_AGE - age) / AGE_STEEPNESS))
 
 def apply_learnable_adjuvant(
-    base_mme_before_adjuvants: float,
+    base_ime_before_adjuvants: float,
     drug_data: dict,
     procedure_pain_3d: dict,
     user_id: int = None
@@ -152,13 +152,13 @@ def apply_learnable_adjuvant(
     Beräkna adjuvant-reduktion med 3D pain matching och percentage-based potency.
 
     Args:
-        base_mme_before_adjuvants: Base MME efter patient factors, före adjuvants
+        base_ime_before_adjuvants: Base IME efter patient factors, före adjuvants
         drug_data: Dictionary från LÄKEMEDELS_DATA
         procedure_pain_3d: {'somatic': X, 'visceral': Y, 'neuropathic': Z}
         user_id: User ID för global inlärning
 
     Returns:
-        MME reduction från denna adjuvant
+        IME reduction från denna adjuvant
     """
     if not drug_data:
         return 0.0
@@ -192,16 +192,16 @@ def apply_learnable_adjuvant(
     # Beräkna 3D mismatch penalty
     penalty = calculate_3d_mismatch_penalty(procedure_pain_3d, drug_pain_3d)
 
-    # Beräkna reduktion som % av base MME (inte nuvarande MME!)
+    # Beräkna reduktion som % av base IME (inte nuvarande IME!)
     # Detta säkerställer att adjuvants skalar korrekt med procedur-storlek
-    effective_reduction = base_mme_before_adjuvants * potency_percent * penalty
+    effective_reduction = base_ime_before_adjuvants * potency_percent * penalty
 
     return effective_reduction
 
-def _get_initial_mme_and_pain_type(inputs, procedures_df):
+def _get_initial_ime_and_pain_type(inputs, procedures_df):
     user_id = auth.get_current_user_id()
     procedure = procedures_df[procedures_df['id'] == inputs['procedure_id']].iloc[0]
-    default_base_mme = float(procedure['baseMME'])
+    default_base_ime = float(procedure['baseIME'])
 
     # Hämta 3D pain scores (eller använd gamla painTypeScore som somatisk default)
     default_pain_somatic = float(procedure.get('painTypeScore', 5))
@@ -213,12 +213,12 @@ def _get_initial_mme_and_pain_type(inputs, procedures_df):
         try:
             learned = db.get_procedure_learning_3d(
                 inputs['procedure_id'],
-                default_base_mme,
+                default_base_ime,
                 default_pain_somatic,
                 default_pain_visceral,
                 default_pain_neuropathic
             )
-            return learned['base_mme'], {
+            return learned['base_ime'], {
                 'somatic': learned['pain_somatic'],
                 'visceral': learned['pain_visceral'],
                 'neuropathic': learned['pain_neuropathic']
@@ -226,20 +226,20 @@ def _get_initial_mme_and_pain_type(inputs, procedures_df):
         except Exception as e:
             logger.warning(f"Could not get 3D pain learning for {inputs['procedure_id']}: {e}")
             # Fall back to old 1D learning
-            learned = db.get_procedure_learning(user_id, inputs['procedure_id'], default_base_mme, default_pain_somatic)
-            return learned['base_mme'], {
+            learned = db.get_procedure_learning(user_id, inputs['procedure_id'], default_base_ime, default_pain_somatic)
+            return learned['base_ime'], {
                 'somatic': learned.get('pain_type', default_pain_somatic),
                 'visceral': default_pain_visceral,
                 'neuropathic': default_pain_neuropathic
             }, procedure
 
-    return default_base_mme, {
+    return default_base_ime, {
         'somatic': default_pain_somatic,
         'visceral': default_pain_visceral,
         'neuropathic': default_pain_neuropathic
     }, procedure
 
-def _apply_patient_factors(mme, inputs):
+def _apply_patient_factors(ime, inputs):
     user_id = auth.get_current_user_id()
 
     # Age factor with INTERPOLATION
@@ -258,7 +258,7 @@ def _apply_patient_factors(mme, inputs):
             age_factor = default_age_factor
     else:
         age_factor = default_age_factor
-    mme *= age_factor
+    ime *= age_factor
 
     # ASA factor
     asa_map = {'ASA 1': 1, 'ASA 2': 2, 'ASA 3': 3, 'ASA 4': 4, 'ASA 5': 5}
@@ -266,13 +266,13 @@ def _apply_patient_factors(mme, inputs):
     asa_num = asa_map.get(asa_class, 2)
     default_asa_factor = APP_CONFIG['DEFAULTS']['ASA_FACTORS'].get(asa_num, 1.0)
     asa_factor = db.get_asa_factor(asa_class, default_asa_factor) if user_id else default_asa_factor
-    mme *= asa_factor
+    ime *= asa_factor
 
     # Sex factor
     sex = inputs.get('sex', 'Man')
     default_sex_factor = 1.0
     sex_factor = db.get_sex_factor(sex, default_sex_factor) if user_id else default_sex_factor
-    mme *= sex_factor
+    ime *= sex_factor
 
     # 4D Body composition learning (NEW)
     # Uses BUCKETING for proximity matching - similar patients benefit from each other's learning
@@ -297,7 +297,7 @@ def _apply_patient_factors(mme, inputs):
                 logger.warning(f"Weight interpolation failed, using default: {e}")
                 weight_bucket = get_weight_bucket(weight)
                 body_comp_factor = db.get_body_composition_factor('weight', weight_bucket, 1.0) if hasattr(db, 'get_body_composition_factor') else 1.0
-            mme *= body_comp_factor
+            ime *= body_comp_factor
 
             if ibw > 0:
                 # Dimension 2: IBW RATIO (0.1 increments)
@@ -305,7 +305,7 @@ def _apply_patient_factors(mme, inputs):
                 ibw_ratio = weight / ibw
                 ibw_ratio_bucket = get_ibw_ratio_bucket(ibw_ratio)
                 ibw_factor = db.get_body_composition_factor('ibw_ratio', ibw_ratio_bucket, 1.0)
-                mme *= ibw_factor
+                ime *= ibw_factor
 
                 # Dimension 3: ABW RATIO (for overweight patients, 0.1 increments)
                 # 1.34x ABW patient benefits from learning on 1.3x bucket
@@ -313,49 +313,49 @@ def _apply_patient_factors(mme, inputs):
                     abw_ratio = abw / ibw
                     abw_ratio_bucket = get_abw_ratio_bucket(abw_ratio)
                     abw_factor = db.get_body_composition_factor('abw_ratio', abw_ratio_bucket, 1.0)
-                    mme *= abw_factor
+                    ime *= abw_factor
 
             # Dimension 4: BMI (7 categories)
             # BMI 33.2 patient benefits from learning on obese class I (32) bucket
             bmi_bucket = get_bmi_bucket(bmi)
             bmi_factor = db.get_body_composition_factor('bmi', bmi_bucket, 1.0)
-            mme *= bmi_factor
+            ime *= bmi_factor
 
     # Opioid tolerance
     if inputs['opioidHistory'] == 'Opioidtolerant':
         default_opioid_factor = APP_CONFIG['DEFAULTS']['OPIOID_TOLERANCE_FACTOR']
         opioid_factor = db.get_opioid_tolerance_factor() if user_id else default_opioid_factor
-        mme *= opioid_factor
+        ime *= opioid_factor
 
     # Pain threshold
     if inputs['lowPainThreshold']:
         default_pain_threshold_factor = APP_CONFIG['DEFAULTS']['PAIN_THRESHOLD_FACTOR']
         pain_threshold_factor = db.get_pain_threshold_factor() if user_id else default_pain_threshold_factor
-        mme *= pain_threshold_factor
+        ime *= pain_threshold_factor
 
     # Renal impairment
     if inputs.get('renalImpairment', False):
         default_renal_factor = APP_CONFIG['DEFAULTS']['RENAL_IMPAIRMENT_FACTOR']
         renal_factor = db.get_renal_factor() if user_id else default_renal_factor
-        mme *= renal_factor
+        ime *= renal_factor
 
-    return mme
+    return ime
 
-def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
+def _apply_adjuvants(base_ime_before_adjuvants, inputs, pain_type_3d):
     """
     Applicera alla adjuvanter med unified LÄKEMEDELS_DATA.
 
     VIKTIGT: Alla adjuvant-reductions är percentage-based och beräknas från
-    base_mme_before_adjuvants, inte från varandra. Detta säkerställer korrekt
+    base_ime_before_adjuvants, inte från varandra. Detta säkerställer korrekt
     skalning för både små och stora procedurer.
 
     Args:
-        base_mme_before_adjuvants: Base MME efter patient factors, före adjuvants
+        base_ime_before_adjuvants: Base IME efter patient factors, före adjuvants
         inputs: Patient inputs
         pain_type_3d: {'somatic': X, 'visceral': Y, 'neuropathic': Z}
 
     Returns:
-        Final MME efter alla adjuvant-reductions
+        Final IME efter alla adjuvant-reductions
     """
     user_id = auth.get_current_user_id()
     total_reduction = 0.0
@@ -365,7 +365,7 @@ def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
     if nsaid_choice != 'Ej given':
         drug_data = get_drug_by_ui_choice('nsaid', nsaid_choice)
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Catapressan (dosbaserad - skala percentage med dos)
@@ -378,14 +378,14 @@ def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
             dose_scaling = catapressan_dose / ref_dose
             scaled_drug_data = drug_data.copy()
             scaled_drug_data['potency_percent'] = drug_data['potency_percent'] * dose_scaling
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, scaled_drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, scaled_drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Droperidol
     if inputs.get('droperidol', False):
         drug_data = LÄKEMEDELS_DATA.get('droperidol')
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Ketamin
@@ -393,7 +393,7 @@ def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
     if ketamine_choice != 'Ej given':
         drug_data = get_drug_by_ui_choice('ketamine', ketamine_choice)
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Lidokain
@@ -401,7 +401,7 @@ def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
     if lidocaine_choice != 'Nej':
         drug_data = get_drug_by_ui_choice('lidocaine', lidocaine_choice)
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Betapred
@@ -409,48 +409,48 @@ def _apply_adjuvants(base_mme_before_adjuvants, inputs, pain_type_3d):
     if betapred_choice != 'Nej':
         drug_data = get_drug_by_ui_choice('betapred', betapred_choice)
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Sevoflurane
     if inputs.get('sevoflurane', False):
         drug_data = LÄKEMEDELS_DATA.get('sevoflurane')
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Infiltration
     if inputs.get('infiltration', False):
         drug_data = LÄKEMEDELS_DATA.get('infiltration')
         if drug_data:
-            reduction = apply_learnable_adjuvant(base_mme_before_adjuvants, drug_data, pain_type_3d, user_id)
+            reduction = apply_learnable_adjuvant(base_ime_before_adjuvants, drug_data, pain_type_3d, user_id)
             total_reduction += reduction
 
     # Apply total reduction
-    final_mme = max(0, base_mme_before_adjuvants - total_reduction)
+    final_ime = max(0, base_ime_before_adjuvants - total_reduction)
 
-    return final_mme
+    return final_ime
 
-def _apply_synergy_and_safety_limits(mme, inputs, base_mme_before_adjuvants):
+def _apply_synergy_and_safety_limits(ime, inputs, base_ime_before_adjuvants):
     user_id = auth.get_current_user_id()
     if user_id:
         drug_combo = db.get_drug_combination_key(inputs)
         if drug_combo:
             synergy_factor = db.get_synergy_factor(drug_combo)
-            mme *= synergy_factor
+            ime *= synergy_factor
 
-    min_mme_allowed = base_mme_before_adjuvants * APP_CONFIG['ADJUVANT_SAFETY_LIMIT_FACTOR']
-    mme = max(mme, min_mme_allowed)
+    min_ime_allowed = base_ime_before_adjuvants * APP_CONFIG['ADJUVANT_SAFETY_LIMIT_FACTOR']
+    ime = max(ime, min_ime_allowed)
 
-    return mme
+    return ime
 
-def _apply_fentanyl_pharmacokinetics(mme, inputs):
+def _apply_fentanyl_pharmacokinetics(ime, inputs):
     user_id = auth.get_current_user_id()
     fentanyl_remaining_fraction = db.get_fentanyl_remaining_fraction() if user_id else APP_CONFIG['FENTANYL_HALFLIFE_FRACTION']
-    fentanyl_mme_remaining = (inputs['fentanylDose'] / 100.0) * APP_CONFIG['FENTANYL_MME_CONVERSION_FACTOR'] * fentanyl_remaining_fraction
-    return max(0, mme - fentanyl_mme_remaining)
+    fentanyl_ime_remaining = (inputs['fentanylDose'] / 100.0) * APP_CONFIG['FENTANYL_IME_CONVERSION_FACTOR'] * fentanyl_remaining_fraction
+    return max(0, ime - fentanyl_ime_remaining)
 
-def _apply_weight_adjustment(mme, inputs):
+def _apply_weight_adjustment(ime, inputs):
     actual_weight = inputs.get('weight', APP_CONFIG['REFERENCE_WEIGHT_KG'])
     height_cm = inputs.get('height', 175)
     sex = inputs.get('sex', 'Man')
@@ -458,32 +458,32 @@ def _apply_weight_adjustment(mme, inputs):
     if height_cm > 0 and actual_weight > 0:
         abw = calculate_adjusted_body_weight(actual_weight, height_cm, sex)
         weight_factor = abw / APP_CONFIG['REFERENCE_WEIGHT_KG']
-        mme *= weight_factor
+        ime *= weight_factor
 
-    return mme
+    return ime
 
-def _apply_temporal_adjustments(mme, temporal_doses, pain_type_3d):
+def _apply_temporal_adjustments(ime, temporal_doses, pain_type_3d):
     """
-    Justera MME baserat på temporal dosering.
+    Justera IME baserat på temporal dosering.
 
     Beräknar kvarvarande fentanyl vid opslut och adjuvant-effekt vid postop tidpunkt.
 
     Args:
-        mme: Current MME
+        ime: Current IME
         temporal_doses: List of temporal dose dictionaries
         pain_type_3d: Procedure pain profile
 
     Returns:
-        Adjusted MME
+        Adjusted IME
     """
     from pharmacokinetics import (
-        calculate_temporal_fentanyl_mme_at_opslut,
+        calculate_temporal_fentanyl_ime_at_opslut,
         calculate_temporal_adjuvant_reduction_at_postop
     )
 
-    # Beräkna kvarvarande fentanyl MME vid opslut
-    fentanyl_mme_at_opslut = calculate_temporal_fentanyl_mme_at_opslut(temporal_doses)
-    mme -= fentanyl_mme_at_opslut
+    # Beräkna kvarvarande fentanyl IME vid opslut
+    fentanyl_ime_at_opslut = calculate_temporal_fentanyl_ime_at_opslut(temporal_doses)
+    ime -= fentanyl_ime_at_opslut
 
     # Beräkna adjuvant-reduktion vid postop tid (default 60 min)
     adjuvant_reduction = calculate_temporal_adjuvant_reduction_at_postop(
@@ -491,12 +491,12 @@ def _apply_temporal_adjustments(mme, temporal_doses, pain_type_3d):
         LÄKEMEDELS_DATA,
         postop_time=60
     )
-    mme -= adjuvant_reduction
+    ime -= adjuvant_reduction
 
-    # Säkerställ att MME inte blir negativ
-    mme = max(0, mme)
+    # Säkerställ att IME inte blir negativ
+    ime = max(0, ime)
 
-    return mme
+    return ime
 
 def _get_composite_key(inputs, procedure):
     asa_map = {'ASA 1': 1, 'ASA 2': 2, 'ASA 3': 3, 'ASA 4': 4, 'ASA 5': 5}
@@ -529,26 +529,26 @@ def calculate_rule_based_dose(inputs, procedures_df, temporal_doses=None):
         temporal_doses: List of temporal dose dictionaries (optional)
     """
     try:
-        mme, pain_type_3d, procedure = _get_initial_mme_and_pain_type(inputs, procedures_df)
-        mme = _apply_patient_factors(mme, inputs)
-        base_mme_before_adjuvants = mme
-        mme = _apply_adjuvants(mme, inputs, pain_type_3d)
-        mme = _apply_synergy_and_safety_limits(mme, inputs, base_mme_before_adjuvants)
-        mme = _apply_fentanyl_pharmacokinetics(mme, inputs)
+        ime, pain_type_3d, procedure = _get_initial_ime_and_pain_type(inputs, procedures_df)
+        ime = _apply_patient_factors(ime, inputs)
+        base_ime_before_adjuvants = ime
+        ime = _apply_adjuvants(ime, inputs, pain_type_3d)
+        ime = _apply_synergy_and_safety_limits(ime, inputs, base_ime_before_adjuvants)
+        ime = _apply_fentanyl_pharmacokinetics(ime, inputs)
 
         # Apply temporal dosing adjustments if provided
         if temporal_doses:
-            mme = _apply_temporal_adjustments(mme, temporal_doses, pain_type_3d)
+            ime = _apply_temporal_adjustments(ime, temporal_doses, pain_type_3d)
 
-        mme = _apply_weight_adjustment(mme, inputs)
+        ime = _apply_weight_adjustment(ime, inputs)
 
         composite_key = _get_composite_key(inputs, procedure)
         user_id = auth.get_current_user_id()
         if user_id:
             calibration_factor = db.get_calibration_factor(user_id, composite_key)
-            mme *= calibration_factor
+            ime *= calibration_factor
 
-        final_dose = round(max(0, mme / 0.25)) * 0.25
+        final_dose = round(max(0, ime / 0.25)) * 0.25
 
         actual_weight = inputs.get('weight', 75)
         height_cm = inputs.get('height', 175)

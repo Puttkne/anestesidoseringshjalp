@@ -39,7 +39,7 @@ Tests basic app functionality without authentication.
 **Run it:**
 ```bash
 # Start the app first
-streamlit run oxydos_v8.py --server.headless true --server.port 8501 &
+streamlit run oxydoseks.py --server.headless true --server.port 8501 &
 
 # Run the test
 python test_ui_light.py
@@ -75,7 +75,7 @@ Original basic test suite with fundamental feature testing.
 **Run it:**
 ```bash
 # Start the app first
-streamlit run oxydos_v8.py --server.headless true --server.port 8501 &
+streamlit run oxydoseks.py --server.headless true --server.port 8501 &
 
 # Wait for app to start (5 seconds)
 sleep 5
@@ -122,7 +122,7 @@ run_tests.bat  # Windows
 ./run_tests.sh # Linux/Mac
 
 # Or manually
-streamlit run oxydos_v8.py &
+streamlit run oxydoseks.py &
 sleep 10
 python test_comprehensive_playwright.py
 ```
@@ -142,7 +142,7 @@ Edit the `TestConfig` class in the file to customize:
 The app requires valid user credentials. There are two ways to run full authenticated tests:
 
 #### Option A: Create a test user first
-1. Open the app manually: `streamlit run oxydos_v8.py`
+1. Open the app manually: `streamlit run oxydoseks.py`
 2. Create a user account (e.g., TEST_USER)
 3. Note the username and password
 4. Update `test_full_playwright.py` line 79 with your test user credentials
@@ -189,7 +189,7 @@ To integrate with CI/CD:
     python -m playwright install chromium
 
 - name: Start Streamlit App
-  run: streamlit run oxydos_v8.py --server.headless true --server.port 8501 &
+  run: streamlit run oxydoseks.py --server.headless true --server.port 8501 &
 
 - name: Wait for App
   run: sleep 10

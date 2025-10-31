@@ -1,5 +1,5 @@
 """
-Comprehensive Test Suite for Anestesi-assistent v8.0
+Comprehensive Test Suite for Anestesi-assistent Alfa V0.8
 Tests every button, feature, and interaction in the application.
 
 Run with: pytest tests/test_full_app_comprehensive.py -v -s
@@ -45,7 +45,7 @@ class TestConfig:
         # Start the app
         print(f"Starting Streamlit app at {APP_URL}...")
         process = subprocess.Popen(
-            ["streamlit", "run", "oxydos_v8.py", "--server.port=8501", "--server.headless=true"],
+            ["streamlit", "run", "oxydoseks.py", "--server.port=8501", "--server.headless=true"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
@@ -100,7 +100,7 @@ class TestAuthentication(TestConfig):
         page.wait_for_load_state("networkidle")
 
         # Check for login form
-        assert page.locator("text=Anestesi-assistent v8.0 - Inloggning").is_visible()
+        assert page.locator("text=Anestesi-assistent Alfa V0.8 - Inloggning").is_visible()
         assert page.locator('input[placeholder*="DN123"]').is_visible()
         assert page.locator("button:has-text('Logga in')").is_visible()
 
@@ -118,7 +118,7 @@ class TestAuthentication(TestConfig):
         time.sleep(2)
 
         # Should be logged in and see main interface
-        assert page.locator("text=Anestesi-assistent v8.0").is_visible()
+        assert page.locator("text=Anestesi-assistent Alfa V0.8").is_visible()
         assert page.locator(f"text={test_user}").is_visible()
 
     def test_03_login_with_admin(self, page: Page):
@@ -154,7 +154,7 @@ class TestAuthentication(TestConfig):
         time.sleep(2)
 
         # Should be back at login page
-        assert page.locator("text=Anestesi-assistent v8.0 - Inloggning").is_visible()
+        assert page.locator("text=Anestesi-assistent Alfa V0.8 - Inloggning").is_visible()
 
 
 class TestDosingTab(TestConfig):

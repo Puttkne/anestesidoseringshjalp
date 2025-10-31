@@ -278,7 +278,7 @@ bmi = calculate_bmi(weight, height)
 
 ### Test 1: Admin Skapar Användare
 ```bash
-1. Starta app: streamlit run oxydos_v8.py
+1. Starta app: streamlit run oxydoseks.py
 2. Sätt miljövariabel: set ADMIN_PASSWORD=test123
 3. Logga in som admin med lösenord
 4. Gå till "🔧 Admin" tab
@@ -453,7 +453,7 @@ Loaded 84 default procedures from procedures_export.json
 
 ### Steg 4: Starta Applikationen
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### Steg 5: Första Inloggning (Admin)

@@ -1,8 +1,8 @@
-# Comprehensive Test Suite for Anestesi-assistent v8.0
+# Comprehensive Test Suite for Anestesi-assistent Alfa V0.8
 
 ## 🎯 Overview
 
-This is a **comprehensive, production-ready test suite** that validates **every button and feature** in your Anestesi-assistent v8.0 application. The test suite uses Playwright for end-to-end browser automation and covers all user interactions.
+This is a **comprehensive, production-ready test suite** that validates **every button and feature** in your Anestesi-assistent Alfa V0.8 application. The test suite uses Playwright for end-to-end browser automation and covers all user interactions.
 
 ## 📊 Test Coverage
 
@@ -222,7 +222,7 @@ playwright install chromium
 
 **Solution:** Verify app runs manually first:
 ```bash
-streamlit run oxydos_v8.py
+streamlit run oxydoseks.py
 ```
 
 ### Issue: Tests timeout

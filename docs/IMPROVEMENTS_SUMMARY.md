@@ -1,4 +1,4 @@
-# Improvements Summary - Anestesi-assistent v8.0
+# Improvements Summary - Anestesi-assistent Alfa V0.8
 
 ## Overview
 This document summarizes all improvements made to enhance security, robustness, performance, and testability.
