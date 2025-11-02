@@ -368,11 +368,21 @@ def render_dosing_tab(specialties, procedures_df):
         final_dose = st.session_state.current_calculation.get('finalDose', 0.0)
         st.number_input("Administrerad dos Oxycodon (mg)", min_value=0.0, step=0.25, key='givenDose', value=final_dose, format="%.2f")
 
-        st.button("💾 Spara Fall (initial)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
-                 help="Spara fallet direkt efter administrerad dos - du kan redigera och lägga till utfall senare")
+        # Two separate buttons for initial save and final save
+        col_save1, col_save2 = st.columns(2)
+        with col_save1:
+            st.button("💾 Spara (Pågående)", on_click=lambda: handle_save_and_learn(procedures_df, finalize=False),
+                     use_container_width=True,
+                     type="secondary",
+                     help="Spara fallet som pågående - du kan redigera och lägga till utfall senare. Ingen inlärning sker ännu.")
+        with col_save2:
+            st.button("✅ Slutför & Lär", on_click=lambda: handle_save_and_learn(procedures_df, finalize=True),
+                     use_container_width=True,
+                     type="primary",
+                     help="Slutför fallet och trigga inlärning. Endast slutförda fall används för att träna AI-modellerna.")
 
         st.divider()
-        st.markdown("**Postoperativa data (lägg till senare):**")
+        st.markdown("**Postoperativa data (fyll i när de blir tillgängliga):**")
 
         st.slider("Högsta VAS under första timmen (UVA)", 0, 10, 3, key='vas')
         st.number_input("Extra dos given på UVA första timmen (mg)", min_value=0.0, step=0.25, key='uvaDose',
@@ -406,7 +416,6 @@ def render_dosing_tab(specialties, procedures_df):
 
         st.checkbox("Grav trötthet", key='severe_fatigue', help="Tecken på för mycket catapressan eller droperidol")
 
-        st.button("✅ Uppdatera Fall (komplett)", on_click=lambda: handle_save_and_learn(procedures_df), use_container_width=True,
-                 help="Uppdatera fallet med kompletta postoperativa data")
+        # Note: No separate button here anymore - users use the buttons above
     else:
         st.info("Beräkna en dos för att kunna logga ett utfall.")

@@ -83,7 +83,15 @@ def _get_outcome_data_from_state():
         'rescue_late': st.session_state.get('rescue_late', False),
     }
 
-def _save_or_update_case_in_db(current_inputs, outcome_data):
+def _save_or_update_case_in_db(current_inputs, outcome_data, finalize=False):
+    """
+    Save or update case in database.
+
+    Args:
+        current_inputs: Current patient/procedure inputs
+        outcome_data: Outcome data (VAS, rescue, etc.)
+        finalize: If True, mark case as FINALIZED. Otherwise, keep as IN_PROGRESS.
+    """
     from calculation_engine import calculate_bmi
     user_id = auth.get_current_user_id()
     weight_data = {}
@@ -108,13 +116,30 @@ def _save_or_update_case_in_db(current_inputs, outcome_data):
                 outcome_data, st.session_state.current_calculation.get('engine', 'Okänd')
             )
             outcome_with_weight = {**outcome_data, **weight_data}
-            db.update_case(case_id, outcome_with_weight, user_id)
+
+            if finalize:
+                # Use finalize_case to mark as FINALIZED
+                final_data = {**current_inputs, **outcome_with_weight}
+                final_data['asa'] = final_data['asa'].replace('ASA ', '')
+                final_data['calculation'] = st.session_state.current_calculation
+                db.finalize_case(case_id, final_data, user_id)
+                st.success("✅ Fallet har slutförts och är nu redo för inlärning!")
+            else:
+                db.update_case(case_id, outcome_with_weight, user_id)
+                st.success("💾 Fallet har uppdaterats (pågående)!")
+
         st.session_state.editing_case_id = None
-        st.success("Fallet har uppdaterats!")
     else:
         case_data = {**current_inputs, **outcome_data, **weight_data}
         case_data['asa'] = case_data['asa'].replace('ASA ', '')
         case_data['calculation'] = st.session_state.current_calculation
+
+        # Save with status (IN_PROGRESS by default unless finalize=True)
+        if not finalize:
+            case_data['status'] = 'IN_PROGRESS'
+        else:
+            case_data['status'] = 'FINALIZED'
+
         case_id = db.save_case(case_data, user_id)
 
         # Save temporal doses if any
@@ -125,11 +150,19 @@ def _save_or_update_case_in_db(current_inputs, outcome_data):
         # Clear temporal doses after save to prevent leaking to next case
         st.session_state.temporal_doses = []
 
-        st.success("Fallet har sparats till databasen!")
+        if finalize:
+            st.success("✅ Fallet har sparats och slutförts!")
+        else:
+            st.success("💾 Fallet har sparats som pågående. Du kan redigera det senare från Historik-fliken.")
 
-def handle_save_and_learn(procedures_df):
+def handle_save_and_learn(procedures_df, finalize=False):
     """
-    Save case and learn from ACTUAL REQUIREMENT.
+    Save case and optionally learn from ACTUAL REQUIREMENT.
+
+    Args:
+        procedures_df: Procedures dataframe
+        finalize: If True, mark case as FINALIZED and trigger learning.
+                  If False, save as IN_PROGRESS (no learning).
 
     NEW APPROACH (Back-calculation learning):
     1. Calculate actual opioid requirement from givenDose + uvaDose + outcome quality
@@ -138,12 +171,16 @@ def handle_save_and_learn(procedures_df):
     4. Distribute learning across: procedure baseMME, adjuvant effectiveness, patient factors
     """
     outcome_data = _get_outcome_data_from_state()
-    if not outcome_data['givenDose'] or outcome_data['vas'] is None:
-        st.warning("Ange både given startdos och högsta VAS för att spara.")
+    if not outcome_data['givenDose']:
+        st.warning("Ange given startdos för att spara.")
         return
 
     current_inputs = get_current_inputs(procedures_df)
-    _save_or_update_case_in_db(current_inputs, outcome_data)
+    _save_or_update_case_in_db(current_inputs, outcome_data, finalize=finalize)
+
+    # Only trigger learning if finalizing
+    if not finalize:
+        return
 
     # Get procedure info for learning
     user_id = auth.get_current_user_id()

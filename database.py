@@ -140,6 +140,7 @@ def init_database():
                     rescue_early INTEGER DEFAULT 0,
                     rescue_late INTEGER DEFAULT 0,
                     calculation_data TEXT,
+                    status TEXT DEFAULT 'IN_PROGRESS' NOT NULL,
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     last_modified TIMESTAMP,
                     last_modified_by INTEGER,
@@ -147,6 +148,14 @@ def init_database():
                     FOREIGN KEY (last_modified_by) REFERENCES users(id)
                 )
             ''')
+
+            # Add status column if it doesn't exist (for backward compatibility)
+            try:
+                cursor.execute("SELECT status FROM cases LIMIT 1")
+            except sqlite3.OperationalError:
+                logger.info("Adding 'status' column to 'cases' table.")
+                cursor.execute("ALTER TABLE cases ADD COLUMN status TEXT DEFAULT 'IN_PROGRESS' NOT NULL")
+
 
             # Custom procedures table
             cursor.execute('''
@@ -364,6 +373,21 @@ def get_all_cases(user_id=None) -> List[Dict]:
         logger.error(f"Error in get_all_cases: {e}")
         raise
 
+def get_all_finalized_cases(user_id=None) -> List[Dict]:
+    """Hämta alla slutförda (finalized) fall, filtrera på user_id om angiven."""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            if user_id:
+                cursor.execute("SELECT * FROM cases WHERE user_id = ? AND status = 'FINALIZED' ORDER BY timestamp DESC", (user_id,))
+            else:
+                cursor.execute("SELECT * FROM cases WHERE status = 'FINALIZED' ORDER BY timestamp DESC")
+            rows = cursor.fetchall()
+            return [_row_to_case_dict(row) for row in rows]
+    except Exception as e:
+        logger.error(f"Error in get_all_finalized_cases: {e}")
+        raise
+
 def get_all_custom_procedures() -> List[Dict]:
     """Hämta alla custom procedures"""
     try:
@@ -547,6 +571,54 @@ def update_case(case_id: int, updated_data: Dict, user_id: int):
         raise
     except Exception as e:
         logger.error(f"Error in update_case: {e}")
+        raise
+
+def finalize_case(case_id: int, final_data: Dict, user_id: int):
+    """Uppdaterar ett fall med slutgiltig data och markerar det som slutfört."""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            # Omfattande uppdatering av alla fält som kan ändras
+            cursor.execute('''
+                UPDATE cases SET
+                    procedure_id = ?, kva_code = ?, specialty = ?, surgery_type = ?,
+                    age = ?, sex = ?, weight = ?, height = ?, bmi = ?, ibw = ?, abw = ?,
+                    asa = ?, opioid_history = ?, low_pain_threshold = ?, renal_impairment = ?,
+                    optime_minutes = ?, fentanyl_dose = ?,
+                    nsaid = ?, nsaid_choice = ?, catapressan = ?, droperidol = ?,
+                    ketamine = ?, ketamine_choice = ?, lidocaine = ?, betapred = ?,
+                    sevoflurane = ?, infiltration = ?,
+                    given_dose = ?, vas = ?, uva_dose = ?,
+                    postop_minutes = ?, postop_reason = ?, respiratory_status = ?, severe_fatigue = ?,
+                    rescue_early = ?, rescue_late = ?,
+                    calculation_data = ?,
+                    status = 'FINALIZED',
+                    last_modified = ?,
+                    last_modified_by = ?
+                WHERE id = ?
+            ''', (
+                final_data.get('procedure_id'), final_data.get('kva_code'), final_data.get('specialty'), final_data.get('surgery_type', 'Elektivt'),
+                final_data.get('age'), final_data.get('sex'), final_data.get('weight'), final_data.get('height'), final_data.get('bmi'), final_data.get('ibw'), final_data.get('abw'),
+                final_data.get('asa'), final_data.get('opioidHistory'), int(final_data.get('lowPainThreshold', False)), int(final_data.get('renalImpairment', False)),
+                final_data.get('optime_minutes', 0), final_data.get('fentanylDose', 0),
+                int(final_data.get('nsaid', False)), final_data.get('nsaid_choice', 'Ej given'), int(final_data.get('catapressan', False)), int(final_data.get('droperidol', False)),
+                final_data.get('ketamine', 'Nej'), final_data.get('ketamine_choice', 'Ej given'), final_data.get('lidocaine', 'Nej'), final_data.get('betapred', 'Nej'),
+                int(final_data.get('sevoflurane', False)), int(final_data.get('infiltration', False)),
+                final_data.get('givenDose', 0), final_data.get('vas', 0), final_data.get('uvaDose', 0),
+                final_data.get('postop_minutes', 0), final_data.get('postop_reason', 'Normal återhämtning'), final_data.get('respiratory_status', 'vaken'), int(final_data.get('severe_fatigue', False)),
+                int(final_data.get('rescue_early', False)), int(final_data.get('rescue_late', False)),
+                json.dumps(final_data.get('calculation', {})),
+                datetime.now().isoformat(),
+                user_id,
+                case_id
+            ))
+            conn.commit()
+            logger.info(f"Case {case_id} has been finalized by user {user_id}.")
+    except sqlite3.IntegrityError as e:
+        logger.error(f"Integrity error in finalize_case: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Error in finalize_case: {e}")
         raise
 
 def delete_case(case_id: int):
@@ -1659,14 +1731,14 @@ def get_all_temporal_doses_for_procedure(procedure_id: str, user_id: int = None)
                 cursor.execute('''
                     SELECT td.* FROM temporal_doses td
                     JOIN cases c ON td.case_id = c.id
-                    WHERE c.procedure_id = ? AND c.user_id = ?
+                    WHERE c.procedure_id = ? AND c.user_id = ? AND c.status = 'FINALIZED'
                     ORDER BY c.timestamp DESC, td.time_relative_minutes ASC
                 ''', (procedure_id, user_id))
             else:
                 cursor.execute('''
                     SELECT td.* FROM temporal_doses td
                     JOIN cases c ON td.case_id = c.id
-                    WHERE c.procedure_id = ?
+                    WHERE c.procedure_id = ? AND c.status = 'FINALIZED'
                     ORDER BY c.timestamp DESC, td.time_relative_minutes ASC
                 ''', (procedure_id,))
             rows = cursor.fetchall()
@@ -1912,6 +1984,7 @@ def get_similar_cases_count(
                 WHERE procedure_id = ?
                   AND age BETWEEN ? AND ?
                   AND weight BETWEEN ? AND ?
+                  AND status = 'FINALIZED'
             ''', (procedure_id, age_range[0], age_range[1],
                   weight_range[0], weight_range[1]))
             

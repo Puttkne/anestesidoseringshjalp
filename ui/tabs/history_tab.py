@@ -53,16 +53,18 @@ def render_history_tab(procedures_df):
     if num_cases > 0:
         st.markdown("**Klicka på ett fall för att redigera det**")
 
-        filter_cols = st.columns(5)
+        filter_cols = st.columns(6)
         with filter_cols[0]:
             search_user = st.text_input("🔍 Sök användar-ID", key="search_user", placeholder="t.ex. DN123")
         with filter_cols[1]:
             search_procedure = st.selectbox("Filtrera ingrepp", ["Alla"] + sorted(procedures_df['name'].unique()), key="search_proc")
         with filter_cols[2]:
-            min_vas = st.number_input("Min VAS", 0, 10, 0, key="min_vas")
+            status_filter = st.selectbox("Status", ["Alla", "Pågående", "Slutförda"], key="status_filter")
         with filter_cols[3]:
-            show_incomplete = st.checkbox("Visa bara ofullständiga", key="show_incomplete", help="Visa fall utan VAS/utfall (admin)")
+            min_vas = st.number_input("Min VAS", 0, 10, 0, key="min_vas")
         with filter_cols[4]:
+            show_incomplete = st.checkbox("Visa bara ofullständiga", key="show_incomplete", help="Visa fall utan VAS/utfall (admin)")
+        with filter_cols[5]:
             max_results = st.number_input("Visa antal", 5, 100, 10, 5, key="max_results")
 
         filtered_cases = []
@@ -76,6 +78,14 @@ def render_history_tab(procedures_df):
                 proc_name = procedures_df.loc[procedures_df['id'] == case.get('procedure_id'), 'name'].iloc[0] if case.get('procedure_id') and case.get('procedure_id') in procedures_df['id'].values else 'Okänt'
                 if proc_name != search_procedure:
                     continue
+
+            # Filter by status
+            case_status = case.get('status', 'IN_PROGRESS')
+            if status_filter == "Pågående" and case_status != 'IN_PROGRESS':
+                continue
+            elif status_filter == "Slutförda" and case_status != 'FINALIZED':
+                continue
+
             if case.get('vas', 0) < min_vas:
                 continue
 
@@ -111,16 +121,21 @@ def render_history_tab(procedures_df):
                 last_mod_name = last_mod_user['username'] if last_mod_user else 'Okänd'
                 edited_info = f" (Senast redigerat: {case['last_modified'].strftime('%Y-%m-%d %H:%M')} av {last_mod_name})"
 
-            col1, col2, col3, col4, col5, col6 = st.columns([2, 3, 1, 1, 1, 1])
+            col1, col2, col3, col4, col5, col6, col7 = st.columns([2, 3, 1, 1, 1, 1, 1])
             with col1:
                 st.text(timestamp_str)
             with col2:
                 st.text(proc_name)
             with col3:
-                st.text(f"VAS: {case.get('vas', 'N/A')}")
+                status = case.get('status', 'IN_PROGRESS')
+                status_emoji = "✅" if status == 'FINALIZED' else "⏳"
+                status_text = "Slutförd" if status == 'FINALIZED' else "Pågående"
+                st.text(f"{status_emoji} {status_text}")
             with col4:
-                st.text(f"Dos: {case.get('givenDose', 'N/A')} mg")
+                st.text(f"VAS: {case.get('vas', 'N/A')}")
             with col5:
+                st.text(f"Dos: {case.get('givenDose', 'N/A')} mg")
+            with col6:
                 if auth.can_edit_case(case['user_id']):
                     if st.button("📝 Redigera", key=f"edit_case_{case['id']}"):
                         st.session_state.load_case_data = case
@@ -128,7 +143,7 @@ def render_history_tab(procedures_df):
                 else:
                     st.text("🔒")
 
-            with col6:
+            with col7:
                 if auth.can_delete_case(case['user_id']):
                     @st.dialog("Bekräfta radering")
                     def confirm_delete(case_id, case_name):
