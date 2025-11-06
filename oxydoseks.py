@@ -36,8 +36,8 @@ st.set_page_config(
 
 logger.info("Application started")
 
-# Enhanced dark theme matching new HTML design
-load_css("ui/style.css")
+# Load Figma pixel-perfect design
+load_css("ui/figma_design.css")
 
 # --- Initialisering ---
 def initialize_session():

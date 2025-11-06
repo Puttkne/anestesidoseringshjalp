@@ -1,0 +1,5 @@
+{
+  "name": "Anestesi-assistent",
+  "description": "Ett avancerat beslutsstöd för anestesipersonal som ger rekommendationer för opioid-dosering baserat på patientdata, ingrepp och adjuvanter, med både en regelbaserad motor och en ML-modell.",
+  "requestFramePermissions": []
+}
