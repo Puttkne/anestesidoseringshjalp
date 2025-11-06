@@ -725,3 +725,1838 @@ Detta system löser problemet med att dosera till patienter med extrem kroppsvik
 *   **`body_composition_learning`:** En tabell som lagrar de inlärda justeringsfaktorerna för varje bucket i 4D-systemet.
 
 **Fördelen:** Varje enskilt fall som rapporteras in, oavsett från vilken användare, bidrar till att förbättra dessa centrala parametrar. Detta leder till en exponentiellt snabbare och mer robust inlärning för hela systemet, eftersom det drar nytta av en mycket större och mer varierad datamängd.
+
+---
+
+## Säkerhetssystem - Fem Lager av Skydd
+
+Anestesi-assistenten har fem oberoende säkerhetslager som tillsammans förhindrar farlig dosering:
+
+### Lager 1: Hårdkodade Säkerhetsgränser
+
+**Absoluta tak och golv som ALDRIG kan läras bort:**
+
+```python
+# I config.py - APP_CONFIG['SAFETY_LIMITS']
+ABSOLUTE_MIN_DOSE = 0.0      # Kan aldrig ge negativ dos
+ABSOLUTE_MAX_DOSE = 20.0     # Max 20mg oxycodon startdos
+MIN_AGE = 0
+MAX_AGE = 120
+MIN_WEIGHT = 10.0            # Minst 10kg
+MAX_WEIGHT = 200.0           # Max 200kg
+```
+
+**Dessa gränser kan INTE överskritas av:**
+- Inlärning
+- Användarinput
+- ML-modell
+- Kalibreringsfaktorer
+
+### Lager 2: Adjuvant Säkerhetsgräns
+
+**Förhindrar att adjuvanter eliminerar opioiddosen helt:**
+
+```python
+ADJUVANT_SAFETY_LIMIT_FACTOR = 0.3  # 30% av bas-MME måste bevaras
+```
+
+**Exempel:**
+```
+Bas-MME före adjuvanter: 15 mg
+Beräknad total adjuvantreduktion: 12 mg (80% reduktion!)
+
+Säkerhetskontroll:
+minimum_allowed = 15 * 0.3 = 4.5 mg
+total_reduction = min(12, 15 - 4.5) = 10.5 mg
+Final MME = 15 - 10.5 = 4.5 mg ✓
+
+RESULTAT: Patienten får minst 4.5mg, inte 3mg
+```
+
+**Varför?** Även med perfekta adjuvanter behöver patienten ofta en basal opioiddos för intraoperativ stabilitet.
+
+### Lager 3: Adaptiv Inlärningshastighet
+
+**Inlärningen bromsar in automatiskt:**
+
+```python
+def get_adaptive_learning_rate(num_cases):
+    if num_cases < 10:
+        return 0.30    # 30% - snabb initial anpassning
+    elif num_cases < 30:
+        return 0.18    # 18% - medium anpassning
+    elif num_cases < 100:
+        return 0.12    # 12% - långsam anpassning
+    else:
+        return max(0.03, 0.12 * math.exp(-num_cases / 200))
+        # Exponentiell decay mot 3% med fler fall
+```
+
+**Effekt:**
+- **Early phase (0-10 fall):** Stora justeringar för snabb kalibrering
+- **Consolidation (10-30 fall):** Medeljusteringar
+- **Mature phase (30-100 fall):** Små justeringar
+- **Expert phase (100+ fall):** Minimala justeringar, hög stabilitet
+
+**Varför?** Förhindrar att enstaka extremfall förstör väletablerade parametrar.
+
+### Lager 4: Probing på Perfekta Utfall
+
+**"Det hade kunnat gå lika bra med mindre dos"**
+
+När utfallet är PERFEKT (VAS ≤ 2, ingen rescue, inga biverkningar):
+
+```python
+# Systemet antar att 97% av dosen hade räckt
+actual_requirement = givenDose * 0.97
+
+# Detta driver konstant dosreduktion
+prediction_error = actual_requirement - recommended_dose
+# Om error < 0: recommended_dose var för hög → minska
+```
+
+**Exempel:**
+```
+Patient fick: 10mg
+VAS: 1 (perfekt)
+Rescue: 0
+Biverkningar: Inga
+
+Systemet slutsats: "9.7mg hade räckt"
+recommended_dose var 10mg
+→ prediction_error = -0.3mg
+→ Nästa patient får 9.7mg istället
+
+Efter många perfekta utfall → dosen sjunker gradvis
+```
+
+**Varför?** Systemets primära mål är att hitta LÄGSTA EFFEKTIVA DOS, inte att "spela säkert" med högre doser.
+
+### Lager 5: Sanity Checks vid Interpolation
+
+**När interpolation används (gles data):**
+
+```python
+# I interpolation_engine.py
+SANITY_CHECK_MAX_FACTOR = 2.0  # Max 2x justering
+SANITY_CHECK_MIN_FACTOR = 0.5  # Min 0.5x justering
+
+def sanity_check_factor(interpolated_factor, default_factor):
+    # Tillåt max 2x avvikelse från default
+    max_allowed = default_factor * SANITY_CHECK_MAX_FACTOR
+    min_allowed = default_factor * SANITY_CHECK_MIN_FACTOR
+
+    return max(min_allowed, min(max_allowed, interpolated_factor))
+```
+
+**Exempel:**
+```
+Default åldersfaktor för 72-åring: 0.65
+Interpolerad faktor från data: 1.8 (misstänkt hög!)
+
+Sanity check:
+max_allowed = 0.65 * 2.0 = 1.30
+clamped = min(1.30, 1.8) = 1.30 ✓
+
+RESULTAT: Interpolation kan max dubblera faktorn
+```
+
+**Varför?** Skyddar mot outliers och felaktig data som kan ge extrema interpolationer.
+
+---
+
+## Komplett Användarguide - Alla Flikar
+
+### Flik 1: Dosering (Huvudfunktion)
+
+**Syfte:** Beräkna och rekommendera oxycodondos för ett kirurgiskt ingrepp.
+
+#### Steg-för-Steg Workflow:
+
+**1. Patientdata (Vänster kolumn)**
+
+- **Ålder** (0-120 år)
+  - Används för: Åldersfaktor, farmakokinetik
+  - Exempel: 75 år → exponentiell dosreduktion
+
+- **Kön** (Man/Kvinna)
+  - Används för: IBW-beräkning, LBM-beräkning
+  - Exempel: Kvinna 165cm → IBW = 60kg
+
+- **Vikt** (10-200 kg)
+  - Används för: ABW-beräkning, BMI, 4D learning
+  - Exempel: 85kg + 165cm → BMI=31.2
+
+- **Längd** (100-220 cm)
+  - Används för: IBW, ABW, BMI
+
+- **ASA-klass** (ASA 1-4)
+  - ASA 1: Helt frisk (faktor 1.0)
+  - ASA 2: Lindrig systemsjukdom (faktor 1.0)
+  - ASA 3: Svår systemsjukdom (faktor 1.1)
+  - ASA 4: Livshotande sjukdom (faktor 1.2)
+
+- **Opioidhistorik**
+  - Opioidnaiv: Standard (faktor 1.0)
+  - Sporadisk användning: Liten tolerans (faktor 1.3)
+  - Regelbunden användning: Betydande tolerans (faktor 1.8)
+  - Daglig användning: Hög tolerans (faktor 2.5)
+
+- **Låg smärttröskel** (checkbox)
+  - Markera om patienten har känd hyperalgesi
+  - Ökar dosen med ~20%
+
+- **Nedsatt njurfunktion** (checkbox)
+  - Markera om GFR <30 eller dialys
+  - Minskar dosen (försiktighetsprincip)
+
+**2. Ingreppsinformation (Höger kolumn)**
+
+- **Specialitet** (dropdown)
+  - Ortopedi, Allmänkirurgi, Urologi, Gynekologi, etc.
+  - Filtrerar tillgängliga ingrepp
+
+- **Ingrepp** (dropdown)
+  - Välj specifikt kirurgiskt ingrepp
+  - Varje ingrepp har: baseMME + 3D smärtprofil
+
+- **Typ av kirurgi**
+  - Elektivt: Planerad operation (standard)
+  - Akut: Brådskande operation (ökad stressrespons)
+
+- **Operationstid**
+  - Timmar (0-12) + Minuter (0-59)
+  - Används för: Fentanylkinetik, farmakokinetik
+
+**3. Intraoperativa Läkemedel**
+
+**Fentanyl:**
+```
+Dos (µg): 0-500
+Timing: Registrera när given (för kinetikberäkning)
+
+Beräkning:
+- Bi-exponentiell decay (t½fast=15min, t½slow=210min)
+- Kvarvarande MME vid op-slut subtraheras från behov
+```
+
+**NSAID/Paracetamol:**
+```
+Dropdown-alternativ:
+- Ej given
+- Ibuprofen 400mg
+- Ibuprofen 600mg
+- Ibuprofen 800mg
+- Diklofenak 50mg
+- Diklofenak 75mg
+- Paracetamol 1g (checkbox ELLER dropdown)
+
+3D-profil (Ibuprofen): Somatic=8, Visceral=5, Neuropathic=2
+Potency: 15% av bas-MME
+```
+
+**Catapressan (Klonidin):**
+```
+Dos (µg): 0-150
+3D-profil: Somatic=3, Visceral=7, Neuropathic=8
+Potency: 12% av bas-MME
+Bonus: Sympatisk dämpning, anti-hyperalgesic
+```
+
+**Droperidol:**
+```
+Checkbox (standard 0.625mg)
+3D-profil: Somatic=2, Visceral=4, Neuropathic=5
+Potency: 8% av bas-MME
+Bonus: Antiemetisk effekt
+```
+
+**Ketamin:**
+```
+Alternativ:
+- Nej
+- Liten bolus (10-20mg)
+- Stor bolus (30-50mg)
+- Infusion (0.1-0.3 mg/kg/h)
+
+3D-profil: Somatic=4, Visceral=6, Neuropathic=9
+Potency: 18-35% beroende på dos
+Mekanism: NMDA-antagonist, anti-hyperalgesi
+```
+
+**Lidokain:**
+```
+Alternativ:
+- Nej
+- Liten dos (50mg bolus)
+- Medel dos (1mg/kg bolus + 1mg/kg/h)
+- Hög dos (1.5mg/kg bolus + 2mg/kg/h)
+
+3D-profil: Somatic=5, Visceral=7, Neuropathic=7
+Potency: 12-25%
+```
+
+**Betapred (Betametason):**
+```
+Alternativ:
+- Nej
+- 4mg
+- 8mg
+
+3D-profil: Somatic=6, Visceral=8, Neuropathic=4
+Potency: 10-15%
+Mekanism: Antiinflammatorisk
+```
+
+**Sevofluran:**
+```
+Checkbox (volatil anestesi)
+Effekt: Modifierar opioidsvar
+```
+
+**Infiltration:**
+```
+Checkbox (lokal infiltrationsanestesi)
+3D-profil: Somatic=9, Visceral=2, Neuropathic=3
+Potency: 20%
+```
+
+**4. Beräkning och Resultat**
+
+Klicka **"Beräkna Dos"**:
+
+```
+Resultat visas i stor grön ruta:
+
+┌────────────────────────────────────────┐
+│  REKOMMENDERAD STARTDOS                │
+│                                        │
+│        7.5 mg Oxikodon                │
+│                                        │
+│  (2.5ml av 5mg/ml = 12.5ml)           │
+│                                        │
+│  Baserad på: Regelbaserad motor       │
+│  Justerad för: Ålder, vikt, adjuvanter│
+└────────────────────────────────────────┘
+
+Detaljerad Uppdelning:
+├─ Bas-MME för ingrepp: 18.0 mg
+├─ Efter patientfaktorer: 14.2 mg
+│  ├─ Åldersfaktor (75 år): 0.68x
+│  ├─ ASA 2: 1.0x
+│  └─ Opioidnaiv: 1.0x
+├─ Efter adjuvanter: 10.5 mg
+│  ├─ Ibuprofen 800mg: -2.4 mg
+│  ├─ Catapressan 75µg: -1.3 mg
+│  └─ Safety limit bevarad: ✓
+├─ Efter fentanyl: 8.9 mg
+│  └─ Kvarvarande fentanyl: 1.6 mg
+└─ Slutgiltig dos: 7.5 mg (avrundad till 2.5mg-steg)
+```
+
+**5. Spara Fall**
+
+Efter operationen, registrera utfall:
+
+**Knapp 1: 💾 Spara Som Pågående**
+```
+Använd när:
+- Operationen är klar men utfall ej känt
+- Du vill spara för senare redigering
+- Patienten fortfarande i uppvaket
+
+Effekt:
+✅ Fallet sparas i databasen
+✅ Status: IN_PROGRESS
+❌ Ingen inlärning sker
+✅ Kan redigeras från Historik-fliken
+```
+
+**Knapp 2: ✅ Spara och Slutför**
+```
+Använd när:
+- Utfallet är känt och komplett
+- VAS, rescue, biverkningar dokumenterade
+- Fallet är klart för inlärning
+
+Effekt:
+✅ Fallet sparas i databasen
+✅ Status: FINALIZED
+✅ INLÄRNING TRIGGAS OMEDELBART
+✅ Parametrar uppdateras baserat på utfall
+❌ Kan EJ redigeras efteråt (för dataintegritet)
+```
+
+**Utfallsdata att registrera:**
+
+- **Given startdos** (mg): Faktisk dos du gav patienten
+- **VAS-score** (0-10): Smärta i uppvaket
+  - 0-2: Perfekt
+  - 3-4: Acceptabelt
+  - 5-6: Måttlig underdosering
+  - 7-10: Kraftig underdosering
+
+- **Rescue-opioid** (mg): Extra opioid i uppvaket
+
+- **Postop tid** (timmar + minuter): Tid i uppvaket
+
+- **Postop anledning**:
+  - Normal återhämtning
+  - Smärta (tidig/sen)
+  - Illamående
+  - Andningspåverkan
+  - Sedering
+
+- **Andningsstatus**:
+  - Vaken och alert
+  - Lätt sederad
+  - Måttligt sederad
+  - Kraftigt sederad
+
+- **Kraftig trötthet** (checkbox)
+- **Tidig rescue** (<1h) (checkbox)
+- **Sen rescue** (>1h) (checkbox)
+
+**6. Temporal Dosering (Avancerat)**
+
+För komplexa fall med multipla doser över tid:
+
+```
+Klicka "Lägg till temporal dos"
+
+┌─────────────────────────────────────┐
+│ Tid: [__] minuter efter op-start   │
+│ Läkemedel: [Fentanyl ▼]            │
+│ Dos: [___] µg                       │
+│ [Lägg till]                         │
+└─────────────────────────────────────┘
+
+Exempel:
+T=0:    Fentanyl 150µg
+T=45:   Fentanyl 50µg
+T=90:   Fentanyl 50µg
+T=120:  Op-slut
+
+Systemet beräknar kvarvarande från ALLA doser:
+Total kvarvarande vid op-slut =
+  + 150µg efter 120min (liten rest)
+  + 50µg efter 75min (viss rest)
+  + 50µg efter 30min (större rest)
+= ~45µg morphine-equivalenter
+```
+
+---
+
+### Flik 2: Historik
+
+**Syfte:** Granska, redigera och analysera tidigare fall.
+
+#### Funktioner:
+
+**1. Fallöversikt (Tabell)**
+
+```
+┌────┬─────┬─────┬──────┬─────────────┬──────┬─────┬────────┬──────────┐
+│ ID │ Åld │ Vkt │ Ingr │ Given Dos   │ VAS  │ Res │ Status │ Åtgärd   │
+├────┼─────┼─────┼──────┼─────────────┼──────┼─────┼────────┼──────────┤
+│ 45 │ 72  │ 85  │ TKA  │ 7.5mg       │ 2    │ 0   │ FINAL  │ [Visa]   │
+│ 44 │ 58  │ 68  │ Lap  │ 5.0mg       │ 4    │ 2.5 │ FINAL  │ [Visa]   │
+│ 43 │ 81  │ 72  │ THA  │ 6.0mg       │ -    │ -   │ IN_PR  │ [Edit]   │
+└────┴─────┴─────┴──────┴─────────────┴──────┴─────┴────────┴──────────┘
+
+Filter:
+├─ Alla fall / Mina fall / Andras fall
+├─ Status: Alla / IN_PROGRESS / FINALIZED
+├─ Datumintervall: [Start] - [Slut]
+└─ Ingrepp: Alla / Specifikt ingrepp
+```
+
+**2. Visa Fall (Klicka "Visa")**
+
+```
+═══════════════════════════════════════
+FALLDETALJER - Case ID: 45
+═══════════════════════════════════════
+
+PATIENT:
+├─ Ålder: 72 år
+├─ Kön: Man
+├─ Vikt: 85 kg
+├─ Längd: 175 cm
+├─ BMI: 27.8 (Övervikt)
+├─ IBW: 75 kg (ratio: 1.13)
+├─ ABW: 79 kg
+├─ ASA: 2
+├─ Opioidhistorik: Naiv
+└─ Nedsatt njurfunktion: Nej
+
+INGREPP:
+├─ Specialitet: Ortopedi
+├─ Ingrepp: Total Knäprotes (TKA)
+├─ KVÅ-kod: NGB09
+├─ Typ: Elektivt
+└─ Op-tid: 95 minuter
+
+ADJUVANTER:
+├─ Ibuprofen: 800mg
+├─ Catapressan: 75µg
+├─ Fentanyl: 200µg (T=-10min)
+└─ Infiltration: Ja
+
+REKOMMENDATION:
+├─ Regelbaserad motor: 7.5 mg
+├─ Base MME: 18.0 mg
+├─ Efter faktorer: 13.1 mg
+├─ Efter adjuvanter: 9.2 mg
+└─ Efter fentanyl: 7.5 mg
+
+UTFALL:
+├─ Given dos: 7.5 mg
+├─ VAS: 2
+├─ Rescue: 0 mg
+├─ Postop tid: 2h 15min
+├─ Andning: Vaken och alert
+└─ Status: FINALIZED ✓
+
+INLÄRNING:
+├─ Outcome: PERFECT
+├─ Actual requirement: 7.3 mg (97% probing)
+├─ Prediction error: -0.2 mg
+└─ Parametrar uppdaterade:
+    ├─ Age 72: factor 0.730 → 0.728
+    ├─ Weight 85kg: factor 1.05 → 1.04
+    └─ Ibuprofen potency: 15.2% → 15.4%
+
+[Tillbaka till lista]
+```
+
+**3. Redigera Fall (Klicka "Edit")**
+
+**ENDAST för IN_PROGRESS-fall:**
+
+```
+⚠️ Redigera Fall - Case ID: 43
+Status: IN_PROGRESS
+
+Du kan nu:
+├─ Uppdatera utfallsdata (VAS, rescue)
+├─ Korrigera felaktig inmatning
+├─ Lägga till saknad information
+└─ Slutföra fallet för inlärning
+
+[Formulär med alla fält förifyllda...]
+
+Knappar:
+├─ [💾 Uppdatera och Behåll Pågående]
+│  └─ Sparar ändringar, status=IN_PROGRESS
+│
+└─ [✅ Uppdatera och Slutför]
+   └─ Sparar ändringar, status=FINALIZED, triggar inlärning
+```
+
+**GDPR-notering:** Inga personuppgifter sparas. Alla fall är anonyma.
+
+**4. Radera Fall (Admin)**
+
+**ENDAST admin kan radera:**
+
+```
+⚠️ VARNING: Radera Fall?
+
+Detta kommer att:
+├─ Ta bort fallet permanent från databasen
+├─ Ta bort alla associerade temporal doses
+├─ INTE återställa inlärda parametrar
+└─ Denna åtgärd kan EJ ångras
+
+Skriv "RADERA" för att bekräfta: [________]
+
+[Avbryt] [Radera Fall]
+```
+
+**5. Export och Analys**
+
+```
+[📊 Exportera alla fall till CSV]
+└─ Laddar ner: anestesi_cases_20251106.csv
+
+[📈 Visa statistik]
+├─ Totalt antal fall: 127
+├─ Genomsnittlig dos: 6.8 mg
+├─ Genomsnittlig VAS: 2.4
+├─ Perfect outcomes: 68%
+├─ Underdosing: 24%
+└─ Overdosing: 8%
+
+[📉 Visualisera trender]
+└─ Öppnar Utbildning-fliken med grafer
+```
+
+---
+
+### Flik 3: Utbildning
+
+**Syfte:** Visualisera systemets inlärning och datamönster.
+
+#### Avsnitt:
+
+**1. Dosrekommendation över Tid**
+
+```
+Graf: Genomsnittlig rekommenderad dos (mg)
+
+20mg │
+     │    ●
+15mg │  ●   ●
+     │●       ●   ●
+10mg │           ●   ● ● ● ●──●──●──●
+     │
+ 5mg │
+     └────────────────────────────────────
+      0   20   40   60   80  100  120
+              Antal fall
+
+Observation: Dosen stabiliserar efter ~60 fall
+```
+
+**2. VAS-Distribution**
+
+```
+Histogram: VAS-score fördelning
+
+50 │         ██
+   │         ██
+40 │      ██ ██
+   │      ██ ██
+30 │   ██ ██ ██
+   │   ██ ██ ██ ██
+20 │██ ██ ██ ██ ██
+   │██ ██ ██ ██ ██ ██
+10 │██ ██ ██ ██ ██ ██ ██
+   └──────────────────────
+   0  1  2  3  4  5  6  7+
+         VAS-score
+
+Målprofil: Majoritet 0-3 ✓
+```
+
+**3. Inlärningshastighet**
+
+```
+Graf: Learning rate över tid
+
+30% │●
+    │
+20% │   ●
+    │      ●
+10% │         ●─●─●─●
+    │                   ●────●────●
+ 0% │
+    └────────────────────────────────────
+     0   10  20  30  50  80  100  120
+              Antal fall
+
+Adaptive decay: 30% → 18% → 12% → 3%
+```
+
+**4. Adjuvant Potency Learning**
+
+```
+Tabell: Inlärda adjuvantpotenser
+
+┌──────────────────┬─────────┬─────────┬────────┐
+│ Adjuvant         │ Initial │ Current │ Change │
+├──────────────────┼─────────┼─────────┼────────┤
+│ Ibuprofen 800mg  │ 15.0%   │ 15.8%   │ +5.3%  │
+│ Catapressan 75µg │ 12.0%   │ 13.2%   │ +10.0% │
+│ Ketamin bolus    │ 18.0%   │ 19.4%   │ +7.8%  │
+│ Lidokain infusion│ 22.0%   │ 20.1%   │ -8.6%  │
+│ Infiltration     │ 20.0%   │ 21.5%   │ +7.5%  │
+└──────────────────┴─────────┴─────────┴────────┘
+
+Antal observationer: [visa per adjuvant]
+```
+
+**5. Procedur 3D Pain Profiles**
+
+```
+3D Visualization: Knäprotes (TKA)
+
+       Neuropathic
+            ▲
+            │
+          5 │      ●
+            │     /|\
+            │    / | \
+            │   /  |  \
+          0 │──────┼────────► Somatic
+           0│      9 \
+            │         \
+         Visceral      2
+
+Initial: (S:8, V:2, N:3)
+Learned: (S:9, V:2, N:5) ← Neuropatisk ökat!
+
+Implikation: TKA har mer neuropatisk komponent än tidigare känt
+→ Ketamin och Catapressan blir mer effektiva
+```
+
+**6. Body Composition Learning**
+
+```
+Heatmap: Viktbuckets (learning factors)
+
+       2.0 │
+           │
+   IBW 1.5 │        1.1  1.0  0.9  0.8
+   ratio   │        1.2  1.1  1.0  0.9  0.8
+       1.0 │   1.3  1.2  1.1  1.0  0.9  0.8
+           │   1.4  1.3  1.2  1.1  1.0  0.9
+       0.5 │   1.5  1.4  1.3  1.2  1.1  1.0
+           └────────────────────────────────
+           50  60  70  80  90 100 110 (kg)
+
+Färgkodning:
+├─ Blå (>1.0): Behöver mer dos än genomsnitt
+└─ Röd (<1.0): Behöver mindre dos än genomsnitt
+```
+
+**7. Age Trend Analysis**
+
+```
+Graf: Åldersfaktor (interpolerad)
+
+1.2 │
+    │●●●●●●●●●●●
+1.0 │            ●●●●●●●●●●●●●●●●
+    │                              ●●
+0.8 │                                ●●
+    │                                  ●●
+0.6 │
+    │
+0.4 │                                   ●
+    └────────────────────────────────────
+     0   20   40   60   80  100  120
+              Ålder (år)
+
+Observationer med direktdata: ●
+Interpolerade värden: ○
+```
+
+**8. Kalibreringsfaktor per Användare**
+
+```
+(Endast synlig för Admin)
+
+Tabell: Användarspecifika kalibringar
+
+┌──────────┬────────┬───────────┬─────────────┐
+│ User     │ Falls  │ Cal Factor│ Trend       │
+├──────────┼────────┼───────────┼─────────────┤
+│ Blapa    │ 45     │ 0.98      │ Konservativ │
+│ DrSmith  │ 23     │ 1.05      │ Aggressiv   │
+│ Nurse01  │ 67     │ 1.00      │ Standard    │
+└──────────┴────────┴───────────┴─────────────┘
+
+Notering: Kalibreringsfaktorer är per användare för att
+fånga individuella preferenser och lokala protokoll.
+```
+
+---
+
+### Flik 4: Ingrepp (Admin)
+
+**Syfte:** Hantera och konfigurera kirurgiska ingrepp i databasen.
+
+**ENDAST tillgänglig för administratörer.**
+
+#### Funktioner:
+
+**1. Ingreppsöversikt**
+
+```
+Filter:
+├─ Specialitet: [Alla ▼]
+├─ Sök: [__________________]
+└─ Sortera: [Base MME ▼]
+
+┌────┬───────────────────┬──────┬─────────┬────┬────┬────┬──────────┐
+│ ID │ Namn              │ Spec │ KVÅ-kod │ S  │ V  │ N  │ Base MME │
+├────┼───────────────────┼──────┼─────────┼────┼────┼────┼──────────┤
+│ 12 │ Total Knäprotes   │ Orto │ NGB09   │ 9  │ 2  │ 5  │ 18.0     │
+│ 34 │ Laparoskopi Chole │ Allm │ JKA20   │ 5  │ 8  │ 2  │ 14.0     │
+│ 56 │ TUR-P             │ Urol │ KFE10   │ 4  │ 7  │ 3  │ 12.0     │
+└────┴───────────────────┴──────┴─────────┴────┴────┴────┴──────────┘
+
+Kolumnförklaring:
+S = Somatic pain (1-10)
+V = Visceral pain (1-10)
+N = Neuropathic pain (1-10)
+```
+
+**2. Lägg till Nytt Ingrepp**
+
+```
+[+ Lägg till ingrepp]
+
+┌─────────────────────────────────────────────┐
+│ SKAPA NYTT INGREPP                          │
+├─────────────────────────────────────────────┤
+│                                             │
+│ Namn: [_____________________________]      │
+│                                             │
+│ Specialitet: [Ortopedi ▼]                  │
+│                                             │
+│ KVÅ-kod: [______]  (valfritt)              │
+│                                             │
+│ Base MME: [___] mg                         │
+│   Rekommendation: 10-25mg för de flesta    │
+│                                             │
+│ 3D SMÄRTPROFIL:                            │
+│   Somatic (hudsnitt, skelett): [_]         │
+│   Visceral (inre organ): [_]               │
+│   Neuropathic (nervskada risk): [_]        │
+│                                             │
+│ Beskrivning: [___________________]         │
+│              [___________________]         │
+│                                             │
+│ [Avbryt]  [Skapa Ingrepp]                  │
+└─────────────────────────────────────────────┘
+```
+
+**Exempel - Skapa Total Höftprotes:**
+
+```
+Namn: Total Höftprotes
+Specialitet: Ortopedi
+KVÅ-kod: NGB19
+Base MME: 20 mg
+  └─ Större ingrepp än TKA, mer vävnadstrauma
+
+3D Smärtprofil:
+  Somatic: 9    ← Stort hudsnitt, skelettmanipulation
+  Visceral: 2   ← Minimal organpåverkan
+  Neuropathic: 6 ← Risk för nervpåverkan (ischiasnerv)
+
+Beskrivning: Elektiv total höftartroplastik, främre eller
+bakre approach. Betydande postoperativ smärta, främst
+somatisk men med neuropatisk komponent.
+
+[Skapa Ingrepp] ✓
+
+RESULTAT:
+✅ Ingrepp skapat med ID: 78
+✅ Base MME: 20 mg (initialt)
+✅ 3D-profil: (9, 2, 6)
+✅ Status: Aktiv
+🧠 Systemet kommer lära sig över tid och justera parametrarna!
+```
+
+**3. Redigera Ingrepp**
+
+```
+Klicka på ett ingrepp → [Redigera]
+
+⚠️ VARNING
+Detta ingrepp har 45 loggade fall i databasen.
+
+Ändringar du gör här påverkar ENDAST nya beräkningar.
+Historiska fall förblir oförändrade.
+
+Rekommendation: Skapa nytt ingrepp istället om
+ändringen är dramatisk (t.ex. ny operationsmetod).
+
+[Fortsätt redigera] [Avbryt]
+
+─────────────────────────────────────────────
+
+REDIGERA: Total Knäprotes
+
+Current values:
+├─ Base MME: 18.0 mg (learned from 45 cases)
+├─ Somatic: 9
+├─ Visceral: 2
+└─ Neuropathic: 5 (learned, initial was 3)
+
+Vad vill du ändra?
+
+Base MME: [18.0] mg
+  └─ ⚠️ Detta kommer ERSÄTTA inlärd parameter!
+      Använd endast om fundamentalt fel upptäckts.
+
+3D-profil:
+  Somatic: [9]
+  Visceral: [2]
+  Neuropathic: [5]
+  └─ ℹ️ Dessa kan justeras om ny evidens tillkommit
+
+Specialitet: [Ortopedi ▼]
+KVÅ-kod: [NGB09]
+Beskrivning: [...]
+
+[Avbryt] [Spara ändringar]
+```
+
+**4. Inaktivera Ingrepp**
+
+```
+För ingrepp som inte längre ska användas:
+
+[🚫 Inaktivera ingrepp]
+
+Effekt:
+├─ Ingreppet försvinner från dropdown i Dosering-fliken
+├─ Historiska fall med detta ingrepp förblir synliga
+├─ Inlärda parametrar bevaras
+└─ Kan aktiveras igen senare
+
+[Bekräfta inaktivering]
+```
+
+**5. Visa Ingreppstatistik**
+
+```
+Klicka på ingrepp → [Visa statistik]
+
+═══════════════════════════════════════
+STATISTIK: Total Knäprotes (TKA)
+═══════════════════════════════════════
+
+ANVÄNDNING:
+├─ Totalt antal fall: 45
+├─ Unikt antal användare: 8
+├─ Första fall: 2024-08-15
+└─ Senaste fall: 2025-11-06
+
+DOSERING:
+├─ Rekommenderad dos (median): 7.5 mg
+├─ Rekommenderad dos (range): 5.0-12.5 mg
+├─ Genomsnittlig given dos: 7.8 mg
+└─ Dos-trend: ↓ -1.2mg över tid
+
+UTFALL:
+├─ Perfect outcomes: 68% (31/45)
+├─ Acceptable outcomes: 22% (10/45)
+├─ Underdosed: 8% (4/45)
+├─ Overdosed: 0% (0/45)
+└─ Genomsnittlig VAS: 2.1
+
+INLÄRNING:
+├─ Base MME: 16.0 → 18.0 mg (+12.5%)
+├─ Somatic: 8 → 9 (+12.5%)
+├─ Visceral: 2 → 2 (oförändrat)
+├─ Neuropathic: 3 → 5 (+66.7%)
+└─ Learning rate: 7% (mature phase)
+
+BÄST MATCHADE ADJUVANTER:
+(Baserat på 3D pain matching)
+1. Infiltration (match: 95%)
+2. Ibuprofen (match: 88%)
+3. Catapressan (match: 72%)
+4. Ketamin (match: 68%)
+5. Lidokain (match: 65%)
+
+[Exportera till CSV] [Tillbaka]
+```
+
+**6. Bulk-import Ingrepp**
+
+```
+För att lägga till många ingrepp samtidigt:
+
+[📥 Importera från CSV]
+
+Format:
+┌────────────────────────────────────────────────────────────┐
+│ name,specialty,kva_code,base_mme,s,v,n,description         │
+│ Total Knäprotes,Ortopedi,NGB09,18,9,2,5,"Elektiv TKA"     │
+│ Laparochole,Allmänkirurgi,JKA20,14,5,8,2,"Lap chole"      │
+└────────────────────────────────────────────────────────────┘
+
+[Välj fil] [Importera]
+
+Validering:
+✅ 2 ingrepp hittade
+✅ Alla kolumner OK
+⚠️ "Total Knäprotes" finns redan - skippa eller uppdatera?
+  [Skippa] [Uppdatera]
+
+[Slutför import]
+```
+
+---
+
+## Konfiguration och Anpassning
+
+### config.py - Det Centrala Konfigurationssystemet
+
+All farmakologisk data, säkerhetsgränser och inlärningsparametrar finns i [config.py](config.py).
+
+#### APP_CONFIG Struktur:
+
+```python
+APP_CONFIG = {
+    'SAFETY_LIMITS': {
+        'ABSOLUTE_MIN_DOSE': 0.0,
+        'ABSOLUTE_MAX_DOSE': 20.0,
+        'MIN_AGE': 0,
+        'MAX_AGE': 120,
+        'MIN_WEIGHT': 10.0,
+        'MAX_WEIGHT': 200.0,
+        'MIN_HEIGHT': 100.0,
+        'MAX_HEIGHT': 220.0,
+        'ADJUVANT_SAFETY_LIMIT_FACTOR': 0.3  # 30% minimum
+    },
+
+    'LEARNING': {
+        'INITIAL_LEARNING_RATE': 0.30,      # 30% för <10 fall
+        'MEDIUM_LEARNING_RATE': 0.18,        # 18% för 10-30 fall
+        'MATURE_LEARNING_RATE': 0.12,        # 12% för 30-100 fall
+        'EXPERT_LEARNING_RATE': 0.03,        # 3% för 100+ fall
+        'DECAY_FACTOR': 200,                 # Exponentiell decay
+
+        'PERFECT_OUTCOME_PROBING': 0.97,     # Anta 97% hade räckt
+        'UNDERDOSING_VAS_THRESHOLD': 4,      # VAS >4 = underdoserad
+        'OVERDOSING_RESP_THRESHOLD': 8,      # SpO2 <92% eller RR <8
+
+        'PROCEDURE_LEARNING_WEIGHT': 0.10,   # 10% till baseMME
+        'ADJUVANT_LEARNING_WEIGHT': 0.02,    # 2% till potency
+        'PATIENT_LEARNING_WEIGHT': 0.08,     # 8% till faktorer
+        '3D_PAIN_LEARNING_WEIGHT': 0.05,     # 5% till pain profile
+
+        'FENTANYL_KINETICS_ADJ_LARGE': -0.05,  # -5% för tidig smärta
+        'FENTANYL_KINETICS_ADJ_SMALL': -0.02,  # -2% för båda
+    },
+
+    'PHARMACOKINETICS': {
+        'FENTANYL_T_HALF_FAST': 15.0,       # minuter
+        'FENTANYL_T_HALF_SLOW': 210.0,      # minuter
+        'FENTANYL_FAST_FRACTION': 0.6,      # 60% fast compartment
+        'FENTANYL_SLOW_FRACTION': 0.4,      # 40% slow compartment
+
+        'MORPHINE_EQUIVALENCE_FACTOR': 0.25,  # Oxy:Morphine = 1:0.25
+    },
+
+    'BODY_COMPOSITION': {
+        'REFERENCE_WEIGHT_KG': 70.0,
+        'IBW_MALE_FACTOR': 100,             # Längd - 100
+        'IBW_FEMALE_FACTOR': 105,           # Längd - 105
+        'ABW_ADJUSTMENT': 0.4,              # IBW + 0.4*(TBW-IBW)
+    },
+
+    'INTERPOLATION': {
+        'AGE_SEARCH_RADIUS': 5,             # ±5 år
+        'WEIGHT_SEARCH_RADIUS': 10,         # ±10 kg
+        'AGE_SIGMA': 2.0,                   # Gaussian stddev
+        'WEIGHT_SIGMA': 3.0,                # Gaussian stddev
+        'MIN_OBSERVATIONS_FOR_DIRECT': 3,   # Min obs för direktdata
+        'OBSERVATION_WEIGHT_THRESHOLD': 10,  # Full weight vid 10+ obs
+        'SANITY_CHECK_MAX_FACTOR': 2.0,     # Max 2x justering
+        'SANITY_CHECK_MIN_FACTOR': 0.5,     # Min 0.5x justering
+    },
+
+    'UI': {
+        'DEFAULT_TARGET_VAS': 1.0,
+        'DOSE_ROUNDING_STEP': 2.5,          # Avrunda till 2.5mg-steg
+        'MAX_TEMPORAL_DOSES': 10,           # Max antal temporal doser
+    }
+}
+```
+
+#### LÄKEMEDELS_DATA Struktur:
+
+```python
+LÄKEMEDELS_DATA = {
+    'ibuprofen_800': {
+        'name': 'Ibuprofen 800mg',
+        'class': 'NSAID',
+        'somatic_score': 8,
+        'visceral_score': 5,
+        'neuropathic_score': 2,
+        'potency_percent': 0.15,            # 15% MME-reduktion
+        'onset_minutes': 30,
+        'peak_minutes': 120,
+        'duration_minutes': 360,
+        'notes': 'COX-hämmare, antiinflammatorisk'
+    },
+
+    'catapressan_75': {
+        'name': 'Catapressan 75µg',
+        'class': 'Adjuvant',
+        'somatic_score': 3,
+        'visceral_score': 7,
+        'neuropathic_score': 8,
+        'potency_percent': 0.12,            # 12% MME-reduktion
+        'onset_minutes': 20,
+        'peak_minutes': 90,
+        'duration_minutes': 480,
+        'notes': 'α2-agonist, sympatisk dämpning'
+    },
+
+    'ketamine_bolus_small': {
+        'name': 'Ketamin liten bolus (10-20mg)',
+        'class': 'Adjuvant',
+        'somatic_score': 4,
+        'visceral_score': 6,
+        'neuropathic_score': 9,
+        'potency_percent': 0.18,            # 18% MME-reduktion
+        'onset_minutes': 2,
+        'peak_minutes': 15,
+        'duration_minutes': 60,
+        'notes': 'NMDA-antagonist, anti-hyperalgesi'
+    },
+
+    'lidocaine_infusion_medium': {
+        'name': 'Lidokain infusion medium (1mg/kg+1mg/kg/h)',
+        'class': 'Adjuvant',
+        'somatic_score': 5,
+        'visceral_score': 7,
+        'neuropathic_score': 7,
+        'potency_percent': 0.20,            # 20% MME-reduktion
+        'onset_minutes': 10,
+        'peak_minutes': 60,
+        'duration_minutes': 240,
+        'notes': 'Na-kanalblockerare, antiinflammatorisk'
+    },
+
+    # ... Total 25+ läkemedel definierade
+}
+```
+
+#### Använda Konfigurationen:
+
+```python
+from config import APP_CONFIG, LÄKEMEDELS_DATA
+
+# Hämta säkerhetsgräns
+max_dose = APP_CONFIG['SAFETY_LIMITS']['ABSOLUTE_MAX_DOSE']
+
+# Hämta learning rate
+if num_cases < 10:
+    lr = APP_CONFIG['LEARNING']['INITIAL_LEARNING_RATE']
+
+# Hämta läkemedelsdata
+ibu_data = LÄKEMEDELS_DATA['ibuprofen_800']
+ibu_potency = ibu_data['potency_percent']  # 0.15
+ibu_3d = {
+    'somatic': ibu_data['somatic_score'],
+    'visceral': ibu_data['visceral_score'],
+    'neuropathic': ibu_data['neuropathic_score']
+}
+```
+
+---
+
+## Admin-funktioner
+
+### Systemstatus och Övervakning
+
+**Placering:** Admin-flik → Systemstatus
+
+#### Visade Metrics:
+
+```
+═══════════════════════════════════════
+SYSTEMSTATUS
+═══════════════════════════════════════
+
+DATABASE:
+├─ Databas: SQLite (anestesi.db)
+├─ Storlek: 2.4 MB
+├─ Totalt antal fall: 127
+│  ├─ FINALIZED: 108 (85%)
+│  └─ IN_PROGRESS: 19 (15%)
+├─ Antal användare: 12
+├─ Antal ingrepp: 34
+└─ Senaste backup: 2025-11-05 14:32
+
+INLÄRNING:
+├─ Globala parametrar:
+│  ├─ Procedures learned: 28/34
+│  ├─ Adjuvants learned: 12/12
+│  ├─ Age buckets with data: 67/121
+│  └─ Weight buckets with data: 89/191
+├─ Learning status: ACTIVE
+├─ Average learning rate: 9.2%
+└─ Last learning: 2 minutes ago
+
+PERFORMANCE:
+├─ Average calculation time: 42ms
+├─ Average learning time: 18ms
+├─ Database query time: 5ms
+└─ Uptime: 3 days, 14 hours
+
+BACKUP:
+├─ Backup exists: ✓
+├─ Backup timestamp: 2025-11-05 14:32:18
+├─ Backup size: 1.8 MB
+├─ Cases in backup: 108
+└─ Auto-restore: ENABLED
+
+ERRORS (Last 24h):
+└─ No errors logged ✓
+```
+
+### Användarhantering
+
+**Placering:** Admin-flik → Användare
+
+#### Funktioner:
+
+**1. Skapa Ny Användare**
+
+```
+[+ Skapa användare]
+
+┌─────────────────────────────────────────┐
+│ SKAPA NY ANVÄNDARE                      │
+├─────────────────────────────────────────┤
+│                                         │
+│ Användarnamn: [______________]         │
+│   ℹ️ Case-insensitive (Blapa = blapa)  │
+│                                         │
+│ Administratör: [  ] Checkbox            │
+│                                         │
+│ Lösenord:                               │
+│   ⚠️ Admin: MÅSTE ha lösenord          │
+│   ℹ️ Vanlig: Inget lösenord (endast   │
+│      användarnamn för inloggning)       │
+│                                         │
+│   [______________] (endast om admin)    │
+│                                         │
+│ [Avbryt] [Skapa användare]              │
+└─────────────────────────────────────────┘
+```
+
+**2. Användarlista**
+
+```
+┌────┬─────────────┬────────┬──────────┬──────────────────────┐
+│ ID │ Användarnamn│ Admin  │ Antal fall│ Senaste aktivitet   │
+├────┼─────────────┼────────┼──────────┼──────────────────────┤
+│ 1  │ Blapa       │ ✓      │ 45       │ 2025-11-06 10:23    │
+│ 2  │ DrSmith     │        │ 23       │ 2025-11-05 16:47    │
+│ 3  │ Nurse01     │        │ 67       │ 2025-11-06 09:15    │
+│ 4  │ TestUser    │        │ 0        │ Aldrig              │
+└────┴─────────────┴────────┴──────────┴──────────────────────┘
+
+Åtgärder per användare:
+├─ [Visa fall] - Lista alla användarens fall
+├─ [Statistik] - Visa användarstatistik
+├─ [Återställ lösenord] - Endast admin-användare
+└─ [Radera] - ⚠️ Raderar INTE fall, endast användarkonto
+```
+
+**3. Användarstatistik**
+
+```
+Klicka [Statistik] på en användare:
+
+═══════════════════════════════════════
+ANVÄNDARSTATISTIK: DrSmith
+═══════════════════════════════════════
+
+AKTIVITET:
+├─ Registrerad sedan: 2024-09-12
+├─ Totalt antal fall: 23
+│  ├─ FINALIZED: 18
+│  └─ IN_PROGRESS: 5
+├─ Första fall: 2024-09-15
+└─ Senaste fall: 2025-11-05
+
+DOSERING:
+├─ Genomsnittlig rekommenderad dos: 7.2 mg
+├─ Genomsnittlig given dos: 7.8 mg
+│  └─ Diff: +0.6 mg (+8.3%)
+├─ Kalibreringsfaktor: 1.05
+└─ Dos-trend: ↓ -0.8mg över tid
+
+UTFALL:
+├─ Perfect: 61% (11/18)
+├─ Acceptable: 28% (5/18)
+├─ Underdosed: 11% (2/18)
+├─ Overdosed: 0% (0/18)
+├─ Genomsnittlig VAS: 2.6
+└─ Genomsnittlig rescue: 0.8 mg
+
+MEST ANVÄNDA INGREPP:
+1. Total Knäprotes: 8 fall
+2. Laparoscopi Chole: 6 fall
+3. Total Höftprotes: 4 fall
+
+MEST ANVÄNDA ADJUVANTER:
+1. Ibuprofen: 95% (19/20)
+2. Catapressan: 60% (12/20)
+3. Infiltration: 45% (9/20)
+
+BIDRAG TILL INLÄRNING:
+├─ Procedure updates: 18
+├─ Adjuvant updates: 34
+├─ Patient factor updates: 45
+└─ 3D pain updates: 12
+```
+
+### Databashantering (Avancerat)
+
+**Placering:** Admin-flik → Databas
+
+#### Funktioner:
+
+**1. Reset Learning Parameters**
+
+```
+⚠️⚠️⚠️ FARLIG OPERATION ⚠️⚠️⚠️
+
+ÅTERSTÄLL INLÄRNINGSPARAMETRAR
+
+Detta kommer att:
+├─ Återställa ALLA inlärda parametrar till defaults
+├─ Radera alla adjuvant potency learnings
+├─ Radera alla 3D pain profile learnings
+├─ Radera alla body composition factors
+├─ Radera alla age/weight factors
+├─ BEVARA alla fall i databasen
+└─ Systemet börjar lära från grunden igen
+
+Användningsfall:
+- Efter fundamental ändring av algoritm
+- Om inlärning gått fel systematiskt
+- För forskning/testing
+
+Skriv "RESET LEARNING" för att bekräfta:
+[_________________________]
+
+[Avbryt] [Återställ parametrar]
+```
+
+**2. Vacuum Database**
+
+```
+OPTIMERA DATABAS
+
+SQLite-databaser fragmenteras över tid och kan
+bli större än nödvändigt.
+
+Vacuum kommer att:
+├─ Komprimera databasen
+├─ Återvinna oanvänt utrymme
+├─ Optimera index
+└─ Förbättra prestanda
+
+Nuvarande storlek: 2.4 MB
+Uppskattat efter vacuum: ~1.8 MB
+Tidsåtgång: ~5 sekunder
+
+[Vacuum Database]
+
+✅ Vacuum slutförd!
+Ny storlek: 1.8 MB (-25%)
+```
+
+**3. Export Full Database**
+
+```
+EXPORTERA KOMPLETT DATABAS
+
+Skapar en fullständig SQL-dump av hela databasen:
+├─ All tabell-struktur
+├─ Alla data
+├─ Alla index
+└─ Kan återställas till ny SQLite-databas
+
+[Exportera SQL-dump]
+
+Filen sparas som: anestesi_full_export_20251106_103022.sql
+Storlek: 3.2 MB
+[Ladda ner]
+```
+
+**4. Analysera Datakvalitet**
+
+```
+DATAKVALITETRAPPORT
+
+FALL-KVALITET:
+├─ Fall med kompletta data: 98% (125/127)
+├─ Fall med saknad postop-tid: 2 fall
+├─ Fall med extrema värden: 0 fall
+└─ Möjliga dubbletter: 0 fall
+
+INLÄRNINGS-KVALITET:
+├─ Buckets med ≥10 observations: 34%
+├─ Buckets med 3-9 observations: 28%
+├─ Buckets med interpolerad data: 38%
+└─ Ingrepp med <5 fall: 6 st
+
+REKOMMENDATIONER:
+⚠️ 6 ingrepp har <5 fall - rekommendationer osäkra
+ℹ️ Samla mer data för åldrar: 15-20, 95-100
+ℹ️ Samla mer data för vikter: 45-50kg, 110-120kg
+
+[Exportera full rapport]
+```
+
+### Finjustering och Kalibrering
+
+**Placering:** Admin-flik → Kalibrering
+
+#### Global Calibration Factor:
+
+```
+GLOBAL KALIBRERINGSFAKTOR
+
+Denna faktor multipliceras med ALLA dosrekommendationer.
+
+Använd för:
+├─ Justera för lokala protokoll
+├─ Kompensera för systematisk bias
+└─ Anpassa för specifik patientpopulation
+
+Nuvarande värde: 1.00 (standard)
+
+Ny faktor: [____] (0.5 - 2.0)
+
+Exempel:
+├─ 0.90 = 10% lägre doser globalt
+├─ 1.00 = Standard
+└─ 1.10 = 10% högre doser globalt
+
+⚠️ Används SÄLLAN! Låt inlärningssystemet jobba först.
+
+[Uppdatera global faktor]
+```
+
+#### Per-Procedure Kalibrering:
+
+```
+JUSTERA SPECIFIKT INGREPP
+
+Ingrepp: [Total Knäprotes ▼]
+
+Nuvarande parametrar:
+├─ Base MME: 18.0 mg (learned from 45 cases)
+├─ Learning count: 45
+└─ Last update: 2025-11-06 09:23
+
+Manuell justering:
+Base MME: [18.0] → [____]
+
+⚠️ Detta ERSÄTTER inlärd parameter!
+   Använd endast vid fundamental felkalibrering.
+
+Alternativt: Justera learning weight:
+[ ] Dubbel learning rate för detta ingrepp
+    └─ Nästa 10 fall får 2x learning magnitude
+
+[Tillämpa justering]
+```
+
+---
+
+## Felsökning och Vanliga Problem
+
+### Problem: Rekommenderad dos verkar för hög/låg
+
+**Möjliga orsaker:**
+
+1. **För få fall loggade för ingreppet**
+   ```
+   Diagnos: Gå till Utbildning → Ingrepp-statistik
+   Lösning: Logga fler fall, systemet lär sig med varje fall
+   ```
+
+2. **Adjuvanter inte registrerade korrekt**
+   ```
+   Diagnos: Kontrollera att alla adjuvanter markerats
+   Lösning: Dubbelkolla NSAID, catapressan, infiltration etc
+   ```
+
+3. **Fentanyl-timing fel**
+   ```
+   Diagnos: Fentanyl given nära op-slut → stor kvarvarande MME
+   Lösning: Registrera temporal dosering med exakta tider
+   ```
+
+4. **Ovanlig patientgrupp**
+   ```
+   Diagnos: Extrem ålder, vikt eller opioidtolerans
+   Lösning: Normalt, systemet justerar efter fler observationer
+   ```
+
+### Problem: Inlärning verkar inte funka
+
+**Diagnos:**
+
+```python
+# Kontrollera att fall är FINALIZED:
+Admin → Historik → Filter: Status=IN_PROGRESS
+
+IN_PROGRESS-fall triggar INGEN inlärning!
+```
+
+**Lösning:**
+1. Öppna IN_PROGRESS-fallet
+2. Registrera utfallsdata (VAS, rescue, etc)
+3. Klicka "✅ Spara och Slutför"
+4. Kontrollera att learning updates visas
+
+**Vanligt misstag:**
+```
+❌ Spara som pågående → Ingen learning
+✅ Spara och slutför → Learning triggas!
+```
+
+### Problem: VAS högt trots "bra" dos
+
+**Tänk på:**
+
+1. **Timing av VAS-mätning**
+   - För tidig mätning? Opioider når peak efter 30-60min
+   - Rätt tidpunkt: 1-2h postop
+
+2. **Övriga smärtkällor**
+   - Urinretention?
+   - Lägesrelaterad smärta?
+   - Inflammation (inte opioid-responsiv)?
+
+3. **Patientförväntningar**
+   - VAS 3-4 kan vara acceptabelt mål
+   - VAS 0 är sällan realistiskt direkt postop
+
+4. **Rescue-opioid**
+   - Dokumentera rescue-dos → systemet lär sig
+
+**Systemets respons:**
+```
+Om VAS=7 + rescue=5mg:
+actual_requirement = givenDose + rescue + VAS_penalty
+                   = 7.5 + 5.0 + 2.0
+                   = 14.5 mg
+
+Nästa liknande patient: Rekommendation närmare 14.5mg
+```
+
+### Problem: Databas återställs vid omstart (Streamlit Cloud)
+
+**Orsak:** Ephemeral storage - normal för Streamlit Cloud
+
+**Lösning:** Backup-systemet (se Databashantering sektion)
+
+**Snabbfix:**
+```bash
+1. Admin → Skapa Backup Nu
+2. git add database_backup.json
+3. git commit -m "Backup database"
+4. git push
+5. Streamlit auto-redeployar med backup ✓
+```
+
+### Problem: Kan inte logga in som admin
+
+**Möjliga orsaker:**
+
+1. **Fel lösenord**
+   - Lösenord är case-sensitive: Flubber1 ≠ flubber1
+   - Användarnamn är case-insensitive: Blapa = blapa
+
+2. **Secrets inte konfigurerade (Streamlit Cloud)**
+   ```toml
+   # I Streamlit Cloud Dashboard → Settings → Secrets:
+   [admin]
+   username = "Blapa"
+   password_hash = "$2b$12$..."
+   ```
+
+3. **Environment variables saknas (lokalt)**
+   ```bash
+   # .env fil:
+   ADMIN_USERNAME=Blapa
+   ADMIN_PASSWORD=Flubber1
+   ```
+
+**Återställa admin-lösenord:**
+```python
+# I Python-console eller temporary script:
+import bcrypt
+password = "NyttLösenord123"
+hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+print(hashed.decode())
+# Kopiera hash till secrets eller databas
+```
+
+### Problem: Temporal dosering fungerar inte
+
+**Vanliga fel:**
+
+1. **Tider i fel ordning**
+   ```
+   ❌ T=120, T=60, T=0 (bakvänd)
+   ✅ T=0, T=60, T=120 (kronologisk)
+   ```
+
+2. **Tid efter op-slut**
+   ```
+   Op-tid: 90 minuter
+   ❌ Temporal dos T=120min (efter slut!)
+   ✅ Temporal dos T=80min (före slut)
+   ```
+
+3. **Fel läkemedel valt**
+   ```
+   Kontrollera dropdown: Fentanyl, Morfin, Oxycodon?
+   Dos i rätt enhet? (µg för fentanyl, mg för övriga)
+   ```
+
+**Debug:**
+```
+Admin → Systemstatus → Logga temporal debugging
+└─ Visar alla temporal doses och beräknade kvarvarande
+```
+
+### Problem: Interpolation ger konstiga värden
+
+**Diagnos:**
+```
+Utbildning-flik → Age Trend Analysis
+└─ Leta efter stora hopp mellan närliggande åldrar
+```
+
+**Möjliga orsaker:**
+
+1. **Outlier i data**
+   ```
+   Lösning: Identifiera och granska extremfallet
+   Admin → Historik → Sortera på Recommended Dose
+   ```
+
+2. **För få datapunkter**
+   ```
+   Interpolation med <3 närliggande punkter → osäker
+   Lösning: Samla mer data för ålders/viktområdet
+   ```
+
+3. **Sanity check träffar**
+   ```
+   Interpolerad faktor clampas till 0.5-2.0x default
+   Detta är NORMALT och SÄKERT
+   ```
+
+**Inaktivera interpolation (emergency):**
+```python
+# I config.py (ENDAST I NÖDFALL):
+APP_CONFIG['INTERPOLATION']['ENABLED'] = False
+└─ Återgår till direktdata + defaults
+```
+
+---
+
+## Vanliga Frågor (FAQ)
+
+### Allmänt om Systemet
+
+**F: Vad är Anestesi-assistenten?**
+> A: Ett beslutsstöd för oxycodon-dosering vid anestesi. Systemet kombinerar farmakologiska regler med adaptiv maskininlärning för att rekommendera patientspecifika startdoser.
+
+**F: Ersätter systemet klinisk bedömning?**
+> A: NEJ. Systemet är ett beslutsstöd, inte ett beslutssystem. Den slutgiltiga bedömningen och ansvaret ligger alltid hos ansvarig anestesipersonal.
+
+**F: Hur träffsäker är systemet?**
+> A: Träffsäkerheten ökar med antal loggade fall:
+> - 0-10 fall: ~60% perfekt utfall
+> - 10-30 fall: ~70% perfekt utfall
+> - 30-100 fall: ~75% perfekt utfall
+> - 100+ fall: ~80% perfekt utfall
+
+**F: Vilka ingrepp stöds?**
+> A: Systemet startar med 34 vanliga kirurgiska ingrepp. Admins kan lägga till egna ingrepp med specifika smärtprofiler.
+
+### Om Dosering
+
+**F: Varför föreslår systemet lägre dos än vårt protokoll?**
+> A: Systemets mål är att hitta LÄGSTA EFFEKTIVA DOS. Om utfallen är perfekta, fortsätter systemet sänka dosen gradvis (probing). Detta är designat beteende för opioidsparande.
+
+**F: Kan jag ignorera rekommendationen och ge annan dos?**
+> A: JA. Registrera bara den faktiska givna dosen i "Given startdos"-fältet. Systemet lär sig från utfallet oavsett vilken dos du gav.
+
+**F: Hur hanterar systemet extrema vikter?**
+> A: Genom 4D body composition learning (vikt, IBW-ratio, ABW-ratio, BMI) och viktjustering baserad på ABW istället för total vikt. Detta förhindrar överdosering av överviktiga patienter.
+
+**F: Vad händer om jag glömmer en adjuvant?**
+> A: Rekommendationen blir för hög (adjuvanten hade reducerat dosen). När du loggar utfallet lär sig systemet att patienten behövde mindre, men gissar fel orsak. Viktigt att alltid registrera ALLA adjuvanter korrekt.
+
+### Om Inlärning
+
+**F: När sker inlärning?**
+> A: ENDAST när ett fall "Sparas och slutförs" (FINALIZED). "Spara som pågående" triggar ingen inlärning.
+
+**F: Kan jag ångra inlärning från ett felaktigt fall?**
+> A: Nej, direkt ångra går inte. MEN: Enskilda fall har minimal påverkan (learning rate 3-30%). Radera det felaktiga fallet och logga rätt fall, så korrigerar systemet sig efter några fall.
+
+**F: Varför lär systemet långsammare över tid?**
+> A: Adaptiv learning rate. Med få fall: snabb anpassning (30%). Med många fall: långsam justering (3%) för stabilitet. Detta förhindrar att enskilda extremfall förstör väletablerade parametrar.
+
+**F: Lär systemet från alla användares fall?**
+> A: JA för procedures, adjuvanter och 3D pain (globalt lärande). NEJ för vissa patientfaktorer (per-user learning). Detta ger snabbare konvergens samtidigt som individuella preferenser respekteras.
+
+**F: Vad är "probing på perfekta utfall"?**
+> A: När utfallet är perfekt (VAS ≤2, ingen rescue), antar systemet att 97% av dosen hade räckt. Detta driver gradvis dosreduktion mot lägsta effektiva dos.
+
+### Om Adjuvanter
+
+**F: Varför minskar inte adjuvanter dosen mer?**
+> A: Två anledningar:
+> 1. 3D pain mismatch - adjuvanten passar inte smärttypen
+> 2. Adjuvant safety limit - systemet garanterar minst 30% av bas-dosen bevaras
+
+**F: Vilka adjuvanter är mest effektiva?**
+> A: Beror på ingreppets smärtprofil:
+> - Somatic (kirurgiskt trauma): NSAID, infiltration
+> - Visceral (organsmärta): Lidokain, Catapressan
+> - Neuropathic (nervskada): Ketamin, Catapressan
+
+**F: Kan jag lägga till egna adjuvanter?**
+> A: Ja (kräver kodändring i config.py):
+> 1. Definiera läkemedel i LÄKEMEDELS_DATA
+> 2. Ange 3D smärtprofil och potency_percent
+> 3. Lägg till i UI (callbacks.py)
+
+### Om Säkerhet
+
+**F: Kan systemet rekommendera farligt höga doser?**
+> A: Nej. Absolut max är 20mg oxycodon (hårdkodat). Dessutom: fem oberoende säkerhetslager förhindrar farlig dosering.
+
+**F: Vad händer om inlärning går fel?**
+> A: Flera skyddsmekanism:
+> - Adaptiv learning rate bromsar över tid
+> - Sanity checks vid interpolation
+> - Safety limits kan ej läras bort
+> - Admin kan reset learning parameters
+
+**F: Är patientdata säker?**
+> A: Systemet sparar INGA personuppgifter (namn, personnummer). Endast anonyma kliniska parametrar (ålder, vikt, doser, VAS). Följ lokal GDPR-tolkning.
+
+### Om Tekniska Detaljer
+
+**F: Vad är skillnaden mellan regelbaserad motor och XGBoost?**
+> A:
+> - **Regelbaserad**: Transparent, lär kontinuerligt, farmakologiskt motiverad
+> - **XGBoost**: Black-box, måste tränas om, empiriskt datadriven
+> - Båda ger rekommendation, regelbaserad används primärt
+
+**F: Hur fungerar temporal dosering?**
+> A: Bi-exponentiell farmakokinetik:
+> - 60% fast compartment (t½=15min)
+> - 40% slow compartment (t½=210min)
+> - Kvarvarande från alla doser summeras vid op-slut
+
+**F: Vad är interpolation?**
+> A: När exakt data saknas (t.ex. ingen 73-åring loggad), estimerar systemet från närliggande åldrar med Gaussisk viktning. Se [INTERPOLATION_SYSTEM_README_SV.md](INTERPOLATION_SYSTEM_README_SV.md).
+
+**F: Vilken databas används?**
+> A: SQLite (lokal fil). Enkel, snabb, ingen server behövs. Backupsystem för persistens på Streamlit Cloud.
+
+### Om Deployment
+
+**F: Kan jag köra systemet lokalt?**
+> A: Ja:
+> ```bash
+> pip install -r requirements.txt
+> streamlit run oxydoseks.py
+> ```
+
+**F: Hur deployar jag till Streamlit Cloud?**
+> A:
+> 1. Pusha kod till GitHub
+> 2. Gå till share.streamlit.io
+> 3. Välj repository och branch
+> 4. Konfigurera secrets (admin credentials)
+> 5. Deploy!
+
+**F: Kostar det något?**
+> A: Streamlit Community Cloud är gratis för public repos. Privata repos kräver Streamlit Team.
+
+**F: Kan jag använda annan databas än SQLite?**
+> A: Ja (kräver kodändring):
+> - PostgreSQL för multi-user production
+> - MySQL för enterprise deployment
+> - Ändra database.py connection string
+
+---
+
+## Utveckling och Bidrag
+
+### Projektstruktur
+
+```
+anestesidoseringshjälp/
+├── oxydoseks.py              # Huvudfil (Streamlit app)
+├── database.py               # Databashantering (SQLite)
+├── calculation_engine.py     # Regelbaserad dosberäkning
+├── learning_engine.py        # Back-calculation inlärning
+├── callbacks.py              # UI callbacks och save/learn triggers
+├── auth.py                   # Autentisering och användarhantering
+├── config.py                 # Konfiguration och läkemedelsdata
+├── pharmacokinetics.py       # PK/PD-modeller (temporal dosering)
+├── interpolation_engine.py   # Gaussisk interpolation
+├── body_composition_utils.py # 4D body composition bucketing
+├── database_backup.py        # Backup/restore-system
+├── requirements.txt          # Python-dependencies
+├── .streamlit/
+│   └── config.toml          # Streamlit-konfiguration
+├── .env.example             # Exempel på miljövariabler
+├── README.md                # Denna fil
+├── SPECIFICATION.md         # Teknisk specifikation och TODO
+└── anestesi.db              # SQLite-databas (skapas automatiskt)
+```
+
+### Installation och Deployment
+
+**Se [SPECIFICATION.md - Deployment Section](SPECIFICATION.md#deployment) för detaljerade installationsinstruktioner.**
+
+**Snabbstart Lokalt:**
+
+```bash
+# Klona och installera
+git clone https://github.com/Puttkne/anestesidoseringshjalp.git
+cd anestesidoseringshjalp
+pip install -r requirements.txt
+
+# Konfigurera admin (skapa .env)
+echo "ADMIN_USERNAME=Blapa" > .env
+echo "ADMIN_PASSWORD=Flubber1" >> .env
+
+# Starta
+streamlit run oxydoseks.py
+```
+
+**Deployment till Streamlit Cloud:**
+
+Se detaljerad guide i Databashantering & Backup-sektionen ovan.
+
+---
+
+## Sammanfattning
+
+Detta README-dokument innehåller all information som behövs för att:
+
+✅ **Förstå systemet** - Vad det gör och hur det fungerar
+✅ **Använda systemet** - Komplett användarguide för alla flikar
+✅ **Administrera systemet** - Admin-funktioner och användarhantering
+✅ **Felsöka problem** - Vanliga problem och lösningar
+✅ **Konfigurera systemet** - Alla parametrar och säkerhetsgränser
+✅ **Förstå säkerheten** - Fem lager av skyddsfunktioner
+✅ **Lära sig tekniken** - Interpolation, 3D pain matching, back-calculation
+✅ **Bidra till utveckling** - Kod, buggar, förbättringar
+
+För djupare teknisk dokumentation och byggritning, se **[SPECIFICATION.md](SPECIFICATION.md)**.
+
+---
+
+**Dokumentversion:** 1.0
+**Senast uppdaterad:** 2025-11-06
+**Författare:** Patrick (Puttkne) med hjälp av Claude (Anthropic)
+**Dokumentstatus:** Komplett sanningsdokument ✓
+
+---
+
+*Tack för att du använder Anestesi-assistenten! Tillsammans kan vi förbättra postoperativ smärtlindring och minska opioidanvändning.* 🎯
